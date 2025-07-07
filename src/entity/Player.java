@@ -1,27 +1,34 @@
-package entity;
+package src.entity;
 
 import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import javax.imageio.ImageIO;
-import main.KeyHandler;
-import main.GamePanel;
+
+import src.main.GamePanel;
+import src.main.KeyHandler;
 
 public class Player extends Entity {
     GamePanel gp;
     KeyHandler keyH;
+
+    public final int screenX;
+    public final int screenY;
+
     public Player(GamePanel gp, KeyHandler keyH){
         this.gp = gp;
         this.keyH = keyH;
 
+        screenX = gp.screenWidth/2 - (gp.tileSize/2);
+        screenY = gp.screenHeight/2 - (gp.tileSize);
         setDefaultValues();
         getPlayerImage();
     }
     public void setDefaultValues(){
 
-        x = 100;
-        y = 100;
+        worldX = gp.tileSize*23;
+        worldY = gp.tileSize*21;
         speed = 4;
         direction = "down";
     }
@@ -45,16 +52,16 @@ public class Player extends Entity {
         keyH.rightPressed == true || keyH.leftPressed == true){
             if(keyH.upPressed == true){
                 direction = "up";
-                y -= speed; //y values increase as they go down & x as right
+                worldY -= speed; //y values increase as they go down & x as right
             }else if(keyH.downPressed == true){
                 direction = "down";
-                y += speed;
+                worldY += speed;
             }else if(keyH.leftPressed == true){
                 direction = "left";
-                x -= speed;
+                worldX -= speed;
             }else if(keyH.rightPressed == true){
                 direction = "right";
-                x += speed;
+                worldX += speed;
             }
             spriteCounter++;
             if(spriteCounter > 15){
@@ -110,6 +117,6 @@ public class Player extends Entity {
             }
             break;
         }
-        g2.drawImage(image, x, y, gp.tileSize, gp.tileSize, null);
+        g2.drawImage(image, screenX, screenY, gp.tileSize, gp.tileSize, null);
     }
 }
