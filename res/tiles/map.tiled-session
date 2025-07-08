@@ -1,0 +1,30 @@
+{
+    "Map/SizeTest": {
+        "height": 4300,
+        "width": 2
+    },
+    "activeFile": "",
+    "expandedProjectPaths": [
+    ],
+    "fileStates": {
+        "map.tmx": {
+            "scale": 0.35624999999999996,
+            "selectedLayer": 0,
+            "viewCenter": {
+                "x": 798.5964912280704,
+                "y": 798.5964912280704
+            }
+        }
+    },
+    "last.imagePath": "C:/SoftwareS2Y2.P/OOP/git/Whisky-Way/res/terrain",
+    "map.height": 50,
+    "map.lastUsedFormat": "tmx",
+    "map.width": 50,
+    "openFiles": [
+    ],
+    "project": "map.tiled-project",
+    "recentFiles": [
+        "map.tmx"
+    ],
+    "tileset.lastUsedFormat": "tsx"
+}
