@@ -22,7 +22,7 @@ public class Player extends Entity {
         this.keyH = keyH;
 
         solidArea = new Rectangle();
-        solidArea.x = 8;
+        solidArea.x = 16;
         solidArea.y = 16;
         solidArea.width = 32;
         solidArea.height = 32;
@@ -59,16 +59,16 @@ public class Player extends Entity {
         keyH.rightPressed == true || keyH.leftPressed == true){
             if(keyH.upPressed){
                 direction = "up";
-                worldY -= speed; //y values increase as they go down & x as right
+                // worldY -= speed; //y values increase as they go down & x as right
             }else if(keyH.downPressed){
                 direction = "down";
-                worldY += speed;
+                // worldY += speed;
             }else if(keyH.leftPressed){
                 direction = "left";
-                worldX -= speed;
+                // worldX -= speed;
             }else if(keyH.rightPressed){
                 direction = "right";
-                worldX += speed;
+                // worldX += speed;
             }
             collisionOn = false;
             gp.cChecker.checkTile(this); //check if player collides with tile
@@ -76,7 +76,10 @@ public class Player extends Entity {
             //if collision is false, player can move
             if (collisionOn) {
         System.out.println("Collision detected, blocking movement.");
+        
     }
+
+            System.out.println("Collision" + collisionOn);
             if(!collisionOn){
                 switch(direction){
                     case "up":
