@@ -11,8 +11,8 @@ import src.main.GamePanel;
 public class TileManager {
     
     GamePanel gp;
-    Tile [] tile;
-    int mapTileNum[][]; 
+    public Tile [] tile;
+    public int mapTileNum[][]; 
 
     public TileManager(GamePanel gp){
         this.gp = gp;
@@ -21,8 +21,8 @@ public class TileManager {
         mapTileNum = new int[gp.maxWorldCol][gp.maxWorldRow];
 
         getTileImage();
-        // loadMap("/res/map/WorldMap01.txt");
-        loadMap("/res/map01.txt");
+        loadMap("/res/map/WorldMap01.txt");
+        // loadMap("/res/map/map01.txt");
     }
     public void getTileImage(){
 
@@ -32,9 +32,11 @@ public class TileManager {
 
             tile[1] = new Tile();
             tile[1].image = ImageIO.read(getClass().getResourceAsStream("/res/tiles/wall.png"));
+            tile[1].collision = true;
 
             tile[2] = new Tile();
             tile[2].image = ImageIO.read(getClass().getResourceAsStream("/res/tiles/water.png"));
+            tile[2].collision = true;
 
             tile[3] = new Tile();
             tile[3].image = ImageIO.read(getClass().getResourceAsStream("/res/tiles/grasswithflower.jpg"));
@@ -49,7 +51,8 @@ public class TileManager {
             tile[6].image = ImageIO.read(getClass().getResourceAsStream("/res/tiles/soil.png"));
 
             tile[7] = new Tile();
-            tile[7].image = ImageIO.read(getClass().getResourceAsStream("/res/tiles/tree1.jpg"));
+            tile[7].image = ImageIO.read(getClass().getResourceAsStream("/res/tiles/tree1.png"));
+            tile[7].collision = true;
 
 
         }catch(Exception e){
@@ -57,58 +60,75 @@ public class TileManager {
         }
     }
     public void loadMap(String filename){
+
         try {
             InputStream is = getClass().getResourceAsStream(filename);
             BufferedReader br = new BufferedReader(new InputStreamReader(is));
 
-            int col = 0;
             int row = 0;
-            while(col < gp.maxWorldCol && row < gp.maxWorldRow){
+            while (row < gp.maxWorldRow) {
                 String line = br.readLine();
+                if (line == null) break; // safety
 
-                while(col < gp.maxWorldCol){
-                    String numbers[] = line.split(" ");
+                String[] numbers = line.trim().split(" ");
 
+                for (int col = 0; col < gp.maxWorldCol && col < numbers.length; col++) {
                     int num = Integer.parseInt(numbers[col]);
-
                     mapTileNum[col][row] = num;
-                    col ++;
                 }
-                if(col == gp.maxScreenCol){
-                    col = 0;
-                    row ++;
-                }
-            }br.close();
+
+                row++;
+            }
+
+            br.close();
         } catch (Exception e) {
-            
+            e.printStackTrace(); // Always print errors while debugging!
         }
     }
+
+
     public void draw(Graphics2D g2){
-        int maxWorldCol = 0;
-        int maxWorldRow = 0;
+        // int maxWorldCol = 0;
+        // int maxWorldRow = 0;
 
-        while(maxWorldCol < gp.maxWorldCol && maxWorldRow < gp.maxWorldRow){
-            int tileNum = mapTileNum[maxWorldCol][maxWorldRow];
+        // while(maxWorldCol < gp.maxWorldCol && maxWorldRow < gp.maxWorldRow){
+        //     int tileNum = mapTileNum[maxWorldCol][maxWorldRow];
 
-            int worldX = maxWorldCol * gp.tileSize;
-            int worldY = maxWorldRow * gp.tileSize;
-            int screenX = worldX - gp.player.worldX - gp.player.screenX;
-            int screenY = worldY - gp.player.worldY - gp.player.screenY;
+        //     int worldX = maxWorldCol * gp.tileSize;
+        //     int worldY = maxWorldRow * gp.tileSize;
+        //     int screenX = worldX - gp.player.worldX - gp.player.screenX;
+        //     int screenY = worldY - gp.player.worldY - gp.player.screenY;
 
-            // if(worldX > gp.player.worldX - gp.player.screenX &&
-            //    worldX < gp.player.worldX + gp.player.screenX &&
-            //    worldY > gp.player.worldY - gp.player.screenY &&
-            //    worldY < gp.player.worldY + gp.player.screenY)
-            //    {
-            //     g2.drawImage(tile[tileNum].image, screenX, screenY, gp.tileSize, gp.tileSize, null);
-            //    }
-            g2.drawImage(tile[tileNum].image, screenX, screenY, gp.tileSize, gp.tileSize, null);
-            maxWorldCol++;
+        //     if(worldX > gp.player.worldX - gp.player.screenX &&
+        //        worldX < gp.player.worldX + gp.player.screenX &&
+        //        worldY > gp.player.worldY - gp.player.screenY &&
+        //        worldY < gp.player.worldY + gp.player.screenY)
+        //        {
+        //         g2.drawImage(tile[tileNum].image, screenX, screenY, gp.tileSize, gp.tileSize, null);
+        //        }
+        //     // g2.drawImage(tile[tileNum].image, screenX, screenY, gp.tileSize, gp.tileSize, null);
+        //     maxWorldCol++;
 
-            if(maxWorldCol == gp.maxWorldCol){
-                maxWorldCol = 0;
-                maxWorldRow ++;
+        //     if(maxWorldCol == gp.maxWorldCol){
+        //         maxWorldCol = 0;
+        //         maxWorldRow ++;
+        for (int worldRow = 0; worldRow < gp.maxWorldRow; worldRow++) {
+        for (int worldCol = 0; worldCol < gp.maxWorldCol; worldCol++) {
+            int tileNum = mapTileNum[worldCol][worldRow];
+
+            int worldX = worldCol * gp.tileSize;
+            int worldY = worldRow * gp.tileSize;
+            int screenX = worldX - gp.player.worldX + gp.player.screenX;
+            int screenY = worldY - gp.player.worldY + gp.player.screenY;
+
+            if (worldX + gp.tileSize > gp.player.worldX - gp.player.screenX &&
+                worldX - gp.tileSize < gp.player.worldX + gp.player.screenX &&
+                worldY + gp.tileSize > gp.player.worldY - gp.player.screenY &&
+                worldY - gp.tileSize*2 < gp.player.worldY + gp.player.screenY) {
+
+                g2.drawImage(tile[tileNum].image, screenX, screenY, gp.tileSize, gp.tileSize, null);
             }
         }  
     }
+}
 }

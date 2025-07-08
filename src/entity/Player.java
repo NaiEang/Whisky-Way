@@ -2,6 +2,7 @@ package src.entity;
 
 import java.awt.Color;
 import java.awt.Graphics2D;
+import java.awt.Rectangle;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import javax.imageio.ImageIO;
@@ -20,6 +21,12 @@ public class Player extends Entity {
         this.gp = gp;
         this.keyH = keyH;
 
+        solidArea = new Rectangle();
+        solidArea.x = 8;
+        solidArea.y = 16;
+        solidArea.width = 32;
+        solidArea.height = 32;
+
         screenX = gp.screenWidth/2 - (gp.tileSize/2);
         screenY = gp.screenHeight/2 - (gp.tileSize);
         setDefaultValues();
@@ -27,8 +34,8 @@ public class Player extends Entity {
     }
     public void setDefaultValues(){
 
-        worldX = gp.tileSize*23;
-        worldY = gp.tileSize*21;
+        worldX = gp.tileSize * 23;
+        worldY = gp.tileSize * 21;
         speed = 4;
         direction = "down";
     }
@@ -50,18 +57,42 @@ public class Player extends Entity {
     public void update(){
         if(keyH.upPressed == true || keyH.downPressed == true || 
         keyH.rightPressed == true || keyH.leftPressed == true){
-            if(keyH.upPressed == true){
+            if(keyH.upPressed){
                 direction = "up";
                 worldY -= speed; //y values increase as they go down & x as right
-            }else if(keyH.downPressed == true){
+            }else if(keyH.downPressed){
                 direction = "down";
                 worldY += speed;
-            }else if(keyH.leftPressed == true){
+            }else if(keyH.leftPressed){
                 direction = "left";
                 worldX -= speed;
-            }else if(keyH.rightPressed == true){
+            }else if(keyH.rightPressed){
                 direction = "right";
                 worldX += speed;
+            }
+            collisionOn = false;
+            gp.cChecker.checkTile(this); //check if player collides with tile
+            
+            //if collision is false, player can move
+            if (collisionOn) {
+        System.out.println("Collision detected, blocking movement.");
+    }
+            if(!collisionOn){
+                switch(direction){
+                    case "up":
+                        worldY -= speed;
+                        break;
+                    case "down":
+                        worldY += speed;
+                        break;  
+                    case "left":
+                        worldX -= speed;
+                        break;
+                    case "right":
+                        worldX += speed;
+                        break;
+                }
+                
             }
             spriteCounter++;
             if(spriteCounter > 15){
