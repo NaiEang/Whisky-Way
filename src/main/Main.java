@@ -8,7 +8,7 @@ public class Main{
         JFrame window = new JFrame();
         window.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         window.setResizable(false);
-        window.setTitle("2D Adventure");
+        window.setTitle("Whisky Way");
 
         GamePanel gamePanel = new GamePanel();
         window.add(gamePanel);
@@ -18,6 +18,7 @@ public class Main{
         window.setLocationRelativeTo(null);
         window.setVisible(true);
 
+        gamePanel.setupGame();
         gamePanel.startGameThread();
 
     }

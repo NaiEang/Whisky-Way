@@ -1,6 +1,5 @@
 package src.entity;
 
-import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.Rectangle;
 import java.awt.image.BufferedImage;
@@ -17,15 +16,20 @@ public class Player extends Entity {
     public final int screenX;
     public final int screenY;
 
+    int ShrimpCount = 0;
+    int BoxCount = 0;
+
     public Player(GamePanel gp, KeyHandler keyH){
         this.gp = gp;
         this.keyH = keyH;
 
         solidArea = new Rectangle();
-        solidArea.x = 16;
-        solidArea.y = 16;
-        solidArea.width = 32;
-        solidArea.height = 32;
+        solidArea.x = 15;
+        solidArea.y = 15;
+        solidAreaDefaultX = solidArea.x;
+        solidAreaDefaultY = solidArea.y; //recall default value
+        solidArea.width = gp.tileSize - 35;
+        solidArea.height = gp.tileSize - 20;
 
         screenX = gp.screenWidth/2 - (gp.tileSize/2);
         screenY = gp.screenHeight/2 - (gp.tileSize);
@@ -72,14 +76,18 @@ public class Player extends Entity {
             }
             collisionOn = false;
             gp.cChecker.checkTile(this); //check if player collides with tile
-            
-            //if collision is false, player can move
-            if (collisionOn) {
-        System.out.println("Collision detected, blocking movement.");
-        
-    }
 
-            System.out.println("Collision" + collisionOn);
+            // Check object collision
+            int objIndex = gp.cChecker.checkObject(this, true);
+            pickUpObj(objIndex);
+
+            //if collision is false, player can move
+        //         if (collisionOn) {
+        //     System.out.println("Collision detected, blocking movement.");
+        
+            // }
+
+            // System.out.println("Collision" + collisionOn);
             if(!collisionOn){
                 switch(direction){
                     case "up":
@@ -109,6 +117,35 @@ public class Player extends Entity {
             }
         }
        
+    }
+    public void pickUpObj(int i){
+
+        if(i!=999){
+            
+            String objName = gp.obj[i].name;
+
+            switch(objName){
+                case "Shrimp":
+                    ShrimpCount++;
+                    gp.playSE(1);
+                    gp.obj[i] = null;
+                    System.out.println("You ate a Shrimp!");
+                    break;
+                case "Box":
+                    BoxCount++;
+                    gp.playSE(2);
+                    gp.obj[i] = null;
+                    System.out.println("You picked up a Box!");
+                    break;
+                case "NPC":
+                    gp.obj[i].collision = true;  
+                    if(BoxCount > 0){
+                        gp.playSE(3);
+                        System.out.println("You made a delivery!");
+                        BoxCount--;
+                    }   
+            }
+        }
     }
     public void draw(Graphics2D g2){
         // g2.setColor(Color.white);
