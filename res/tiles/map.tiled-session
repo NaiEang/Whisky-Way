@@ -3,28 +3,408 @@
         "height": 4300,
         "width": 2
     },
-    "activeFile": "",
+    "activeFile": "untitled.tmx",
     "expandedProjectPaths": [
+        "."
     ],
     "fileStates": {
+        "": {
+            "scaleInDock": 1,
+            "scaleInEditor": 1
+        },
+        "#45e38c3f-beef-4c18-887b-fed176344f99": {
+            "scaleInDock": 1
+        },
+        "#Blacksmith": {
+            "scaleInDock": 1
+        },
+        "#Church": {
+            "scaleInDock": 1
+        },
+        "#Farm": {
+            "scaleInDock": 1
+        },
+        "#House (1)": {
+            "scaleInDock": 1
+        },
+        "#House (2)": {
+            "scaleInDock": 2
+        },
+        "#House (3)": {
+            "scaleInDock": 1
+        },
+        "#House (4)": {
+            "scaleInDock": 1
+        },
+        "#House (5)": {
+            "scaleInDock": 1
+        },
+        "#House (6)": {
+            "scaleInDock": 1
+        },
+        "#House (7)": {
+            "scaleInDock": 1.5
+        },
+        "#House (8)": {
+            "scaleInDock": 1
+        },
+        "#Screenshot 2025-07-07 125944": {
+            "scaleInDock": 1
+        },
+        "#Screenshot_2025-07-09_132145-removebg-preview-removebg-preview": {
+            "scaleInDock": 1
+        },
+        "#water": {
+            "scaleInDock": 1
+        },
+        "C:/SoftwareS2Y2.P/OOP/git/Whisky-Way/res/terrain/Overview.tsx": {
+            "scaleInDock": 1,
+            "scaleInEditor": 1
+        },
+        "C:/SoftwareS2Y2.P/OOP/git/Whisky-Way/res/terrain/untitled.tmx": {
+            "scale": 0.5,
+            "selectedLayer": 2,
+            "viewCenter": {
+                "x": 401,
+                "y": 400
+            }
+        },
+        "C:/SoftwareS2Y2.P/OOP/git/Whisky-Way/res/terrain/untitled.tmx#45e38c3f-beef-4c18-887b-fed176344f99": {
+            "scaleInDock": 1
+        },
+        "C:/SoftwareS2Y2.P/OOP/git/Whisky-Way/res/terrain/untitled.tmx#Market 2": {
+            "scaleInDock": 5.5
+        },
+        "C:/SoftwareS2Y2.P/OOP/git/Whisky-Way/res/terrain/untitled.tmx#Screenshot 2025-07-07 125944": {
+            "scaleInDock": 1
+        },
+        "C:/SoftwareS2Y2.P/OOP/git/Whisky-Way/res/terrain/untitled.tmx#Screenshot_2025-07-09_132145-removebg-preview-removebg-preview": {
+            "scaleInDock": 1
+        },
+        "C:/SoftwareS2Y2.P/OOP/git/Whisky-Way/res/terrain/untitled.tmx#water": {
+            "scaleInDock": 1
+        },
+        "gamemap.tmx": {
+            "scale": 0.015625,
+            "selectedLayer": 0,
+            "viewCenter": {
+                "x": 3104,
+                "y": 27456
+            }
+        },
+        "gamemap.tmx#Blacksmith": {
+            "scaleInDock": 1
+        },
+        "gamemap.tmx#Church": {
+            "scaleInDock": 1
+        },
+        "gamemap.tmx#Farm": {
+            "scaleInDock": 1
+        },
+        "gamemap.tmx#House (1)": {
+            "scaleInDock": 1
+        },
+        "gamemap.tmx#House (2)": {
+            "scaleInDock": 2
+        },
+        "gamemap.tmx#House (3)": {
+            "scaleInDock": 1
+        },
+        "gamemap.tmx#House (4)": {
+            "scaleInDock": 1
+        },
+        "gamemap.tmx#House (5)": {
+            "scaleInDock": 1
+        },
+        "gamemap.tmx#House (6)": {
+            "dynamicWrapping": false,
+            "scaleInDock": 1,
+            "scaleInEditor": 1
+        },
+        "gamemap.tmx#House (7)": {
+            "scaleInDock": 1.5
+        },
+        "gamemap.tmx#House (8)": {
+            "scaleInDock": 1
+        },
+        "gamemap.tmx#Screenshot 2025-07-07 125944": {
+            "scaleInDock": 1
+        },
+        "map terrain.tsx": {
+            "scaleInDock": 0.75,
+            "scaleInEditor": 1
+        },
         "map.tmx": {
             "scale": 0.35624999999999996,
             "selectedLayer": 0,
             "viewCenter": {
                 "x": 798.5964912280704,
-                "y": 798.5964912280704
+                "y": 700.3508771929825
             }
+        },
+        "map.tmx#Screenshot 2025-07-07 125944": {
+            "scaleInDock": 1
+        },
+        "map.tmx#aseet": {
+            "scaleInDock": 1
+        },
+        "map.tmx#grasswithflower": {
+            "scaleInDock": 0.33
+        },
+        "map.tmx#map terrain": {
+            "scaleInDock": 1
+        },
+        "untitled.tmx": {
+            "scale": 0.5,
+            "selectedLayer": 0,
+            "viewCenter": {
+                "x": 1601,
+                "y": 1600
+            }
+        },
+        "untitled.tmx#230120d3-41aa-47d0-9ab2-7ea37906a95a-removebg-preview": {
+            "scaleInDock": 1
+        },
+        "untitled.tmx#45e38c3f-beef-4c18-887b-fed176344f99": {
+            "scaleInDock": 0.5
+        },
+        "untitled.tmx#Anvil": {
+            "scaleInDock": 1
+        },
+        "untitled.tmx#Bird House": {
+            "scaleInDock": 1
+        },
+        "untitled.tmx#Blacksmith": {
+            "scaleInDock": 1
+        },
+        "untitled.tmx#Box (1)": {
+            "scaleInDock": 1
+        },
+        "untitled.tmx#Box (2)": {
+            "scaleInDock": 1
+        },
+        "untitled.tmx#Box (4)": {
+            "scaleInDock": 1
+        },
+        "untitled.tmx#Box (7)": {
+            "scaleInDock": 1
+        },
+        "untitled.tmx#Chest (1)": {
+            "scaleInDock": 1
+        },
+        "untitled.tmx#Church": {
+            "scaleInDock": 1
+        },
+        "untitled.tmx#Farm": {
+            "scaleInDock": 1
+        },
+        "untitled.tmx#Fence (1)": {
+            "scaleInDock": 1
+        },
+        "untitled.tmx#Flower A (3)": {
+            "scaleInDock": 1
+        },
+        "untitled.tmx#Flower A (4)": {
+            "scaleInDock": 1
+        },
+        "untitled.tmx#Flower B (1)": {
+            "scaleInDock": 1
+        },
+        "untitled.tmx#Flower D (4)": {
+            "scaleInDock": 1
+        },
+        "untitled.tmx#Gulli (2)": {
+            "scaleInDock": 0.5
+        },
+        "untitled.tmx#House (1)": {
+            "scaleInDock": 1
+        },
+        "untitled.tmx#House (2)": {
+            "scaleInDock": 1
+        },
+        "untitled.tmx#House (3)": {
+            "scaleInDock": 1
+        },
+        "untitled.tmx#House (4)": {
+            "scaleInDock": 1
+        },
+        "untitled.tmx#House (5)": {
+            "scaleInDock": 1
+        },
+        "untitled.tmx#House (6)": {
+            "scaleInDock": 1
+        },
+        "untitled.tmx#House (7)": {
+            "scaleInDock": 1
+        },
+        "untitled.tmx#Inn (1)": {
+            "scaleInDock": 1
+        },
+        "untitled.tmx#Inn (2)": {
+            "scaleInDock": 1
+        },
+        "untitled.tmx#Mailbox (3)": {
+            "scaleInDock": 1
+        },
+        "untitled.tmx#Market 1": {
+            "scaleInDock": 5.5,
+            "scaleInEditor": 1
+        },
+        "untitled.tmx#Market 2": {
+            "scaleInDock": 1
+        },
+        "untitled.tmx#Market 3": {
+            "scaleInDock": 1
+        },
+        "untitled.tmx#Market 4": {
+            "scaleInDock": 1
+        },
+        "untitled.tmx#Overview": {
+            "scaleInDock": 1
+        },
+        "untitled.tmx#Pot (1)": {
+            "scaleInDock": 1
+        },
+        "untitled.tmx#Screenshot 2025-06-23 235909": {
+            "scaleInDock": 0.33
+        },
+        "untitled.tmx#Screenshot 2025-07-07 125944": {
+            "scaleInDock": 0.33
+        },
+        "untitled.tmx#Screenshot_2025-07-09_132145-removebg-preview-removebg-preview": {
+            "scaleInDock": 3
+        },
+        "untitled.tmx#Shop": {
+            "scaleInDock": 1
+        },
+        "untitled.tmx#Sign (1)": {
+            "scaleInDock": 1
+        },
+        "untitled.tmx#Sign (3)": {
+            "scaleInDock": 2
+        },
+        "untitled.tmx#Street Lantern (1)": {
+            "scaleInDock": 1
+        },
+        "untitled.tmx#Street Lantern (3)": {
+            "scaleInDock": 1
+        },
+        "untitled.tmx#Target": {
+            "scaleInDock": 1
+        },
+        "untitled.tmx#Tavern": {
+            "scaleInDock": 1
+        },
+        "untitled.tmx#Tower": {
+            "dynamicWrapping": true
+        },
+        "untitled.tmx#Town Hall (1)": {
+            "scaleInDock": 1
+        },
+        "untitled.tmx#Water bucket": {
+            "scaleInDock": 1
+        },
+        "untitled.tmx#b1s": {
+            "scaleInDock": 1
+        },
+        "untitled.tmx#b1ss": {
+            "scaleInDock": 1
+        },
+        "untitled.tmx#b2s": {
+            "scaleInDock": 1
+        },
+        "untitled.tmx#b4s": {
+            "scaleInDock": 1
+        },
+        "untitled.tmx#b5s": {
+            "scaleInDock": 1
+        },
+        "untitled.tmx#box1ss": {
+            "scaleInDock": 1
+        },
+        "untitled.tmx#box4ss": {
+            "scaleInDock": 1
+        },
+        "untitled.tmx#chairs": {
+            "scaleInDock": 1
+        },
+        "untitled.tmx#floweras": {
+            "scaleInDock": 1
+        },
+        "untitled.tmx#grasswithflower": {
+            "scaleInDock": 1
+        },
+        "untitled.tmx#market1s": {
+            "scaleInDock": 1
+        },
+        "untitled.tmx#market2s": {
+            "scaleInDock": 1
+        },
+        "untitled.tmx#market3s": {
+            "scaleInDock": 2
+        },
+        "untitled.tmx#market4s": {
+            "scaleInDock": 1
+        },
+        "untitled.tmx#plant2s": {
+            "scaleInDock": 1
+        },
+        "untitled.tmx#sand": {
+            "scaleInDock": 1
+        },
+        "untitled.tmx#statues": {
+            "scaleInDock": 1
+        },
+        "untitled.tmx#taverns": {
+            "scaleInDock": 1
+        },
+        "untitled.tmx#tree2": {
+            "scaleInDock": 0.0625
+        },
+        "untitled.tmx#trees": {
+            "scaleInDock": 1
+        },
+        "untitled.tmx#tress2s": {
+            "scaleInDock": 1
+        },
+        "untitled.tmx#tress3s": {
+            "scaleInDock": 1
+        },
+        "untitled.tmx#water": {
+            "scaleInDock": 0.75
+        },
+        "untitled.tmx#wood": {
+            "scaleInDock": 1
+        },
+        "untitled.tmx#wood1s": {
+            "scaleInDock": 1
         }
     },
-    "last.imagePath": "C:/SoftwareS2Y2.P/OOP/git/Whisky-Way/res/terrain",
+    "last.imagePath": "C:/SoftwareS2Y2.P/OOP/git/Whisky-Way/res/terrain/Objects",
     "map.height": 50,
     "map.lastUsedFormat": "tmx",
+    "map.tileHeight": 16,
+    "map.tileWidth": 16,
     "map.width": 50,
     "openFiles": [
+        "C:/SoftwareS2Y2.P/OOP/git/Whisky-Way/res/terrain/Overview.tsx",
+        "gamemap.tmx",
+        "untitled.tmx",
+        "C:/SoftwareS2Y2.P/OOP/git/Whisky-Way/res/terrain/untitled.tmx"
     ],
-    "project": "map.tiled-project",
+    "project": "Map.tiled-project",
     "recentFiles": [
-        "map.tmx"
+        "C:/SoftwareS2Y2.P/OOP/git/Whisky-Way/res/terrain/Overview.tsx",
+        "gamemap.tmx",
+        "C:/SoftwareS2Y2.P/OOP/git/Whisky-Way/res/terrain/untitled.tmx",
+        "untitled.tmx"
     ],
-    "tileset.lastUsedFormat": "tsx"
+    "tileset.embedInMap": true,
+    "tileset.lastUsedFormat": "tsx",
+    "tileset.margin": 0,
+    "tileset.spacing": 0,
+    "tileset.tileSize": {
+        "height": 32,
+        "width": 32
+    }
 }
