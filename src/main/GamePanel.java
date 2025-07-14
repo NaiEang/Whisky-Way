@@ -4,10 +4,17 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
+import java.awt.Image;
+import java.io.File;
+
+import javax.imageio.ImageIO;
 import javax.swing.JPanel;
 
 import src.entity.Player;
 import src.object.SuperObject;
+import src.tile.FileUtils;
+import src.tile.TMXMap;
+import src.tile.TMXParser;
 import src.tile.TileManager;
 
 public class GamePanel extends JPanel implements Runnable {
@@ -43,19 +50,30 @@ public class GamePanel extends JPanel implements Runnable {
     public Player player = new Player(this, keyH);
     public SuperObject obj[] = new SuperObject[10];
 
+    TMXMap map;
+    Image tilesetImage;
+    int tilesetColumns = 8; 
+
     //Constructor for game panel
     public GamePanel(){
         
-        this.setPreferredSize(new Dimension(screenWidth, screenHeight));
-        this.setBackground(Color.BLACK);
-        this.setDoubleBuffered(true); //for smoother rendering
-        this.addKeyListener(keyH);
-        this.setFocusable(true);
+        // this.setPreferredSize(new Dimension(screenWidth, screenHeight));
+        // this.setBackground(Color.BLACK);
+        // this.setDoubleBuffered(true); //for smoother rendering
+        // this.addKeyListener(keyH);
+        // this.setFocusable(true);
+        try{
+            map = TMXParser.parseTMX("res/tiles/untitled.tmx");
+
+        }catch(Exception e){
+            e.printStackTrace();
+        }
     }
     public void setupGame(){
 
         aSetter.setObject();
         playMusic(0); //play background music
+        
         
     }
 
@@ -139,21 +157,29 @@ public class GamePanel extends JPanel implements Runnable {
         super.paintComponent(g); 
 
         Graphics2D g2 = (Graphics2D) g;
+        if (map != null && map.tilesetImage != null) {
+            renderMap(g2, map, map.tilesetImage, map.tilesetImage.getWidth() / map.tileWidth);
+    }
 
-        tileM.draw(g2);
+    //     // tileM.draw(g2);
 
-        for(int i = 0; i< obj.length; i++){
-            if(obj[i]!= null){
-                obj[i].draw(g2, this);
-            }
-        }
-        player.draw(g2);
+    //     // for(int i = 0; i< obj.length; i++){
+    //     //     if(obj[i]!= null){
+    //     //         obj[i].draw(g2, this);
+    //     //     }
+    //     // }
+    //     // player.draw(g2);
 
         g2.dispose(); //to save some memory and resources
+
+    //     if (map != null && tilesetImage != null) {
+    //         renderMap(g2, map, tilesetImage, tilesetColumns);
+    //     }
     }
     public void playMusic(int i){
         System.out.println("Play music");
         sound.setFile(i);
+        sound.setVolume(-10.0f);
         sound.play();
         sound.loop();
     }
@@ -163,7 +189,28 @@ public class GamePanel extends JPanel implements Runnable {
     }
     public void playSE(int i){
         sound.setFile(i);
+        sound.setVolume(-5.0f);
         sound.play();
         
     }
+    public void renderMap(Graphics2D g2, TMXMap map, Image tilesetImage, int tilesetColumns) {
+        for (int row = 0; row < map.height; row++) {
+            for (int col = 0; col < map.width; col++) {
+                int tileId = map.tileData[row][col];
+                if (tileId > 0) {
+                    int tileIndex = tileId - 1; // TMX GIDs start at 1
+                    int tileX = (tileIndex % tilesetColumns) * map.tileWidth;
+                    int tileY = (tileIndex / tilesetColumns) * map.tileHeight;
+
+                    g2.drawImage(tilesetImage,
+                            col * map.tileWidth, row * map.tileHeight,
+                            col * map.tileWidth + map.tileWidth, row * map.tileHeight + map.tileHeight,
+                            tileX, tileY,
+                            tileX + map.tileWidth, tileY + map.tileHeight,
+                            null);
+                }
+            }
+        }
+    }
+
 }

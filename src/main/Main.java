@@ -4,22 +4,32 @@ import javax.swing.JFrame;
 
 public class Main{
 
-    public static void main(String[] args) {
-        JFrame window = new JFrame();
+    // public static void main(String[] args) {
+    //     JFrame window = new JFrame();
+    //     window.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+    //     window.setResizable(false);
+    //     window.setTitle("Whisky Way");
+
+    //     GamePanel gamePanel = new GamePanel();
+    //     window.add(gamePanel);
+
+    //     window.pack();
+
+    //     window.setLocationRelativeTo(null);
+    //     window.setVisible(true);
+
+    //     gamePanel.setupGame();
+    //     gamePanel.startGameThread();
+
+    // }
+        public static void main(String[] args) {
+        JFrame window = new JFrame("TMX Map Test");
         window.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         window.setResizable(false);
-        window.setTitle("Whisky Way");
-
-        GamePanel gamePanel = new GamePanel();
-        window.add(gamePanel);
-
+        window.add(new GamePanel());
         window.pack();
-
+        window.setSize(800, 600); // Adjust to your game resolution
         window.setLocationRelativeTo(null);
         window.setVisible(true);
-
-        gamePanel.setupGame();
-        gamePanel.startGameThread();
-
     }
 }
