@@ -3,10 +3,8 @@ package src.tile;
 import javax.imageio.ImageIO;
 import java.awt.Graphics2D;
 import java.io.BufferedReader;
-import java.io.File;
 import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.awt.Image;
 
 import src.main.GamePanel;
 
@@ -23,9 +21,8 @@ public class TileManager {
         mapTileNum = new int[gp.maxWorldCol][gp.maxWorldRow];
 
         getTileImage();
-        // loadMap("/res/map/WorldMap01.txt");
+        loadMap("/res/map/WorldMap01.txt");
         // loadMap("/res/map/map01.txt");
-        
 
     }
     public void getTileImage(){
@@ -63,46 +60,32 @@ public class TileManager {
             e.printStackTrace();
         }
     }
-    // public void loadMap(String filename){
+    public void loadMap(String filename){
 
-    //     try {
-    //         InputStream is = getClass().getResourceAsStream(filename);
-    //         BufferedReader br = new BufferedReader(new InputStreamReader(is));
+        try {
+            InputStream is = getClass().getResourceAsStream(filename);
+            BufferedReader br = new BufferedReader(new InputStreamReader(is));
 
-    //         int row = 0;
-    //         while (row < gp.maxWorldRow) {
-    //             String line = br.readLine();
-    //             if (line == null) break; // safety
+            int row = 0;
+            while (row < gp.maxWorldRow) {
+                String line = br.readLine();
+                if (line == null) break; // safety
 
-    //             String[] numbers = line.trim().split(" ");
+                String[] numbers = line.trim().split(" ");
 
-    //             for (int col = 0; col < gp.maxWorldCol && col < numbers.length; col++) {
-    //                 int num = Integer.parseInt(numbers[col]);
-    //                 mapTileNum[col][row] = num;
-    //             }
+                for (int col = 0; col < gp.maxWorldCol && col < numbers.length; col++) {
+                    int num = Integer.parseInt(numbers[col]);
+                    mapTileNum[col][row] = num;
+                }
 
-    //             row++;
-    //         }
+                row++;
+            }
 
-    //         br.close();
-    //     } catch (Exception e) {
-    //         e.printStackTrace(); // Always print errors while debugging!
-    //     }
-    // }
-    public Image loadTilesetImage(String source) {
-    try {
-        File imgFile = FileUtils.findFileRecursive(new File("res/"), new File(source).getName());
-        if (imgFile != null) {
-            System.out.println("Resolved tileset image path: " + imgFile.getPath());
-            return ImageIO.read(imgFile);
-        } else {
-            System.err.println("Tileset image NOT FOUND: " + source);
+            br.close();
+        } catch (Exception e) {
+            e.printStackTrace(); // Always print errors while debugging!
         }
-    } catch (Exception e) {
-        e.printStackTrace();
     }
-    return null;
-}
 
     public void draw(Graphics2D g2){
         // int maxWorldCol = 0;
@@ -129,23 +112,23 @@ public class TileManager {
         //     if(maxWorldCol == gp.maxWorldCol){
         //         maxWorldCol = 0;
         //         maxWorldRow ++;
-    //     for (int worldRow = 0; worldRow < gp.maxWorldRow; worldRow++) {
-    //     for (int worldCol = 0; worldCol < gp.maxWorldCol; worldCol++) {
-    //         int tileNum = mapTileNum[worldCol][worldRow];
+        for (int worldRow = 0; worldRow < gp.maxWorldRow; worldRow++) {
+        for (int worldCol = 0; worldCol < gp.maxWorldCol; worldCol++) {
+            int tileNum = mapTileNum[worldCol][worldRow];
 
-    //         int worldX = worldCol * gp.tileSize;
-    //         int worldY = worldRow * gp.tileSize;
-    //         int screenX = worldX - gp.player.worldX + gp.player.screenX;
-    //         int screenY = worldY - gp.player.worldY + gp.player.screenY;
+            int worldX = worldCol * gp.tileSize;
+            int worldY = worldRow * gp.tileSize;
+            int screenX = worldX - gp.player.worldX + gp.player.screenX;
+            int screenY = worldY - gp.player.worldY + gp.player.screenY;
 
-    //         if (worldX + gp.tileSize > gp.player.worldX - gp.player.screenX &&
-    //             worldX - gp.tileSize < gp.player.worldX + gp.player.screenX &&
-    //             worldY + gp.tileSize > gp.player.worldY - gp.player.screenY &&
-    //             worldY - gp.tileSize*2 < gp.player.worldY + gp.player.screenY) {
+            if (worldX + gp.tileSize > gp.player.worldX - gp.player.screenX &&
+                worldX - gp.tileSize < gp.player.worldX + gp.player.screenX &&
+                worldY + gp.tileSize > gp.player.worldY - gp.player.screenY &&
+                worldY - gp.tileSize*2 < gp.player.worldY + gp.player.screenY) {
 
-    //             g2.drawImage(tile[tileNum].image, screenX, screenY, gp.tileSize, gp.tileSize, null);
-    //         }
-    //     }  
-    // }
+                g2.drawImage(tile[tileNum].image, screenX, screenY, gp.tileSize, gp.tileSize, null);
+            }
+        }  
+    }
 }
 }

@@ -16,8 +16,9 @@ public class Player extends Entity {
     public final int screenX;
     public final int screenY;
 
-    int ShrimpCount = 0;
+    public int ShrimpCount = 0;
     int BoxCount = 0;
+    public int coinCount = 0;
 
     public Player(GamePanel gp, KeyHandler keyH){
         this.gp = gp;
@@ -126,7 +127,7 @@ public class Player extends Entity {
 
             switch(objName){
                 case "Shrimp":
-                    ShrimpCount++;
+                    ShrimpCount+=10;
                     gp.playSE(1);
                     gp.obj[i] = null;
                     System.out.println("You ate a Shrimp!");
@@ -143,6 +144,7 @@ public class Player extends Entity {
                         gp.playSE(3);
                         System.out.println("You made a delivery!");
                         BoxCount--;
+                        coinCount += 10;
                     }   
             }
         }

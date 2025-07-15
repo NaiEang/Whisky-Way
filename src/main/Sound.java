@@ -1,6 +1,5 @@
 package src.main;
 
-import java.awt.datatransfer.ClipboardOwner;
 import java.net.URL;
 
 import javax.sound.sampled.AudioInputStream;
@@ -19,6 +18,7 @@ public class Sound {
         soundURL[1] = getClass().getResource("/res/sound/eat2.wav");
         soundURL[2] = getClass().getResource("/res/sound/pickup.wav");
         soundURL[3] = getClass().getResource("/res/sound/complete.wav");
+        soundURL[4] = getClass().getResource("/res/sound/wind.wav");
 
     }
     public void setVolume(float decibels){
