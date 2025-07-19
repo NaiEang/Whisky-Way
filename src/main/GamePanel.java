@@ -41,7 +41,7 @@ public class GamePanel extends JPanel implements Runnable {
     public CollisionChecker cChecker = new CollisionChecker(this);
     public AssetSetter aSetter = new AssetSetter(this);
     public UI ui = new UI(this);
-    Thread gameThread;
+    public Thread gameThread;
 
     //OBJECTS
     public Player player = new Player(this, keyH);
@@ -169,7 +169,6 @@ public class GamePanel extends JPanel implements Runnable {
         music.loop();
     }
     public static void stopMusic(){
-
         music.stop();
     }
     public void playSE(int i){

@@ -2,13 +2,11 @@ package src.main;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
 
 public class Main {
     private static JFrame mainWindow;
     private static GamePanel gamePanel;
     
-
     public static void main(String[] args) {
         SwingUtilities.invokeLater(() -> {
             // Create the main window once
@@ -40,14 +38,31 @@ public class Main {
         gamePanel = new GamePanel();
         mainWindow.add(gamePanel);
         mainWindow.pack();
+
+        // Fix KeyHandler focus issues
+        gamePanel.setFocusable(true);
+        gamePanel.requestFocusInWindow();
         
         gamePanel.setupGame();
         gamePanel.startGameThread();
+
+        // Ensure the window is properly refreshed
+        mainWindow.revalidate();
+        mainWindow.repaint();
     }
 }
 
 class StartScreenPanel extends JPanel {
     public StartScreenPanel() {
+        final int originalTileSize = 16;
+        final int scale = 3;
+        final int tileSize = originalTileSize * scale;
+        final int maxScreenCol = 30;
+        final int maxScreenRow = 15;
+        final int screenWidth = tileSize * maxScreenCol; // 768 pixels
+        final int screenHeight = tileSize * maxScreenRow; // 576 pixels
+
+        setPreferredSize(new Dimension(screenWidth, screenHeight));
         setLayout(new BorderLayout());
         
         // Load background image
@@ -99,8 +114,8 @@ class StartScreenPanel extends JPanel {
         JButton startButton = createButton(
             "/res/background&button/startb.png",
             "/res/background&button/bhover.png",
-            200,
-            150
+            (int)(screenWidth * 0.26), 
+            (int)(screenHeight * 0.26)
         );
         startButton.addActionListener(e -> Main.startGame());
         
@@ -112,14 +127,16 @@ class StartScreenPanel extends JPanel {
         buttonPanel.add(startButton, gbc);
         
         // Position panels
-        buttonPanel.setBounds(0, 130, gameSize.width, gameSize.height);
+        // buttonPanel.setBounds(-140, 20, gameSize.width, gameSize.height);
+        buttonPanel.setBounds(0, (int)(screenHeight * 0.23), screenWidth, screenHeight);
         layeredPane.add(buttonPanel, JLayeredPane.PALETTE_LAYER);
         
         JPanel contentPanel = new JPanel();
         contentPanel.setOpaque(false);
         contentPanel.setLayout(new GridBagLayout());
         contentPanel.add(titleLabel, gbc);
-        contentPanel.setBounds(0, -70, gameSize.width, gameSize.height);
+        // contentPanel.setBounds(0, -70, gameSize.width, gameSize.height);
+        contentPanel.setBounds(0, (int)(screenHeight * -0.12), screenWidth, screenHeight);
         layeredPane.add(contentPanel, JLayeredPane.PALETTE_LAYER);
         
         add(layeredPane);

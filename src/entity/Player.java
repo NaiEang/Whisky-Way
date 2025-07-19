@@ -19,6 +19,9 @@ public class Player extends Entity {
     public int ShrimpCount = 0;
     int BoxCount = 0;
     public int coinCount = 0;
+    int deliveredCount = 0;
+    int standCounter;
+    boolean isMoving = false;
 
     public Player(GamePanel gp, KeyHandler keyH){
         this.gp = gp;
@@ -62,6 +65,8 @@ public class Player extends Entity {
     public void update(){
         if(keyH.upPressed == true || keyH.downPressed == true || 
         keyH.rightPressed == true || keyH.leftPressed == true){
+            isMoving = true;
+
             if(keyH.upPressed){
                 direction = "up";
                 // worldY -= speed; //y values increase as they go down & x as right
@@ -106,18 +111,25 @@ public class Player extends Entity {
                 }
                 
             }
-            spriteCounter++;
-            if(spriteCounter > 15){
-                if(spriteNum == 1){
-                    spriteNum = 2;
+            if(isMoving){
+                spriteCounter++;
+                if(spriteCounter > 13){
+                    spriteNum = (spriteNum == 1) ? 2 : 1; //toggle between sprite 1 and 2
+                    spriteCounter = 0;
+                    }
+                    standCounter = 0;
+
+            }else{
+                standCounter++;
+
+                if(standCounter > 3){ //if player has been standing still for 0.5 seconds
+                    spriteNum = 1; //set to standing sprite
+
                 }
-                else if(spriteNum == 2){
-                    spriteNum = 1;
-                }
-                spriteCounter = 0;
+                spriteCounter = 0; //reset sprite counter when standing still
             }
+
         }
-       
     }
     public void pickUpObj(int i){
 
@@ -130,22 +142,34 @@ public class Player extends Entity {
                     ShrimpCount+=10;
                     gp.playSE(1);
                     gp.obj[i] = null;
-                    System.out.println("You ate a Shrimp!");
+                    gp.ui.showMessage("You ate a shrimp!");
                     break;
                 case "Box":
                     BoxCount++;
                     gp.playSE(2);
                     gp.obj[i] = null;
-                    System.out.println("You picked up a Box!");
+                    gp.ui.showMessage("You picked up a Box!");
                     break;
                 case "NPC":
                     gp.obj[i].collision = true;  
-                    if(BoxCount > 0){
+                    
+                    if(!gp.ui.messageOn){
+                        if(BoxCount > 0){
                         gp.playSE(3);
-                        System.out.println("You made a delivery!");
                         BoxCount--;
                         coinCount += 10;
-                    }   
+                        gp.ui.showMessage("You made a delivery!");
+                        deliveredCount++;
+                        }else{
+                            gp.ui.showMessage("You have no boxes to deliver!");
+                        }
+                    }
+                    break;
+                
+            }
+            if(deliveredCount ==1){
+                gp.stopMusic();
+                gp.ui.gameFinished = true;
             }
         }
     }
