@@ -34,7 +34,7 @@ public class GamePanel extends JPanel implements Runnable {
 
     //SYSTEM
     TileManager tileM = new TileManager(this);
-    KeyHandler keyH = new KeyHandler();
+    KeyHandler keyH = new KeyHandler(this);
     static Sound music = new Sound();
     Sound se = new Sound();
     static boolean windSound = false;
@@ -43,9 +43,14 @@ public class GamePanel extends JPanel implements Runnable {
     public UI ui = new UI(this);
     public Thread gameThread;
 
-    //OBJECTS
+    //ENTITY AND OBJECTS
     public Player player = new Player(this, keyH);
     public SuperObject obj[] = new SuperObject[10];
+
+    //GAME STATE
+    public int gameState;
+    public final int playState = 1;
+    public final int pauseState = 2;
 
     //Constructor for game panel
     public GamePanel(){
@@ -58,8 +63,9 @@ public class GamePanel extends JPanel implements Runnable {
     }
     public void setupGame(){
 
-        aSetter.setObject();
+        aSetter.setObject();  
         playMusic(0); //play background music
+        gameState = playState;
         
     }
     public static void backgroundMusic() {
@@ -72,43 +78,8 @@ public class GamePanel extends JPanel implements Runnable {
         gameThread.start(); //starts the thread, which will call the run method
 
     }
-    //1st Method of Game loop
-    // @Override
-    // public void run() {
 
-    //     double drawInterval = 1000000000 / fps; //0.01666 seconds
-    //     double nextDrawTime = System.nanoTime() + drawInterval; //next time to draw
-
-    //     //create a game loop
-    //     while(gameThread!=null){
-
-    //         //1. Update information: character position
-    //         update();
-
-    //         //2. Draw the screen: with update info
-    //         repaint(); //calls paintComponent method
-
-            
-    //         try {
-    //             double remainingTime = (nextDrawTime - System.nanoTime());
-    //             remainingTime /= 1000000; 
-
-    //             if(remainingTime<0){
-    //                 remainingTime = 0;
-    //             }
-
-    //             Thread.sleep((long) remainingTime);
-
-    //             nextDrawTime += drawInterval; //update next draw time
-
-    //         } catch (InterruptedException e) {
-    //             // TODO Auto-generated catch block
-    //             e.printStackTrace();
-    //         }
-    //     }
-    // }
-
-    //2nd Method of Game loop
+    //Game loop
     public void run(){
 
         double drawInterval = 1000000000 / fps;
@@ -140,7 +111,14 @@ public class GamePanel extends JPanel implements Runnable {
         }
     }
     public void update(){
-        player.update();
+        
+        if(gameState == playState){
+            player.update();
+        }
+        if(gameState == pauseState){
+
+        }
+
     }
     public void paintComponent(Graphics g){
         super.paintComponent(g); 

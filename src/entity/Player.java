@@ -16,12 +16,11 @@ public class Player extends Entity {
     public final int screenX;
     public final int screenY;
 
-    public int ShrimpCount = 0;
-    int BoxCount = 0;
-    public int coinCount = 0;
-    int deliveredCount = 0;
-    int standCounter;
-    boolean isMoving = false;
+    // public int ShrimpCount = 0;
+    // int BoxCount = 0;
+    // public int coinCount = 0;
+    // int deliveredCount = 0;
+    // int standCounter;
 
     public Player(GamePanel gp, KeyHandler keyH){
         this.gp = gp;
@@ -65,7 +64,6 @@ public class Player extends Entity {
     public void update(){
         if(keyH.upPressed == true || keyH.downPressed == true || 
         keyH.rightPressed == true || keyH.leftPressed == true){
-            // isMoving = true;
 
             if(keyH.upPressed){
                 direction = "up";
@@ -111,64 +109,48 @@ public class Player extends Entity {
                 }
                 
             }
-            spriteCounter++;
-            if(spriteCounter > 12){
-                if(spriteNum == 1){
-                spriteNum = 2;
-                }else if(spriteNum == 2){
-                    spriteNum = 1;
-                }
-                spriteCounter = 0;
-            
-            }
-        }else{
-            standCounter++;
-            if(standCounter == 20){
-                spriteNum = 1; //set to standing sprite
-                standCounter = 0; //reset stand counter
-            }
         }
     }
     public void pickUpObj(int i){
 
         if(i!=999){
             
-            String objName = gp.obj[i].name;
+            // String objName = gp.obj[i].name;
 
-            switch(objName){
-                case "Shrimp":
-                    ShrimpCount+=10;
-                    gp.playSE(1);
-                    gp.obj[i] = null;
-                    gp.ui.showMessage("You ate a shrimp!");
-                    break;
-                case "Box":
-                    BoxCount++;
-                    gp.playSE(2);
-                    gp.obj[i] = null;
-                    gp.ui.showMessage("You picked up a Box!");
-                    break;
-                case "NPC":
-                    gp.obj[i].collision = true;  
+            // switch(objName){
+            //     case "Shrimp":
+            //         ShrimpCount+=10;
+            //         gp.playSE(1);
+            //         gp.obj[i] = null;
+            //         gp.ui.showMessage("You ate a shrimp!");
+            //         break;
+            //     case "Box":
+            //         BoxCount++;
+            //         gp.playSE(2);
+            //         gp.obj[i] = null;
+            //         gp.ui.showMessage("You picked up a Box!");
+            //         break;
+            //     case "NPC":
+            //         gp.obj[i].collision = true;  
                     
-                    if(!gp.ui.messageOn){
-                        if(BoxCount > 0){
-                        gp.playSE(3);
-                        BoxCount--;
-                        coinCount += 10;
-                        gp.ui.showMessage("You made a delivery!");
-                        deliveredCount++;
-                        }else{
-                            gp.ui.showMessage("You have no boxes to deliver!");
-                        }
-                    }
-                    break;
+            //         if(!gp.ui.messageOn){
+            //             if(BoxCount > 0){
+            //             gp.playSE(3);
+            //             BoxCount--;
+            //             coinCount += 10;
+            //             gp.ui.showMessage("You made a delivery!");
+            //             deliveredCount++;
+            //             }else{
+            //                 gp.ui.showMessage("You have no boxes to deliver!");
+            //             }
+            //         }
+            //         break;
                 
-            }
-            if(deliveredCount ==1){
-                gp.stopMusic();
-                gp.ui.gameFinished = true;
-            }
+            // }
+            // if(deliveredCount ==1){
+            //     gp.stopMusic();
+            //     gp.ui.gameFinished = true;
+            // }
         }
     }
     public void draw(Graphics2D g2){
