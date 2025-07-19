@@ -65,7 +65,7 @@ public class Player extends Entity {
     public void update(){
         if(keyH.upPressed == true || keyH.downPressed == true || 
         keyH.rightPressed == true || keyH.leftPressed == true){
-            isMoving = true;
+            // isMoving = true;
 
             if(keyH.upPressed){
                 direction = "up";
@@ -111,24 +111,22 @@ public class Player extends Entity {
                 }
                 
             }
-            if(isMoving){
-                spriteCounter++;
-                if(spriteCounter > 13){
-                    spriteNum = (spriteNum == 1) ? 2 : 1; //toggle between sprite 1 and 2
-                    spriteCounter = 0;
-                    }
-                    standCounter = 0;
-
-            }else{
-                standCounter++;
-
-                if(standCounter > 3){ //if player has been standing still for 0.5 seconds
-                    spriteNum = 1; //set to standing sprite
-
+            spriteCounter++;
+            if(spriteCounter > 12){
+                if(spriteNum == 1){
+                spriteNum = 2;
+                }else if(spriteNum == 2){
+                    spriteNum = 1;
                 }
-                spriteCounter = 0; //reset sprite counter when standing still
+                spriteCounter = 0;
+            
             }
-
+        }else{
+            standCounter++;
+            if(standCounter == 20){
+                spriteNum = 1; //set to standing sprite
+                standCounter = 0; //reset stand counter
+            }
         }
     }
     public void pickUpObj(int i){
