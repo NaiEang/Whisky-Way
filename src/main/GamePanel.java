@@ -35,6 +35,7 @@ public class GamePanel extends JPanel implements Runnable {
     //SYSTEM
     TileManager tileM = new TileManager(this);
     KeyHandler keyH = new KeyHandler(this);
+
     static Sound music = new Sound();
     Sound se = new Sound();
     static boolean windSound = false;
@@ -63,7 +64,7 @@ public class GamePanel extends JPanel implements Runnable {
     }
     public void setupGame(){
 
-        aSetter.setObject();  
+        aSetter.setObject();
         playMusic(0); //play background music
         gameState = playState;
         
@@ -79,7 +80,7 @@ public class GamePanel extends JPanel implements Runnable {
 
     }
 
-    //Game loop
+    //2nd Method of Game loop
     public void run(){
 
         double drawInterval = 1000000000 / fps;
@@ -111,14 +112,11 @@ public class GamePanel extends JPanel implements Runnable {
         }
     }
     public void update(){
-        
         if(gameState == playState){
             player.update();
         }
         if(gameState == pauseState){
-
         }
-
     }
     public void paintComponent(Graphics g){
         super.paintComponent(g); 

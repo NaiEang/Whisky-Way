@@ -58,6 +58,7 @@ import java.awt.event.KeyListener;
             if(code == KeyEvent.VK_D){
                 rightPressed = false;
             }
+
         }
     
     
