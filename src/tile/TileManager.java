@@ -45,27 +45,8 @@ public class TileManager {
         setup(6,"soil.png", false);
         setup(7,"tree1.png", true);
     }
-    // Add this method to your TileManager class for debugging
-public void debugTileImages() {
-    System.out.println("=== TILE DEBUG INFO ===");
-    
-    String[] tileNames = {"grass3", "wall", "water", "grasswithflower", 
-                         "wood", "sand", "soil", "tree1"};
-    
-    for (int i = 0; i < tileNames.length; i++) {
-        if (i < tile.length && tile[i] != null) {
-            System.out.println("Tile " + i + " (" + tileNames[i] + "): " + 
-                             (tile[i].image != null ? "LOADED" : "NULL IMAGE"));
-        } else {
-            System.out.println("Tile " + i + " (" + tileNames[i] + "): NOT INITIALIZED");
-        }
-    }
-    
-    System.out.println("=== END TILE DEBUG ===");
-}
 
-// Call this method in your TileManager constructor after getTileImage()
-// debugTileImages();
+
     public void loadMap(String filename){
 
         try {

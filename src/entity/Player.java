@@ -50,28 +50,15 @@ public class Player extends Entity {
     }
     public void getPlayerImage(){
 
-        up1 = setup("up_1");
-        up2 = setup("up_2");
-        down1 = setup("down_1");
-        down2 = setup("down_2");
-        right1 = setup("right_1");
-        right2 = setup("right_2");
-        left1 = setup("left_1");
-        left2 = setup("left_2");
+        up1 = setup("/res/tiles/up_1");
+        up2 = setup("/res/tiles/up_2");
+        down1 = setup("/res/tiles/down_1");
+        down2 = setup("/res/tiles/down_2");
+        right1 = setup("/res/tiles/right_1");
+        right2 = setup("/res/tiles/right_2");
+        left1 = setup("/res/tiles/left_1");
+        left2 = setup("/res/tiles/left_2");
 
-    }
-    public BufferedImage setup(String imageName){
-
-        UtilityTool uTool = new UtilityTool();
-        BufferedImage image = null;
-
-        try{
-            image = ImageIO.read(getClass().getResourceAsStream("/res/player/"+imageName+".png"));
-            image = uTool.scaleImage(image, gp.tileSize, gp.tileSize);
-        }catch(IOException e){
-            e.printStackTrace();    
-        }
-        return image;
     }
     public void update(){
         if(keyH.upPressed == true || keyH.downPressed == true || 

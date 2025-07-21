@@ -29,7 +29,7 @@ public class Entity {
         this.gp = gp;
     }
 
-        public BufferedImage setup(String imageName){
+    public BufferedImage setup(String imageName){
 
         UtilityTool uTool = new UtilityTool();
         BufferedImage image = null;
