@@ -3,7 +3,6 @@ package src.object;
 import java.awt.Graphics2D;
 import java.awt.Rectangle;
 import java.awt.image.BufferedImage;
-import java.nio.Buffer;
 
 import src.main.GamePanel;
 import src.main.UtilityTool;
@@ -20,14 +19,23 @@ public class SuperObject {
 
     public void draw(Graphics2D g2, GamePanel gp){
         int screenX = worldX - gp.player.worldX + gp.player.screenX;
-            int screenY = worldY - gp.player.worldY + gp.player.screenY;
+        int screenY = worldY - gp.player.worldY + gp.player.screenY;
 
-            if (worldX + gp.tileSize > gp.player.worldX - gp.player.screenX &&
-                worldX - gp.tileSize < gp.player.worldX + gp.player.screenX &&
-                worldY + gp.tileSize > gp.player.worldY - gp.player.screenY &&
-                worldY - gp.tileSize*2 < gp.player.worldY + gp.player.screenY) {
+        // Only draw objects that are visible on screen
+        if (worldX + gp.tileSize > gp.player.worldX - gp.player.screenX &&
+            worldX - gp.tileSize < gp.player.worldX + gp.player.screenX &&
+            worldY + gp.tileSize > gp.player.worldY - gp.player.screenY &&
+            worldY - gp.tileSize*2 < gp.player.worldY + gp.player.screenY) {
 
+            if (image != null) {
                 g2.drawImage(image, screenX, screenY, gp.tileSize, gp.tileSize, null);
+            } else {
+                // Draw placeholder if image is missing
+                g2.setColor(java.awt.Color.MAGENTA);
+                g2.fillRect(screenX, screenY, gp.tileSize, gp.tileSize);
+                g2.setColor(java.awt.Color.BLACK);
+                g2.drawString(name != null ? name : "NULL", screenX + 5, screenY + 20);
             }
+        }
     }
 }

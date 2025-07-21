@@ -32,15 +32,40 @@ public class TileManager {
     }
     public void getTileImage(){
 
-        setup(0,"grass3", false);
-        setup(1,"wall", true);
-        setup(2,"water", true);
-        setup(3,"grasswithflower", false);
-        setup(4,"wood", false);
-        setup(5,"sand", false);
-        setup(6,"soil", false);
-        setup(7,"tree1", true);
+        for(int i = 0; i < tile.length; i++) {
+            tile[i] = new Tile();
+        }
+
+        setup(0,"grass3.png", false);
+        setup(1,"wall.png", true);
+        setup(2,"water.png", true);
+        setup(3,"grasswithflower.png", false);
+        setup(4,"wood.png", false);
+        setup(5,"sand.png", false);
+        setup(6,"soil.png", false);
+        setup(7,"tree1.png", true);
     }
+    // Add this method to your TileManager class for debugging
+public void debugTileImages() {
+    System.out.println("=== TILE DEBUG INFO ===");
+    
+    String[] tileNames = {"grass3", "wall", "water", "grasswithflower", 
+                         "wood", "sand", "soil", "tree1"};
+    
+    for (int i = 0; i < tileNames.length; i++) {
+        if (i < tile.length && tile[i] != null) {
+            System.out.println("Tile " + i + " (" + tileNames[i] + "): " + 
+                             (tile[i].image != null ? "LOADED" : "NULL IMAGE"));
+        } else {
+            System.out.println("Tile " + i + " (" + tileNames[i] + "): NOT INITIALIZED");
+        }
+    }
+    
+    System.out.println("=== END TILE DEBUG ===");
+}
+
+// Call this method in your TileManager constructor after getTileImage()
+// debugTileImages();
     public void loadMap(String filename){
 
         try {
@@ -51,7 +76,7 @@ public class TileManager {
             while (row < gp.maxWorldRow) {
                 String line = br.readLine();
                 if (line == null) break; // safety
-
+                
                 String[] numbers = line.trim().split(" ");
 
                 for (int col = 0; col < gp.maxWorldCol && col < numbers.length; col++) {
@@ -67,18 +92,19 @@ public class TileManager {
             e.printStackTrace(); // Always print errors while debugging!
         }
     }
+    
     public void setup(int tileNum, String imageName, boolean collision){
 
         UtilityTool uTool = new UtilityTool();
 
         try{
             tile[tileNum] = new Tile();
-                    InputStream is = getClass().getResourceAsStream("/res/tiles/" + imageName + ".png");
+                    InputStream is = getClass().getResourceAsStream("/res/tiles/" + imageName);
         if (is == null) {
             System.out.println("Missing tile image: " + imageName);
             return;
         }
-            tile[tileNum].image = ImageIO.read(getClass().getResourceAsStream("/res/tiles/" + imageName + ".png"));
+            tile[tileNum].image = ImageIO.read(getClass().getResourceAsStream("/res/tiles/" + imageName));
             tile[tileNum].image = uTool.scaleImage(tile[tileNum].image, gp.tileSize, gp.tileSize);
             tile[tileNum].collision = collision;
 
@@ -94,10 +120,17 @@ public class TileManager {
         for (int worldCol = 0; worldCol < gp.maxWorldCol; worldCol++) {
             int tileNum = mapTileNum[worldCol][worldRow];
 
-                        if (tileNum >= tile.length || tile[tileNum] == null || tile[tileNum].image == null) {
-                // Draw a default tile (like grass) or skip
-                tileNum = 0; // Use grass as default
-            }
+            // In TileManager.draw()
+int originalTileNum = mapTileNum[worldCol][worldRow];
+
+
+if (tileNum >= tile.length || tile[tileNum] == null || tile[tileNum].image == null) {
+    
+    // THIS IS THE IMPORTANT PART - PRINT A LOUD ERROR
+    System.err.println("!!! FAILED TO DRAW TILE: " + originalTileNum + ". Image is NULL. Check file path and name!");
+
+    tileNum = 0; // Still draw grass to prevent a crash
+}
             int worldX = worldCol * gp.tileSize;
             int worldY = worldRow * gp.tileSize;
             int screenX = worldX - gp.player.worldX + gp.player.screenX;

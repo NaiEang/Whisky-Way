@@ -13,7 +13,7 @@ public class OBJ_Shrimp extends SuperObject {
         name = "Shrimp";
         try {
             image = ImageIO.read(getClass().getResourceAsStream("/res/object/shrimp.png"));
-            uTool.scaleImage(image, gp.tileSize, gp.tileSize);
+            image = uTool.scaleImage(image, gp.tileSize, gp.tileSize);
         } catch (Exception e) {
             e.printStackTrace();
         }

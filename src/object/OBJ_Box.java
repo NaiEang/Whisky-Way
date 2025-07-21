@@ -11,7 +11,7 @@ public class OBJ_Box extends SuperObject {
 
         try {
             image = javax.imageio.ImageIO.read(getClass().getResourceAsStream("/res/object/box.png"));
-            uTool.scaleImage(image, gp.tileSize, gp.tileSize);
+            image = uTool.scaleImage(image, gp.tileSize, gp.tileSize);
         } catch (Exception e) {
             e.printStackTrace();
         }
