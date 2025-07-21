@@ -7,6 +7,7 @@ import java.awt.event.KeyListener;
 
         GamePanel gp;
         public boolean upPressed, downPressed, leftPressed, rightPressed;
+        boolean checkDrawTime = false;
 
         public KeyHandler(GamePanel gp){
             this.gp = gp;
@@ -37,6 +38,16 @@ import java.awt.event.KeyListener;
                     gp.gameState = gp.pauseState;
                 }else if(gp.gameState == gp.pauseState){
                     gp.gameState = gp.playState;
+                }
+            }
+
+            //Debug
+            if(code == KeyEvent.VK_T){
+                if(checkDrawTime == false){
+                    checkDrawTime = true;
+                }
+                else if(checkDrawTime == true){
+                    checkDrawTime = false;
                 }
             }
         }

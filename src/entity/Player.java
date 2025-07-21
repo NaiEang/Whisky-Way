@@ -8,22 +8,24 @@ import javax.imageio.ImageIO;
 
 import src.main.GamePanel;
 import src.main.KeyHandler;
+import src.main.UtilityTool;
 
 public class Player extends Entity {
-    GamePanel gp;
     KeyHandler keyH;
 
     public final int screenX;
     public final int screenY;
 
-    // public int ShrimpCount = 0;
-    // int BoxCount = 0;
-    // public int coinCount = 0;
-    // int deliveredCount = 0;
-    // int standCounter;
+    public int ShrimpCount = 0;
+    int BoxCount = 0;
+    public int coinCount = 0;
+    int deliveredCount = 0;
+    int standCounter;
 
     public Player(GamePanel gp, KeyHandler keyH){
-        this.gp = gp;
+
+        super(gp);
+
         this.keyH = keyH;
 
         solidArea = new Rectangle();
@@ -48,18 +50,28 @@ public class Player extends Entity {
     }
     public void getPlayerImage(){
 
+        up1 = setup("up_1");
+        up1 = setup("up_2");
+        up1 = setup("down_1");
+        up1 = setup("down_2");
+        up1 = setup("right_1");
+        up1 = setup("right_2");
+        up1 = setup("left_1");
+        up1 = setup("left_2");
+
+    }
+    public BufferedImage setup(String imageName){
+
+        UtilityTool uTool = new UtilityTool();
+        BufferedImage image = null;
+
         try{
-            up1 = ImageIO.read(getClass().getResourceAsStream("/res/player/up_1.png"));
-            up2 = ImageIO.read(getClass().getResourceAsStream("/res/player/up_2.png"));
-            down1 = ImageIO.read(getClass().getResourceAsStream("/res/player/down_1.png"));
-            down2 = ImageIO.read(getClass().getResourceAsStream("/res/player/down_2.png"));
-            right1 = ImageIO.read(getClass().getResourceAsStream("/res/player/right_1.png"));
-            right2 = ImageIO.read(getClass().getResourceAsStream("/res/player/right_2.png"));
-            left1 = ImageIO.read(getClass().getResourceAsStream("/res/player/left_1.png"));
-            left2 = ImageIO.read(getClass().getResourceAsStream("/res/player/left_2.png"));
+            image = ImageIO.read(getClass().getResourceAsStream("/res/player/"+imageName+".png"));
+            image = uTool.scaleImage(image, gp.tileSize, gp.tileSize);
         }catch(IOException e){
-            e.printStackTrace();
+            e.printStackTrace();    
         }
+        return image;
     }
     public void update(){
         if(keyH.upPressed == true || keyH.downPressed == true || 
@@ -115,42 +127,42 @@ public class Player extends Entity {
 
         if(i!=999){
             
-            // String objName = gp.obj[i].name;
+            String objName = gp.obj[i].name;
 
-            // switch(objName){
-            //     case "Shrimp":
-            //         ShrimpCount+=10;
-            //         gp.playSE(1);
-            //         gp.obj[i] = null;
-            //         gp.ui.showMessage("You ate a shrimp!");
-            //         break;
-            //     case "Box":
-            //         BoxCount++;
-            //         gp.playSE(2);
-            //         gp.obj[i] = null;
-            //         gp.ui.showMessage("You picked up a Box!");
-            //         break;
-            //     case "NPC":
-            //         gp.obj[i].collision = true;  
+            switch(objName){
+                case "Shrimp":
+                    ShrimpCount+=10;
+                    gp.playSE(1);
+                    gp.obj[i] = null;
+                    gp.ui.showMessage("You ate a shrimp!");
+                    break;
+                case "Box":
+                    BoxCount++;
+                    gp.playSE(2);
+                    gp.obj[i] = null;
+                    gp.ui.showMessage("You picked up a Box!");
+                    break;
+                case "NPC":
+                    gp.obj[i].collision = true;  
                     
-            //         if(!gp.ui.messageOn){
-            //             if(BoxCount > 0){
-            //             gp.playSE(3);
-            //             BoxCount--;
-            //             coinCount += 10;
-            //             gp.ui.showMessage("You made a delivery!");
-            //             deliveredCount++;
-            //             }else{
-            //                 gp.ui.showMessage("You have no boxes to deliver!");
-            //             }
-            //         }
-            //         break;
+                    if(!gp.ui.messageOn){
+                        if(BoxCount > 0){
+                        gp.playSE(3);
+                        BoxCount--;
+                        coinCount += 10;
+                        gp.ui.showMessage("You made a delivery!");
+                        deliveredCount++;
+                        }else{
+                            gp.ui.showMessage("You have no boxes to deliver!");
+                        }
+                    }
+                    break;
                 
-            // }
-            // if(deliveredCount ==1){
-            //     gp.stopMusic();
-            //     gp.ui.gameFinished = true;
-            // }
+            }
+            if(deliveredCount ==1){
+                gp.stopMusic();
+                gp.ui.gameFinished = true;
+            }
         }
     }
     public void draw(Graphics2D g2){
@@ -194,6 +206,6 @@ public class Player extends Entity {
             }
             break;
         }
-        g2.drawImage(image, screenX, screenY, gp.tileSize, gp.tileSize, null);
+        g2.drawImage(image, screenX, screenY, null);
     }
 }

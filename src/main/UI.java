@@ -12,7 +12,7 @@ public class UI {
     GamePanel gp;
     Graphics2D g2;
     Font arial_40, arial_80B;
-    // BufferedImage heartImage, coinImage;
+    BufferedImage heartImage, coinImage;
     public boolean messageOn = false;
     public String message = "";
     int messageCounter = 0;
@@ -25,12 +25,12 @@ public class UI {
         this.gp = gp;
         arial_40 = new Font("Arial", Font.PLAIN, 20);
         arial_80B = new Font("Arial", Font.BOLD, 80);
-        // try{
-        //     heartImage = ImageIO.read(getClass().getResourceAsStream("/res/background&button/heart.png"));
-        //     coinImage = ImageIO.read(getClass().getResourceAsStream("/res/background&button/coin.png"));
-        // }catch(Exception e){
-        //     e.printStackTrace();
-        // }
+        try{
+            heartImage = ImageIO.read(getClass().getResourceAsStream("/res/background&button/heart.png"));
+            coinImage = ImageIO.read(getClass().getResourceAsStream("/res/background&button/coin.png"));
+        }catch(Exception e){
+            e.printStackTrace();
+        }
     }
 
     public void showMessage(String text){
