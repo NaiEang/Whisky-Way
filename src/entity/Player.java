@@ -51,13 +51,13 @@ public class Player extends Entity {
     public void getPlayerImage(){
 
         up1 = setup("up_1");
-        up1 = setup("up_2");
-        up1 = setup("down_1");
-        up1 = setup("down_2");
-        up1 = setup("right_1");
-        up1 = setup("right_2");
-        up1 = setup("left_1");
-        up1 = setup("left_2");
+        up2 = setup("up_2");
+        down1 = setup("down_1");
+        down2 = setup("down_2");
+        right1 = setup("right_1");
+        right2 = setup("right_2");
+        left1 = setup("left_1");
+        left2 = setup("left_2");
 
     }
     public BufferedImage setup(String imageName){

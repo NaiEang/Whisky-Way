@@ -33,13 +33,13 @@ public class TileManager {
     public void getTileImage(){
 
         setup(0,"grass3", false);
-        setup(0,"wall", true);
-        setup(0,"water", true);
-        setup(0,"grasswithflower", false);
-        setup(0,"wood", false);
-        setup(0,"sand", false);
-        setup(0,"soil", false);
-        setup(0,"tree1", true);
+        setup(1,"wall", true);
+        setup(2,"water", true);
+        setup(3,"grasswithflower", false);
+        setup(4,"wood", false);
+        setup(5,"sand", false);
+        setup(6,"soil", false);
+        setup(7,"tree1", true);
     }
     public void loadMap(String filename){
 
@@ -73,15 +73,15 @@ public class TileManager {
 
         try{
             tile[tileNum] = new Tile();
+                    InputStream is = getClass().getResourceAsStream("/res/tiles/" + imageName + ".png");
+        if (is == null) {
+            System.out.println("Missing tile image: " + imageName);
+            return;
+        }
             tile[tileNum].image = ImageIO.read(getClass().getResourceAsStream("/res/tiles/" + imageName + ".png"));
             tile[tileNum].image = uTool.scaleImage(tile[tileNum].image, gp.tileSize, gp.tileSize);
             tile[tileNum].collision = collision;
-            InputStream is = getClass().getResourceAsStream("/res/tiles/" + imageName + ".png");
-if (is == null) {
-    System.out.println("Missing tile image: " + imageName);
-} else {
-    tile[tileNum].image = ImageIO.read(is);
-}
+
 
         }catch(IOException e){
             e.printStackTrace();
@@ -94,6 +94,10 @@ if (is == null) {
         for (int worldCol = 0; worldCol < gp.maxWorldCol; worldCol++) {
             int tileNum = mapTileNum[worldCol][worldRow];
 
+                        if (tileNum >= tile.length || tile[tileNum] == null || tile[tileNum].image == null) {
+                // Draw a default tile (like grass) or skip
+                tileNum = 0; // Use grass as default
+            }
             int worldX = worldCol * gp.tileSize;
             int worldY = worldRow * gp.tileSize;
             int screenX = worldX - gp.player.worldX + gp.player.screenX;
@@ -104,8 +108,13 @@ if (is == null) {
                 worldY + gp.tileSize > gp.player.worldY - gp.player.screenY &&
                 worldY - gp.tileSize*2 < gp.player.worldY + gp.player.screenY) {
 
-                g2.drawImage(tile[tileNum].image, screenX, screenY, null);
+                                if (tile[tileNum].image != null) {
+                    g2.drawImage(tile[tileNum].image, screenX, screenY, null);
+                } else {
+                    System.out.println("Tile " + tileNum + " image is null");
+                }
             }
+
         }  
     }
 }
