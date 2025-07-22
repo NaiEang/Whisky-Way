@@ -7,6 +7,7 @@ import java.awt.Graphics2D;
 
 import javax.swing.JPanel;
 
+import src.entity.NPC_dog;
 import src.entity.Player;
 import src.object.SuperObject;
 import src.tile.TileManager;
@@ -47,11 +48,14 @@ public class GamePanel extends JPanel implements Runnable {
     //ENTITY AND OBJECTS
     public Player player = new Player(this, keyH);
     public SuperObject obj[] = new SuperObject[10];
+    public NPC_dog dog[] = new NPC_dog[10];
 
     //GAME STATE
     public int gameState;
     public final int playState = 1;
     public final int pauseState = 2;
+    public final int dialogueState = 3;
+    int dialogueTimer;
 
     //Constructor for game panel
     public GamePanel(){
@@ -65,8 +69,9 @@ public class GamePanel extends JPanel implements Runnable {
     public void setupGame(){
 
         aSetter.setObject();
+        aSetter.setNPC();
         playMusic(0); //play background music
-        gameState = playState;
+        gameState = dialogueState;
         
     }
     public static void backgroundMusic() {
@@ -111,29 +116,68 @@ public class GamePanel extends JPanel implements Runnable {
             }
         }
     }
+
+    //UPDATE
     public void update(){
+
+        //Play state
         if(gameState == playState){
+            //PLAYER
             player.update();
+
+            //NPC
+            for(int i = 0; i< dog.length ; i++){
+                if(dog[i] != null){
+                    dog[i].update();
+                }
+            }
         }
+
+        //Pause state
         if(gameState == pauseState){
+
         }
+
+        //Dialogue
+        if(gameState == dialogueState){
+            dialogueTimer++;
+
+            if(dialogueTimer>300){
+                gameState = playState;
+                dialogueTimer = 0;
+            }
+        }
+        
     }
     public void paintComponent(Graphics g){
         super.paintComponent(g); 
 
         Graphics2D g2 = (Graphics2D) g;
 
+        //Tile
         tileM.draw(g2);
 
+        //Object
         for(int i = 0; i< obj.length; i++){
             if(obj[i]!= null){
                 obj[i].draw(g2, this);
             }
         }
+
+        //NPC
+        for(int i = 0; i<dog.length ;i++){
+            if(dog[i]!=null){
+                dog[i].draw(g2);
+            }
+        }
+        
         player.draw(g2);
 
         //UI
         ui.draw(g2);
+
+
+
         g2.dispose(); //to save some memory and resources
 
     }

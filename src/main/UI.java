@@ -1,5 +1,6 @@
 package src.main;
 
+import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.Graphics2D;
@@ -107,6 +108,9 @@ public class UI {
         if(gp.gameState == gp.pauseState){
             drawPauseScreen();
         }
+        if(gp.gameState == gp.dialogueState){
+            drawDialogueScreen(g2, "Welcome to Whisky Way!\nFind box and deliver it to the witch cat.");
+        }
     }
     public void drawPauseScreen(){
 
@@ -117,6 +121,41 @@ public class UI {
         
         g2.drawString(text, x, y);
     }
+
+    public void drawDialogueScreen(Graphics2D g2, String text){
+
+        //Window
+        int x = gp.tileSize*3;
+        int y = gp.tileSize*10;
+        int width = gp.screenWidth - (gp.tileSize*8);
+        int height = gp.tileSize*3;
+
+        drawSubWindow(x, y, width, height);
+
+        //TEXT
+        g2.setFont(g2.getFont().deriveFont(Font.PLAIN, 28F));
+        x += gp.tileSize;
+        y += gp.tileSize;
+
+        //Use loop to handlw line breaks(\n)
+        for (String line : text.split("\n")){
+            g2.drawString(line , x, y);
+            y+= 40;
+        }
+    }
+
+    public void drawSubWindow(int x, int y, int width, int height){
+
+        Color c = new Color(0,0,0,210);
+        g2.setColor(c);
+        g2.fillRoundRect(x, y, width, height, 35, 35);
+
+        c = new Color(255,255,255);
+        g2.setColor(c);
+        g2.setStroke(new BasicStroke(5));
+        g2.drawRoundRect(x+5, y+5, width-10, height-10, 25, 25);
+    }
+
     public int getXforCenteredText(String text){
         int x = gp.screenWidth / 2 - (int)g2.getFontMetrics().getStringBounds(text, g2).getWidth() / 2;
         return x;

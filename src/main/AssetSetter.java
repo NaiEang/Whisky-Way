@@ -1,5 +1,6 @@
 package src.main;
 
+import src.entity.NPC_dog;
 import src.object.OBJ_Box;
 import src.object.OBJ_NPC;
 import src.object.OBJ_Shrimp;
@@ -30,5 +31,12 @@ public class AssetSetter {
         gp.obj[3] = new OBJ_Box();
         gp.obj[3].worldX =  20* gp.tileSize;
         gp.obj[3].worldY = 10* gp.tileSize;
+    }
+
+    public void setNPC(){
+
+        gp.dog[0] = new NPC_dog(gp);
+        gp.dog[0].worldX = gp.tileSize*21;
+        gp.dog[0].worldY = gp.tileSize*15;
     }
 }

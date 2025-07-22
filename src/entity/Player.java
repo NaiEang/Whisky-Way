@@ -3,14 +3,12 @@ package src.entity;
 import java.awt.Graphics2D;
 import java.awt.Rectangle;
 import java.awt.image.BufferedImage;
-import java.io.IOException;
-import javax.imageio.ImageIO;
 
 import src.main.GamePanel;
 import src.main.KeyHandler;
 
 public class Player extends Entity {
-    GamePanel gp;
+
     KeyHandler keyH;
 
     public final int screenX;
@@ -24,7 +22,7 @@ public class Player extends Entity {
     boolean isMoving = false;
 
     public Player(GamePanel gp, KeyHandler keyH){
-        this.gp = gp;
+        super(gp);
         this.keyH = keyH;
 
         solidArea = new Rectangle();
@@ -49,18 +47,15 @@ public class Player extends Entity {
     }
     public void getPlayerImage(){
 
-        try{
-            up1 = ImageIO.read(getClass().getResourceAsStream("/res/player/up_1.png"));
-            up2 = ImageIO.read(getClass().getResourceAsStream("/res/player/up_2.png"));
-            down1 = ImageIO.read(getClass().getResourceAsStream("/res/player/down_1.png"));
-            down2 = ImageIO.read(getClass().getResourceAsStream("/res/player/down_2.png"));
-            right1 = ImageIO.read(getClass().getResourceAsStream("/res/player/right_1.png"));
-            right2 = ImageIO.read(getClass().getResourceAsStream("/res/player/right_2.png"));
-            left1 = ImageIO.read(getClass().getResourceAsStream("/res/player/left_1.png"));
-            left2 = ImageIO.read(getClass().getResourceAsStream("/res/player/left_2.png"));
-        }catch(IOException e){
-            e.printStackTrace();
-        }
+        up1 = setup("/res/player/up_1");
+        up2 = setup("/res/player/up_2");
+        down1 = setup("/res/player/down_1");
+        down2 = setup("/res/player/down_2");
+        right1 = setup("/res/player/right_1");
+        right2 = setup("/res/player/right_2");
+        left1 = setup("/res/player/left_1");
+        left2 = setup("/res/player/left_2");
+
     }
     public void update(){
         if(keyH.upPressed == true || keyH.downPressed == true || 
@@ -87,13 +82,10 @@ public class Player extends Entity {
             int objIndex = gp.cChecker.checkObject(this, true);
             pickUpObj(objIndex);
 
-            //if collision is false, player can move
-        //         if (collisionOn) {
-        //     System.out.println("Collision detected, blocking movement.");
-        
-            // }
+            //Check NPC collision
+            int npcIndex = gp.cChecker.checkEntity(this, gp.dog);
+            interactNPC(npcIndex);
 
-            // System.out.println("Collision" + collisionOn);
             if(!collisionOn){
                 switch(direction){
                     case "up":
@@ -169,6 +161,12 @@ public class Player extends Entity {
                 gp.stopMusic();
                 gp.ui.gameFinished = true;
             }
+        }
+    }
+    public void interactNPC(int i){
+
+        if(i != 999){
+            System.out.println("You are hitting the puppy T_T");
         }
     }
     public void draw(Graphics2D g2){
