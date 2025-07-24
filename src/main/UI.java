@@ -20,6 +20,9 @@ public class UI {
     public boolean gameFinished = false;
     public String currentDialogue = "";
 
+    int subState = 0;
+    int commandNum = 0;
+
     double playTime = 0;
     DecimalFormat dFormat = new DecimalFormat("#0.00");
 
@@ -113,12 +116,21 @@ public class UI {
     }
     public void drawPauseScreen(){
 
+        int frameWidth = gp.tileSize*10;
+        int frameHeight = gp.tileSize*12;
+        int frameX = gp.screenWidth / 2 - frameWidth / 2;
+        int frameY = gp.screenHeight / 2 - frameHeight / 2;
+
         g2.setFont(g2.getFont().deriveFont(Font.PLAIN,80F));
-        String text = "PAUSED";
-        int x = getXforCenteredText(text);
-        int y = gp.screenHeight / 2; 
-        
-        g2.drawString(text, x, y);
+        // String text = "PAUSED";
+        // int x = getXforCenteredText1(text);
+        // int y = gp.screenHeight / 2; 
+          switch(subState) {
+            case 0: options_top(frameX, frameY); break;
+            case 1:break;
+            case 2:break;
+        }
+        // g2.drawString(text, x, y);
     }
 
     public void drawDialogueScreen(Graphics2D g2, String text){
@@ -155,7 +167,89 @@ public class UI {
         g2.drawRoundRect(x+5, y+5, width-10, height-10, 25, 25);
     }
 
-    public int getXforCenteredText(String text){
+        public void options_top(int frameX, int frameY){
+            int textX;
+            int textY;
+            String text = "Options";
+            textX = getXforCenteredText(text);
+            textY = frameY + gp.tileSize;
+            g2.drawString(text, textX, textY);
+
+            int labelX = frameX + gp.tileSize;       // Label starting X position
+            int controlX = frameX + gp.tileSize * 6; // UI element X position aligned to right
+
+            int rowHeight = gp.tileSize * 2;         // Vertical spacing between each row
+            int startY = frameY + gp.tileSize * 2;   // Starting Y position below "Options" title
+
+            // 🖼 Row 1: Full Screen + Checkbox
+            g2.drawString("Full Screen", labelX, startY);
+            g2.drawRect(controlX, startY - gp.tileSize / 2, gp.tileSize - 4, gp.tileSize - 4);
+
+            // 🎵 Row 2: Music + Slider
+            startY += rowHeight;
+            g2.drawString("Music", labelX, startY);
+            g2.drawRect(controlX, startY - gp.tileSize / 2, gp.tileSize * 4, gp.tileSize - 6);
+
+            // 🔊 Row 3: SE + Slider
+            startY += rowHeight;
+            g2.drawString("SE", labelX, startY);
+            g2.drawRect(controlX, startY - gp.tileSize / 2, gp.tileSize * 4, gp.tileSize - 6);
+
+            // 🎮 Row 4: Control label
+            startY += rowHeight;
+            g2.drawString("Control", labelX, startY);
+
+            // 🛑 Row 5: End Game label
+            startY += rowHeight;
+            g2.drawString("End Game", labelX, startY);
+            // 📦 FULL SCREEN CHECKBOX — smaller & centered
+            int boxSize = gp.tileSize - 10;  // shrink by 10 pixels
+            int boxX = frameX + gp.tileSize * 6;
+            int boxY = frameY + gp.tileSize * 2 + 10;
+            g2.setStroke(new BasicStroke(2));
+            g2.drawRect(boxX, boxY, boxSize, boxSize);
+
+            // 🎵 MUSIC SLIDER — shorter height
+            boxY += gp.tileSize * 2;
+            g2.drawRect(boxX, boxY, gp.tileSize * 4, gp.tileSize - 10);
+
+            // 🔊 SE SLIDER — same dimensions
+            boxY += gp.tileSize * 2;
+            g2.drawRect(boxX, boxY, gp.tileSize * 4, gp.tileSize - 10);
+            
+            // //FULL SCREEN CHECK BOX
+            // int boxX = frameX + (int)(gp.tileSize * 6);
+            // int boxY = frameY + gp.tileSize * 2 + 24;
+            // g2.setStroke(new BasicStroke(3));
+            // g2.drawRect(boxX, boxY, 24, 24);  // checkbox size 24x24
+
+            // //MUSIC VOLUME SLIDER
+            // boxY += gp.tileSize;
+            // g2.drawRect(boxX, boxY, 120, 24); // slider width: 120
+
+            // //SOUND EFFECTS VOLUME SLIDER
+            // boxY += gp.tileSize;
+            // g2.drawRect(boxX, boxY, 120, 24);
+
+        }
+        public int getXforCenteredText(String text){
+            int x = gp.screenWidth / 2 - (int)g2.getFontMetrics().getStringBounds(text, g2).getWidth() / 2;
+            return x;
+        }
+        public void drawSubWindow(int width, int height) {
+            int x = gp.screenWidth / 2 - width / 2;
+            int y = gp.screenHeight / 2 - height / 2;
+
+            Color bgColor = new Color(0, 0, 0, 200); // semi-transparent black
+            g2.setColor(bgColor);
+            g2.fillRoundRect(x, y, width, height, 35, 35);
+
+            g2.setColor(Color.WHITE);
+            g2.setStroke(new BasicStroke(3));
+            g2.drawRoundRect(x + 5, y + 5, width - 10, height - 10, 25, 25);
+        }
+
+        public int getXforCenteredText1(String text){
         int x = gp.screenWidth / 2 - (int)g2.getFontMetrics().getStringBounds(text, g2).getWidth() / 2;
         return x;
         }
