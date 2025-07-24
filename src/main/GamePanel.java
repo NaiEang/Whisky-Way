@@ -150,7 +150,7 @@ public class GamePanel extends JPanel implements Runnable {
         if(gameState == dialogueState){
             dialogueTimer++;
 
-            if(dialogueTimer>300){
+            if(dialogueTimer>200){
                 gameState = playState;
                 dialogueTimer = 0;
             }

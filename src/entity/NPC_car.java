@@ -41,54 +41,52 @@ public class NPC_car extends Entity{
 
     @Override
     public void setAction() {
-    // Only make a turning decision if perfectly aligned on a tile.
-    if (worldX % gp.tileSize == 0 && worldY % gp.tileSize == 0) {
+        // Only make a turning decision if perfectly aligned on a tile.
+        if (worldX % gp.tileSize == 0 && worldY % gp.tileSize == 0) {
 
-        int currentCol = worldX / gp.tileSize;
-        int currentRow = worldY / gp.tileSize;
-        
-        // --- NEW LOGIC: Build a list of possible turns ---
-        ArrayList<String> possibleDirections = new ArrayList<>();
+            int currentCol = worldX / gp.tileSize;
+            int currentRow = worldY / gp.tileSize;
+            
+            // a list of possible turns
+            ArrayList<String> possibleDirections = new ArrayList<>();
 
-        // Check each of the four directions
-        boolean canGoUp = gp.cChecker.isRoadTile(currentCol, currentRow - 1);
-        boolean canGoDown = gp.cChecker.isRoadTile(currentCol, currentRow + 1);
-        boolean canGoLeft = gp.cChecker.isRoadTile(currentCol - 1, currentRow);
-        boolean canGoRight = gp.cChecker.isRoadTile(currentCol + 1, currentRow);
+            // Check each of the four directions
+            boolean canGoUp = gp.cChecker.isRoadTile(currentCol, currentRow - 1);
+            boolean canGoDown = gp.cChecker.isRoadTile(currentCol, currentRow + 1);
+            boolean canGoLeft = gp.cChecker.isRoadTile(currentCol - 1, currentRow);
+            boolean canGoRight = gp.cChecker.isRoadTile(currentCol + 1, currentRow);
 
-        if (canGoUp) {
-            possibleDirections.add("up");
+            if (canGoUp) {
+                possibleDirections.add("up");
+            }
+            if (canGoDown) {
+                possibleDirections.add("down");
+            }
+            if (canGoLeft) {
+                possibleDirections.add("left");
+            }
+            if (canGoRight) {
+                possibleDirections.add("right");
+            }
+            
+            // Prevent U-turn
+            if (possibleDirections.size() > 1) {
+                if (direction.equals("up")) possibleDirections.remove("down");
+                if (direction.equals("down")) possibleDirections.remove("up");
+                if (direction.equals("left")) possibleDirections.remove("right");
+                if (direction.equals("right")) possibleDirections.remove("left");
+            }
+            
+            // --- Choose a new direction ---
+            // If there are any available paths, pick one randomly.
+            if (!possibleDirections.isEmpty()) {
+                Random random = new Random();
+                int choice = random.nextInt(possibleDirections.size());
+                direction = possibleDirections.get(choice);
+            }
+            // If dead end, car turn around
         }
-        if (canGoDown) {
-            possibleDirections.add("down");
-        }
-        if (canGoLeft) {
-            possibleDirections.add("left");
-        }
-        if (canGoRight) {
-            possibleDirections.add("right");
-        }
-        
-        // --- Prevent the car from immediately turning around ---
-        // If the car has more than one option, remove the option to go backward.
-        if (possibleDirections.size() > 1) {
-            if (direction.equals("up")) possibleDirections.remove("down");
-            if (direction.equals("down")) possibleDirections.remove("up");
-            if (direction.equals("left")) possibleDirections.remove("right");
-            if (direction.equals("right")) possibleDirections.remove("left");
-        }
-        
-        // --- Choose a new direction ---
-        // If there are any available paths, pick one randomly.
-        if (!possibleDirections.isEmpty()) {
-            Random random = new Random();
-            int choice = random.nextInt(possibleDirections.size());
-            direction = possibleDirections.get(choice);
-        }
-        // If there are no possible directions (a dead end), the car will automatically turn around
-        // because its previous direction was removed from the list.
     }
-}
 
     @Override
     public void update() {
@@ -128,9 +126,6 @@ public class NPC_car extends Entity{
 
         //Check if the car hit player
         gp.cChecker.checkPlayer(this);
-
-        // --- DEBUGGING TOOL: UNCOMMENT THIS LINE TO SEE THE CAR'S THOUGHTS ---
-        // System.out.println("Direction: " + direction + " | Collision: " + collisionOn);
 
         // 3. Move the car if there is no collision
         if (!collisionOn) {

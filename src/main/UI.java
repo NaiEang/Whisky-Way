@@ -129,7 +129,7 @@ public class UI {
         int width = gp.screenWidth - (gp.tileSize*8);
         int height = gp.tileSize*3;
 
-        drawSubWindow(x, y, width, height);
+        drawDialogueSub(x, y, width, height);
 
         //TEXT
         g2.setFont(g2.getFont().deriveFont(Font.PLAIN, 28F));
@@ -143,7 +143,7 @@ public class UI {
         }
     }
 
-    public void drawSubWindow(int x, int y, int width, int height){
+    public void drawDialogueSub(int x, int y, int width, int height){
 
         Color c = new Color(0,0,0,210);
         g2.setColor(c);
