@@ -24,6 +24,7 @@ public class NPC_dog extends Entity{
         solidAreaDefaultY = solidArea.y;
 
         getImage();
+        setDialogue();
     }
 
     public void getImage(){
@@ -37,7 +38,11 @@ public class NPC_dog extends Entity{
         right1 = setup("/res/NPC/dog_right1");
         right2 = setup("/res/NPC/dog_right");
     }
+    public void setDialogue(){
 
+        dialogues[0] = "Hello, Player!" ;
+
+    }
     @Override
     public void setAction() {
 
@@ -102,6 +107,11 @@ public class NPC_dog extends Entity{
                 actionLockCounter = 0;
             }
         }
+    }
+
+    public void speak(){
+
+        gp.ui.currentDialogue = dialogues[0];
     }
 }
 

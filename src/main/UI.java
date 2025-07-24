@@ -7,8 +7,6 @@ import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
 import java.text.DecimalFormat;
 
-import src.main.GamePanel;
-
 import javax.imageio.ImageIO;
 
 public class UI {
@@ -20,6 +18,7 @@ public class UI {
     public String message = "";
     int messageCounter = 0;
     public boolean gameFinished = false;
+    public String currentDialogue = "";
 
     double playTime = 0;
     DecimalFormat dFormat = new DecimalFormat("#0.00");

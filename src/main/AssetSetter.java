@@ -4,6 +4,7 @@ import src.entity.NPC_dog;
 import src.object.OBJ_Box;
 import src.object.OBJ_NPC;
 import src.object.OBJ_Shrimp;
+import src.entity.NPC_car;
 
 public class AssetSetter {
     GamePanel gp;
@@ -38,5 +39,12 @@ public class AssetSetter {
         gp.dog[0] = new NPC_dog(gp);
         gp.dog[0].worldX = gp.tileSize*21;
         gp.dog[0].worldY = gp.tileSize*15;
+    }
+
+    public void setCar(){
+        gp.car[0] = new NPC_car(gp);
+        gp.car[0].worldX = gp.tileSize * 1; // Start at the far left
+        gp.car[0].worldY = gp.tileSize * 25; // On the road at row 25
+        gp.car[0].direction = "right";
     }
 }

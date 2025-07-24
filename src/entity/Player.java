@@ -21,6 +21,9 @@ public class Player extends Entity {
     int standCounter;
     boolean isMoving = false;
 
+    public boolean invincible = false;
+    public int invincibilityCounter = 0;
+
     public Player(GamePanel gp, KeyHandler keyH){
         super(gp);
         this.keyH = keyH;
@@ -40,6 +43,7 @@ public class Player extends Entity {
     }
     public void setDefaultValues(){
 
+        ShrimpCount = 5;
         worldX = gp.tileSize * 23;
         worldY = gp.tileSize * 21;
         speed = 4;
@@ -86,6 +90,13 @@ public class Player extends Entity {
             int npcIndex = gp.cChecker.checkEntity(this, gp.dog);
             interactNPC(npcIndex);
 
+            npcIndex = gp.cChecker.checkEntity(this, gp.car);
+            interactNPC(npcIndex);
+            
+            if(npcIndex!=999){
+
+                collisionOn = true;
+            }
             if(!collisionOn){
                 switch(direction){
                     case "up":
@@ -118,6 +129,14 @@ public class Player extends Entity {
             if(standCounter == 20){
                 spriteNum = 1; //set to standing sprite
                 standCounter = 0; //reset stand counter
+            }
+        }
+        if(invincible == true){
+            invincibilityCounter ++;
+
+            if(invincibilityCounter>120){
+                invincible = false;
+                invincibilityCounter = 0;
             }
         }
     }
@@ -158,7 +177,6 @@ public class Player extends Entity {
                 
             }
             if(deliveredCount ==1){
-                gp.stopMusic();
                 gp.ui.gameFinished = true;
             }
         }
@@ -166,7 +184,13 @@ public class Player extends Entity {
     public void interactNPC(int i){
 
         if(i != 999){
-            System.out.println("You are hitting the puppy T_T");
+            if(invincible == false){
+
+                gp.player.ShrimpCount--;
+
+                invincible = true;
+            }
+            collisionOn = true;
         }
     }
     public void draw(Graphics2D g2){
@@ -176,40 +200,45 @@ public class Player extends Entity {
 
         BufferedImage image = null;
 
+        if(invincible == true){
+            g2.setComposite(java.awt.AlphaComposite.getInstance(java.awt.AlphaComposite.SRC_OVER, 0.3f));
+        }
         switch(direction){
             case "up" :
-            if(spriteNum == 1){
-                image = up1;
-            }
-            if(spriteNum == 2){
-                image = up2;
-            }
-            break;
+                if(spriteNum == 1){
+                    image = up1;
+                }
+                if(spriteNum == 2){
+                    image = up2;
+                }
+                break;
             case "down":
-            if(spriteNum == 1){
-                image = down1;
-            }
-            if(spriteNum == 2){
-                image = down2;
-            }
+                if(spriteNum == 1){
+                    image = down1;
+                }
+                if(spriteNum == 2){
+                    image = down2;
+                }
                 break;
             case "left":
-            if(spriteNum == 1){
-                image = left1;
-            }
-            if(spriteNum == 2){
-                image = left2;
-            }
-            break;
+                if(spriteNum == 1){
+                    image = left1;
+                }
+                if(spriteNum == 2){
+                    image = left2;
+                }
+                break;
             case "right":
-            if(spriteNum == 1){
-                image = right1;
-            }
-            if(spriteNum == 2){
-                image = right2;
-            }
-            break;
+                if(spriteNum == 1){
+                    image = right1;
+                }
+                if(spriteNum == 2){
+                    image = right2;
+                }
+                break;
         }
         g2.drawImage(image, screenX, screenY, gp.tileSize, gp.tileSize, null);
+
+        g2.setComposite(java.awt.AlphaComposite.getInstance(java.awt.AlphaComposite.SRC_OVER, 1.0f));
     }
 }

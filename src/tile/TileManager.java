@@ -55,6 +55,22 @@ public class TileManager {
             tile[7].image = ImageIO.read(getClass().getResourceAsStream("/res/tiles/tree1.png"));
             tile[7].collision = true;
 
+            tile[8] = new Tile();
+            tile[8].image = ImageIO.read(getClass().getResourceAsStream("/res/NPC/roadStraight2.png"));
+            tile[8].collision = false;
+
+            tile[9] = new Tile();
+            tile[9].image = ImageIO.read(getClass().getResourceAsStream("/res/NPC/roadS5.png"));
+            tile[9].collision = false;
+
+            tile[10] = new Tile();
+            tile[10].image = ImageIO.read(getClass().getResourceAsStream("/res/NPC/road5.png"));
+            tile[10].collision = false;
+
+            tile[11] = new Tile();
+            tile[11].image = ImageIO.read(getClass().getResourceAsStream("/res/NPC/roadS8.png"));
+            tile[11].collision = false;
+
 
         }catch(Exception e){
             e.printStackTrace();

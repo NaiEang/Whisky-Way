@@ -7,6 +7,7 @@ import java.awt.Graphics2D;
 
 import javax.swing.JPanel;
 
+import src.entity.NPC_car;
 import src.entity.NPC_dog;
 import src.entity.Player;
 import src.object.SuperObject;
@@ -49,6 +50,7 @@ public class GamePanel extends JPanel implements Runnable {
     public Player player = new Player(this, keyH);
     public SuperObject obj[] = new SuperObject[10];
     public NPC_dog dog[] = new NPC_dog[10];
+    public NPC_car car[] = new NPC_car[10];
 
     //GAME STATE
     public int gameState;
@@ -70,6 +72,7 @@ public class GamePanel extends JPanel implements Runnable {
 
         aSetter.setObject();
         aSetter.setNPC();
+        aSetter.setCar();
         playMusic(0); //play background music
         gameState = dialogueState;
         
@@ -131,6 +134,11 @@ public class GamePanel extends JPanel implements Runnable {
                     dog[i].update();
                 }
             }
+            for(int i = 0; i<car.length ; i++){
+                if(car[i]!=null){
+                    car[i].update();
+                }
+            }
         }
 
         //Pause state
@@ -168,6 +176,11 @@ public class GamePanel extends JPanel implements Runnable {
         for(int i = 0; i<dog.length ;i++){
             if(dog[i]!=null){
                 dog[i].draw(g2);
+            }
+        }
+        for(int i = 0; i<car.length ;i++){
+            if(car[i]!=null){
+                car[i].draw(g2);
             }
         }
         

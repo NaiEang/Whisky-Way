@@ -224,10 +224,34 @@ public class CollisionChecker {
                 break;
         }
 
+        if(entity.solidArea.intersects(gp.player.solidArea)){
+            entity.collisionOn = true;
+
+            gp.player.interactNPC(0);
+        }
+
         // After checking, reset the solidArea x/y back to their default offsets
         entity.solidArea.x = entity.solidAreaDefaultX;
         entity.solidArea.y = entity.solidAreaDefaultY;
         gp.player.solidArea.x = gp.player.solidAreaDefaultX;
         gp.player.solidArea.y = gp.player.solidAreaDefaultY;
+    }
+
+    public boolean isRoadTile(int col, int row) {
+
+        // Prevent checking outside the map, which would cause a crash
+        if (col < 0 || col >= gp.maxWorldCol || row < 0 || row >= gp.maxWorldRow) {
+            return false;
+        }
+
+        int tileNum = gp.tileM.mapTileNum[col][row];
+
+        // Check if the tile number is one of your road tiles
+        if (tileNum == 8 || tileNum == 9 || tileNum == 10 || tileNum == 11) {
+            return true;
+        }
+
+        // If it's not a road tile
+        return false;
     }
 }
