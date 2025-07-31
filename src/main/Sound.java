@@ -11,6 +11,9 @@ public class Sound {
     Clip clip;
     FloatControl volumeControl;
     URL soundURL[] = new URL[30];
+    FloatControl fc;
+    int volumeScale =  3;
+    float volume;
 
     public Sound(){
 
@@ -35,6 +38,8 @@ public class Sound {
             AudioInputStream ais = AudioSystem.getAudioInputStream(soundURL[i]);
             clip = AudioSystem.getClip();
             clip.open(ais);
+            fc = (FloatControl) clip.getControl(FloatControl.Type.MASTER_GAIN);
+            checkVolume();
 
             //Get volume control
             volumeControl = (FloatControl) clip.getControl(FloatControl.Type.MASTER_GAIN);
@@ -51,5 +56,30 @@ public class Sound {
     }
     public void stop(){
         clip.stop();
+    }
+    public void checkVolume(){
+        switch (volumeScale){
+            case 0:
+                volume = -80.0f; // Mute
+                break;
+            case 1:
+                volume = -20.0f; // Low
+                break;
+            case 2:
+                volume = -12.0f; // Medium
+                break;
+            case 3:
+                volume = -5.0f; // High
+                break;
+            case 4:
+                volume = 1.0f; // Max
+                break;
+            case 5:
+                volume = 6.0f; // Extra High
+                break;
+            default:
+                volume = 0.0f; // Max
+        }
+        fc.setValue(volume);
     }
 }
