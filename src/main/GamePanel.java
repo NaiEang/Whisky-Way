@@ -128,9 +128,9 @@ public class GamePanel extends JPanel implements Runnable {
     //UPDATE
     public void update(){
         
-        this.addKeyListener(keyH);
-        this.setFocusable(true);
-        this.requestFocusInWindow(); // Ensure GamePanel gets keyboard focus
+        // this.addKeyListener(keyH);
+        // this.setFocusable(true);
+        // this.requestFocusInWindow(); // Ensure GamePanel gets keyboard focus
 
         // if (keyH.spacePressed) {
         //     if (!inOptions) {
@@ -143,7 +143,7 @@ public class GamePanel extends JPanel implements Runnable {
         //     }
         //     keyH.spacePressed = false;
         // }
-        System.out.println("GamePanel has focus: " + this.hasFocus());
+        // System.out.println("GamePanel has focus: " + this.hasFocus());
 
 
         //Play state

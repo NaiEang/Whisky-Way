@@ -8,7 +8,7 @@ import java.awt.event.KeyListener;
         GamePanel gp;
         public boolean upPressed, downPressed, leftPressed, rightPressed;
         public boolean enterPressed;
-        public boolean spacePressed = false;
+        // public boolean spacePressed = false;
 
 
 
@@ -24,9 +24,9 @@ import java.awt.event.KeyListener;
             int code = e.getKeyCode(); //turn number key code into a number
 
             // Confirmation menu navigation
-            if (code == KeyEvent.VK_SPACE) {
-                spacePressed = true;
-            }
+            // if (code == KeyEvent.VK_SPACE) {
+            //     spacePressed = true;
+            // }
             if(gp.ui.subState == 3){
                 if(code == KeyEvent.VK_W){
                     gp.ui.confirmCommandNum--;
@@ -91,9 +91,9 @@ import java.awt.event.KeyListener;
 
             int code = e.getKeyCode(); //turn number key code into a number
 
-            if (e.getKeyCode() == KeyEvent.VK_SPACE) {
-                spacePressed = false;
-            }
+            // if (e.getKeyCode() == KeyEvent.VK_SPACE) {
+            //     spacePressed = false;
+            // }
             if(code == KeyEvent.VK_W){
                 upPressed = false;
             }
