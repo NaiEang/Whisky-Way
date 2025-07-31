@@ -8,6 +8,9 @@ import java.awt.event.KeyListener;
         GamePanel gp;
         public boolean upPressed, downPressed, leftPressed, rightPressed;
         public boolean enterPressed;
+        public boolean spacePressed = false;
+
+
 
         public KeyHandler(GamePanel gp){
             this.gp = gp;
@@ -16,12 +19,14 @@ import java.awt.event.KeyListener;
         public void keyTyped(KeyEvent e) {
 
         }
-
         @Override
         public void keyPressed(KeyEvent e) {
             int code = e.getKeyCode(); //turn number key code into a number
 
             // Confirmation menu navigation
+            if (code == KeyEvent.VK_SPACE) {
+                spacePressed = true;
+            }
             if(gp.ui.subState == 3){
                 if(code == KeyEvent.VK_W){
                     gp.ui.confirmCommandNum--;
@@ -54,6 +59,7 @@ import java.awt.event.KeyListener;
                     gp.gameState = gp.playState;
                 }
             }
+            
             if(code == KeyEvent.VK_ENTER){
                 gp.keyH.enterPressed = true; // set enterPressed to true
                 
@@ -85,6 +91,9 @@ import java.awt.event.KeyListener;
 
             int code = e.getKeyCode(); //turn number key code into a number
 
+            if (e.getKeyCode() == KeyEvent.VK_SPACE) {
+                spacePressed = false;
+            }
             if(code == KeyEvent.VK_W){
                 upPressed = false;
             }

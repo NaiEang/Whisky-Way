@@ -59,6 +59,9 @@ public class GamePanel extends JPanel implements Runnable {
     public final int pauseState = 2;
     public final int dialogueState = 3;
     int dialogueTimer;
+    // public boolean inOptions = false;
+    // public int previousState;
+    // public final int optionsState = 4; // Assign an unused state number
 
     //Constructor for game panel
     public GamePanel(){
@@ -84,6 +87,7 @@ public class GamePanel extends JPanel implements Runnable {
 
     public void startGameThread(){
 
+        this.requestFocusInWindow(); // Ensures focus after the thread starts
         gameThread = new Thread(this);// this is to pass game panel to the thread
         gameThread.start(); //starts the thread, which will call the run method
 
@@ -123,6 +127,24 @@ public class GamePanel extends JPanel implements Runnable {
 
     //UPDATE
     public void update(){
+        
+        this.addKeyListener(keyH);
+        this.setFocusable(true);
+        this.requestFocusInWindow(); // Ensure GamePanel gets keyboard focus
+
+        // if (keyH.spacePressed) {
+        //     if (!inOptions) {
+        //         previousState = gameState;
+        //         gameState = optionsState;
+        //         inOptions = true;
+        //     } else {
+        //         gameState = previousState;
+        //         inOptions = false;
+        //     }
+        //     keyH.spacePressed = false;
+        // }
+        System.out.println("GamePanel has focus: " + this.hasFocus());
+
 
         //Play state
         if(gameState == playState){

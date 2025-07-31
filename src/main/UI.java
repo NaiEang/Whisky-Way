@@ -311,10 +311,8 @@ public class UI {
         if(confirmCommandNum == 0){
             g2.drawString(">", yesX - 25, yesY);
             if(gp.keyH.enterPressed == true){
-                gp.gameState = gp.tileState; // go back to title screen
                 gp.stopMusic();
-                gp.player.setDefaultValues(); // reset player values
-                gp.ui.playTime = 0; // reset play time
+                System.exit(0);  
             }
         }
 
@@ -379,6 +377,7 @@ public class UI {
     g2.setStroke(new BasicStroke(3));
     g2.drawRoundRect(x + 5, y + 5, width - 10, height - 10, 25, 25);
     }
+    
     public int getXforCenteredText(String text){
         int x = gp.screenWidth / 2 - (int)g2.getFontMetrics().getStringBounds(text, g2).getWidth() / 2;
         return x;
