@@ -111,7 +111,7 @@ import java.awt.event.KeyListener;
                     if(gp.ui.commandNum == 1 && gp.music.volumeScale > 0){
                         gp.music.volumeScale--;
                         gp.music.checkVolume();
-                        gp.playMusic(2);
+                        // gp.playMusic(2);
                     }
                     if(gp.ui.commandNum == 2 && gp.se.volumeScale > 0){
                         gp.se.volumeScale--;
