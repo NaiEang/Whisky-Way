@@ -22,7 +22,8 @@ public class Sound {
         soundURL[2] = getClass().getResource("/res/sound/pickup.wav");
         soundURL[3] = getClass().getResource("/res/sound/complete.wav");
         soundURL[4] = getClass().getResource("/res/sound/wind.wav");
-
+        soundURL[5] = getClass().getResource("/res/sound/selection.wav");
+        // soundURL[6] = getClass().getResource("/res/sound/selections.wav");
     }
     public void setVolume(float decibels){
         if(volumeControl!=null){

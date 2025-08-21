@@ -4,6 +4,7 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
+import java.sql.Time;
 
 import javax.swing.JPanel;
 
@@ -31,9 +32,15 @@ public class GamePanel extends JPanel implements Runnable {
     public final int maxWorldRow = 50;
     // public final int worldWidth = tileSize* maxWorldCol;
     // public final int worldHeight = tileSize* maxWorldRow;
+    // At the top of GamePanel
+    public int secondsPassed = 0;
+    private long lastTimeCheck = System.nanoTime();
+
+
 
     //FPS
     int fps = 60;
+   
 
     //SYSTEM
     TileManager tileM = new TileManager(this);
@@ -127,25 +134,10 @@ public class GamePanel extends JPanel implements Runnable {
 
     //UPDATE
     public void update(){
+        ui.updateTimer(); // update timer every frame
+
         
-        // this.addKeyListener(keyH);
-        // this.setFocusable(true);
-        // this.requestFocusInWindow(); // Ensure GamePanel gets keyboard focus
-
-        // if (keyH.spacePressed) {
-        //     if (!inOptions) {
-        //         previousState = gameState;
-        //         gameState = optionsState;
-        //         inOptions = true;
-        //     } else {
-        //         gameState = previousState;
-        //         inOptions = false;
-        //     }
-        //     keyH.spacePressed = false;
-        // }
-        // System.out.println("GamePanel has focus: " + this.hasFocus());
-
-
+        
         //Play state
         if(gameState == playState){
             //PLAYER
@@ -178,7 +170,16 @@ public class GamePanel extends JPanel implements Runnable {
                 dialogueTimer = 0;
             }
         }
-        
+        // At the bottom of update()
+        long currentTime = System.nanoTime();
+        if (currentTime - lastTimeCheck >= 1_000_000_000) { // 1 second
+            secondsPassed++;
+            lastTimeCheck = currentTime;
+        }
+            if (gameState == playState) {
+            player.update();
+            ui.updateTimer(); // <-- call here
+        }
     }
     public void paintComponent(Graphics g){
         super.paintComponent(g); 
@@ -233,5 +234,6 @@ public class GamePanel extends JPanel implements Runnable {
         se.play();
         
     }
+    
 
 }

@@ -4,6 +4,7 @@ import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.Graphics2D;
+import java.awt.Image;
 import java.awt.image.BufferedImage;
 import java.text.DecimalFormat;
 import java.io.File;
@@ -16,16 +17,24 @@ import javax.imageio.ImageIO;
 public class UI {
     GamePanel gp;
     Graphics2D g2;
-    Font arial_40, PurisaB;
-    BufferedImage heartImage, coinImage, menuImage, arrowImage;
+    Font jersey_15Font, MaruMonicaB;
+    BufferedImage heartImage, coinImage, menuImage, arrowImage, dialogueImage, submenuImage;
     public boolean messageOn = false;
     public String message = "";
     int messageCounter = 0;
     public boolean gameFinished = false;
     public String currentDialogue = "";
     public boolean enterPressed = false; // to handle enter key press
+    public boolean startTimer = false; // timer is off at game start
+    public boolean timerStarted = false;
+    public int secondsPassed = 0;
+    private int frameCounter = 0;
+    public boolean showTimer = false; // timer display off at start
+
+
 
     int subState = 0;
+    int switchwin = 0;
     int commandNum = 0;
     public int confirmCommandNum = 0;
 
@@ -36,18 +45,22 @@ public class UI {
         this.gp = gp;
         
         try {
-            File fontFile = new File("res/font/Purisa Bold.ttf");
+            File fontFile = new File("res/font/x12y16pxMaruMonica.ttf");
             InputStream is = new FileInputStream(fontFile);
-            PurisaB = Font.createFont(Font.TRUETYPE_FONT, is).deriveFont(Font.PLAIN, 28f);
+            MaruMonicaB = Font.createFont(Font.TRUETYPE_FONT, is).deriveFont(Font.PLAIN, 28f);
         } catch (Exception e) {
             e.printStackTrace();
-            PurisaB = new Font("SansSerif", Font.PLAIN, 28); // fallback
+            MaruMonicaB = new Font("SansSerif", Font.PLAIN, 28); // fallback
         }
-        // try {
-        //      = ImageIO.read(getClass().getResourceAsStream("/images/scrollBackground.png"));
-        // } catch (IOException e) {
-        //     e.printStackTrace();
-        // }
+        try {
+            File fontFile = new File("res/font/Jersey15-Regular.ttf");
+            InputStream is = new FileInputStream(fontFile);
+            jersey_15Font = Font.createFont(Font.TRUETYPE_FONT, is).deriveFont(Font.PLAIN, 28f);
+        } catch (Exception e) {
+            e.printStackTrace();
+            jersey_15Font = new Font("SansSerif", Font.PLAIN, 28); // fallback
+        }
+      
 
 
 
@@ -60,8 +73,12 @@ public class UI {
         ImageIO.read(getClass().getResourceAsStream("/res/background&button/coin.png"));
         menuImage = 
         ImageIO.read(getClass().getResourceAsStream("/res/background&button/menu.png"));
+        submenuImage = 
+        ImageIO.read(getClass().getResourceAsStream("/res/background&button/submenu.png"));
         arrowImage = 
         ImageIO.read(getClass().getResourceAsStream("/res/background&button/arrow.png"));
+        dialogueImage = 
+        ImageIO.read(getClass().getResourceAsStream("/res/background&button/dialogue.png"));
         }catch(Exception e){
         e.printStackTrace();
         }
@@ -73,12 +90,41 @@ public class UI {
         messageOn = true;
 
     }
+    public void updateTimer() {
+        // Start timer only after message disappears
+        if (!messageOn && !timerStarted) {
+            timerStarted = true; // now start counting
+            playTime = 0;        // reset to 0
+            secondsPassed = 0;   // reset to 0
+        }
+
+        if (timerStarted) {
+            playTime += 1.0 / 60.0;        // increment by 1/60 sec per frame
+            secondsPassed = (int) playTime;
+        }
+    }
+
+
 
     public void draw(Graphics2D g2) {
+
+        if (gp.gameState == gp.playState) {
+            // other HUD drawing code...
+
+            // Draw Timer in middle of screen
+            g2.setColor(Color.white);
+            g2.setFont(g2.getFont().deriveFont(30F));
+            String timeText = "Time: " + gp.secondsPassed + "s";
+            int textWidth = g2.getFontMetrics().stringWidth(timeText);
+            int centerX = (gp.screenWidth / 2) - (textWidth / 2);
+            int topY = 50;
+            g2.drawString(timeText, centerX, topY);
+        }
+
+
         this.g2 = g2;
-        g2.setFont(PurisaB);
-        g2.setFont(PurisaB.deriveFont(Font.PLAIN, 28F));
-        g2.setColor(Color.white);
+        g2.setFont(MaruMonicaB.deriveFont(Font.PLAIN, 28F));
+        g2.setColor(Color.black);
 
         if (gameFinished == true) {
 
@@ -99,8 +145,8 @@ public class UI {
             y += gp.tileSize;
             g2.drawString(text, x, y);
 
-            g2.setFont(PurisaB);
-            g2.setColor(Color.pink);
+            g2.setFont(MaruMonicaB);
+            g2.setColor(Color.black);
             text = "Congratualtions!";
             textLength = (int) g2.getFontMetrics().getStringBounds(text, g2).getWidth();
             x = gp.screenWidth / 2 - textLength / 2;
@@ -110,7 +156,7 @@ public class UI {
             gp.gameThread = null;
 
         } else {
-            g2.setFont(PurisaB);
+            g2.setFont(MaruMonicaB);
             g2.setColor(Color.white);
             g2.drawImage(heartImage, 8, 7, 30, 30, gp);
             g2.drawString("Energy " + gp.player.ShrimpCount, 40, 30);
@@ -118,12 +164,16 @@ public class UI {
             g2.drawString(gp.player.coinCount + " $", 40, 60);
 
             // Time
-            playTime += (double) 1 / 60;
-            g2.drawString("Time: " + dFormat.format(playTime), gp.tileSize * 27, 30);
+            if (startTimer) {
+                // playTime += (double) 1 / 60;
+                // secondsPassed = (int) playTime;
+                g2.drawString("Time: " + dFormat.format(playTime), gp.tileSize * 27, 30);
+            }
+
 
             // Message
             if (messageOn == true) {
-                g2.setFont(PurisaB.deriveFont(30F));
+                g2.setFont(MaruMonicaB.deriveFont(30F));
                 g2.drawString(message, gp.tileSize / 2, gp.tileSize * 5);
 
                 messageCounter++;
@@ -148,15 +198,21 @@ public class UI {
     public void drawOptionScreen() {
 
         g2.setColor(Color.black);
-        g2.setFont(PurisaB.deriveFont(24F));
+        g2.setFont(MaruMonicaB.deriveFont(24F));
 
-        int frameWidth = gp.tileSize * 13;
-        int frameHeight = gp.tileSize * 12;
+        int frameWidth = gp.tileSize * 7;
+        int frameHeight = gp.tileSize * 9;
         int frameX = (gp.screenWidth - frameWidth) / 2;
         int frameY = (gp.screenHeight - frameHeight) / 2;
         g2.drawImage(menuImage, frameX, frameY, frameWidth, frameHeight, null);
-
+        g2.drawImage(submenuImage, frameX, frameY, frameWidth, frameHeight, null);
+        
         // drawoptionbWindow(g2, frameX, frameY, frameWidth, frameHeight);
+        if (switchwin == 0) {
+            g2.drawImage(menuImage, frameX, frameY, frameWidth, frameHeight, null);
+        } else {
+            g2.drawImage(submenuImage, frameX, frameY, frameWidth, frameHeight, null);
+        }
 
         switch (subState) {
             case 0:
@@ -181,54 +237,56 @@ public class UI {
 
         int textX;
         int textY;
+        int textOffsetX = 40; 
 
-        int textOffsetX = 120; 
-
+        // ===== Draw "Options" with Jersey15 font =====
         String text = "Options";
+        g2.setFont(jersey_15Font.deriveFont(36f)); // Adjust size as needed
         textX = getXforCenteredText(text);
-        textY = frameY + gp.tileSize * 3 - (gp.tileSize / 2);
+        textY = frameY + gp.tileSize * 3 - 90;
         g2.drawString(text, textX, textY);
 
-        textX = frameX + textOffsetX;
+        // ===== Use MaruMonicaB font for the rest =====
+        g2.setFont(MaruMonicaB);
 
+        textX = frameX + textOffsetX;
         textY += gp.tileSize * 2 - (gp.tileSize / 2);
+
+        // Fullscreen
         g2.drawString("Fullscreen", textX, textY);
         if (commandNum == 0) {
-            g2.drawImage(arrowImage, textX - 25, textY - 12, 24, 24, null);
-
-            if (gp.keyH.enterPressed == true) {
-                if (gp.fullscreenOn == false) {
-                    gp.fullscreenOn = true;
-                } else if (gp.fullscreenOn == true) {
-                    gp.fullscreenOn = false;
-                }
-                subState = 1; // move to fullscreen notification
+            g2.drawImage(arrowImage, textX - 30, textY - 12, 24, 24, null);
+            if (gp.keyH.enterPressed) {
+                gp.fullscreenOn = !gp.fullscreenOn;
+                subState = 1;
+                // switchwin = 1;
+                // commandNum = 0;
             }
-
         }
-        // music
+
+        // Music
         textY += gp.tileSize;
         g2.drawString("Music", textX, textY);
         if (commandNum == 1) {
-           g2.drawImage(arrowImage, textX - 25, textY - 12, 24, 24, null);
+            g2.drawImage(arrowImage, textX - 25, textY - 12, 24, 24, null);
         }
 
-        // Sound Effects
+        // SE
         textY += gp.tileSize;
         g2.drawString("SE", textX, textY);
         if (commandNum == 2) {
-           g2.drawImage(arrowImage, textX - 25, textY - 8, 32, 32, null);
-
+            g2.drawImage(arrowImage, textX - 25, textY - 12, 24, 24, null);
         }
 
         // Control
         textY += gp.tileSize;
         g2.drawString("Control", textX, textY);
         if (commandNum == 3) {
-            g2.drawImage(arrowImage, textX - 25, textY - 8, 16, 16, null);  // 16x16 size, adjusted Y a bit
-            if (gp.keyH.enterPressed == true) {
-                subState = 2; // move to control options
-                commandNum = 0; // reset command number for control options
+            g2.drawImage(arrowImage, textX - 25, textY - 12, 24, 24, null);
+            if (gp.keyH.enterPressed) {
+                subState = 2;
+                commandNum = 0;
+                switchwin = 0;
             }
         }
 
@@ -236,42 +294,44 @@ public class UI {
         textY += gp.tileSize;
         g2.drawString("Back", textX, textY);
         if (commandNum == 4) {
-            g2.drawImage(arrowImage, textX - 25, textY - gp.tileSize / 2, gp.tileSize, gp.tileSize, null);
+            g2.drawImage(arrowImage, textX - 25, textY - 12, 24, 24, null);
         }
 
-        // end game
-        textY += gp.tileSize * 2;
+        // End Game
+        textY += gp.tileSize + 20;
         g2.drawString("End Game", textX, textY);
         if (commandNum == 5) {
-            g2.drawImage(arrowImage, textX - 25, textY - 8, 16, 16, null);  // 16x16 size, adjusted Y a bit
-            // subState = 3; // move to end game confirmation
-            if (gp.keyH.enterPressed == true) {
-                subState = 3; // move to end game confirmation
-                confirmCommandNum = 0; // reset selection for confirmation screen
+            g2.drawImage(arrowImage, textX - 25, textY - 12, 24, 24, null);
+            if (gp.keyH.enterPressed) {
+                subState = 3;
+                confirmCommandNum = 0;
+                switchwin = 1;
             }
         }
-        // fullscreen
-        textY = frameX - 165;
-        textX = frameX + gp.tileSize * 7 ;
+
+        // Fullscreen checkbox
+        textY = frameX - 300;
+        textX = frameX + gp.tileSize * 3 + 20;
         g2.setStroke(new BasicStroke(3));
         g2.drawRect(textX, textY, 24, 24);
-        if (gp.fullscreenOn == true) {
+        if (gp.fullscreenOn) {
             g2.fillRect(textX, textY, 24, 24);
         }
 
-        // music volume
+        // Music volume bar
         textY += gp.tileSize;
-        g2.drawRect(textX, textY, 169, 24);
-        int volumeWidth = 24 * gp.music.volumeScale; // 24 pixels per volume scale
-        g2.fillRect(textX, textY, volumeWidth, 24); // fill the rectangle based on volume scale
+        g2.drawRect(textX, textY, 153, 24);
+        int volumeWidth = 22 * gp.music.volumeScale;
+        g2.fillRect(textX, textY, volumeWidth, 24);
 
-        // se volume
+        // SE volume bar
         textY += gp.tileSize;
-        g2.drawRect(textX, textY, 169, 24);
-        volumeWidth = 24 * gp.se.volumeScale; // 24 pixels per volume scale
-        g2.fillRect(textX, textY, volumeWidth, 24); // fill the rectangle based on volume scale
-
+        g2.drawRect(textX, textY, 153, 24);
+        volumeWidth = 22 * gp.se.volumeScale;
+        g2.fillRect(textX, textY, volumeWidth, 24);
     }
+
+
 
     public void options_fullScreenNotification(int frameX, int frameY) {
         int textX = frameX + gp.tileSize * 6 ;
@@ -286,12 +346,10 @@ public class UI {
         textY = frameX + gp.tileSize * 5; // space before back option
         g2.drawString("Back", textX, textY);
         if (commandNum == 0) {
-           g2.drawImage(arrowImage, textX - 25, textY - 8, 16, 16, null);  // 16x16 size, adjusted Y a bit
-            if (gp.keyH.enterPressed == true) {
+           g2.drawImage(arrowImage, textX - 25, textY - 12, 24, 24, null);
                 subState = 0; // go back to options menu
             }
         }
-    }
 
     public void options_control(int frameX, int frameY) {
         int textX;
@@ -299,11 +357,11 @@ public class UI {
 
         String text = "Control";
         textX = getXforCenteredText(text);
-        textY = frameY + gp.tileSize * 3 - (gp.tileSize / 2);
+        textY = frameY + gp.tileSize * 3 - (gp.tileSize * 2 - 8);
         g2.drawString(text, textX, textY);
 
-        textX = frameX + gp.tileSize * 6;
-        textY += gp.tileSize * 2 - (gp.tileSize / 2);
+        textX = frameX + gp.tileSize - 10 ;
+        textY += gp.tileSize * 2 - (gp.tileSize / 2 + 2);
         g2.drawString("Move UP", textX, textY);
         textY += gp.tileSize;
         g2.drawString("Move DOWN", textX, textY);
@@ -316,10 +374,10 @@ public class UI {
         textY += gp.tileSize;
 
         // back
-        textY = frameX + gp.tileSize * 5; // space before back option
+        textY = frameX + gp.tileSize - 80; // space before back option
         g2.drawString("Back", textX, textY);
         if (commandNum == 0) {
-            g2.drawImage(arrowImage, textX - 25, textY - 8, 32, 32, null);  // 16x16 size, adjusted Y a bit
+            g2.drawImage(arrowImage, textX - 25, textY - 12, 24, 24, null);
             if (gp.keyH.enterPressed == true) {
                 subState = 0; // go back to options menu
                 commandNum = 4; // reset command number for options menu
@@ -327,8 +385,8 @@ public class UI {
             }
         }
 
-        textX = frameX + gp.tileSize * 9 + 80; // position for control keys
-        textY = gp.tileSize * 5;
+        textX = frameX + gp.tileSize * 4 ; // position for control keys
+        textY = gp.tileSize * 5 + 25;
         g2.drawString("W", textX, textY);
         textY += gp.tileSize;
         g2.drawString("S", textX, textY);
@@ -343,10 +401,10 @@ public class UI {
     }
 
     public void option_endGameConfirmation(int frameX, int frameY) {
-        int textX = frameX + gp.tileSize * 6 - 15;
-        int textY = frameY + gp.tileSize * 3;
+        int textX = frameX + gp.tileSize * 2 - 20;
+        int textY = frameY + gp.tileSize * 2;
 
-        currentDialogue = "Are you sure you want \nto end the game?";
+        currentDialogue = "Are you sure you want to \n     end the game?";
         for (String line : currentDialogue.split("\n")) {
             g2.drawString(line, textX, textY);
             textY += 40; // line height
@@ -355,10 +413,10 @@ public class UI {
         // "Yes" Option
         String textYes = "Yes";
         int yesX = getXforCenteredText(textYes);
-        int yesY = frameY + gp.tileSize * 6 + 40;
+        int yesY = frameY + gp.tileSize * 5 ;
         g2.drawString(textYes, yesX, yesY);
         if (confirmCommandNum == 0) {
-            g2.drawImage(arrowImage, yesX - 25, yesY - gp.tileSize / 2, gp.tileSize, gp.tileSize, null);
+            g2.drawImage(arrowImage, yesX - 25, yesY - 12, 24, 24, null);
             if (gp.keyH.enterPressed == true) {
                 gp.stopMusic();
                 System.exit(0);
@@ -368,10 +426,10 @@ public class UI {
         // "No" Option
         String textNo = "No";
         int noX = getXforCenteredText(textNo);
-        int noY = frameY + gp.tileSize * 7 + 40;
+        int noY = frameY + gp.tileSize * 6;
         g2.drawString(textNo, noX, noY);
         if (confirmCommandNum == 1) {
-            g2.drawImage(arrowImage, noX - 25, noY - gp.tileSize / 2, gp.tileSize, gp.tileSize, null);
+            g2.drawImage(arrowImage, noX - 25, noY - 12, 24, 24, null);
             if (gp.keyH.enterPressed == true) {
                 subState = 0; // go back to options menu
                 commandNum = 5;
@@ -380,39 +438,66 @@ public class UI {
         // System.out.println("confirmCommandNum = " + confirmCommandNum);
     }
 
-    public void drawDialogueScreen(Graphics2D g2, String text) {
+public void drawDialogueScreen(Graphics2D g2, String text) {
+        int boxX = gp.tileSize - 10;
+        int boxY = gp.tileSize * 9;
+        int boxW = gp.screenWidth - gp.tileSize * 6;
+        int boxH = gp.tileSize * 15;
 
-        // Window
-        int x = gp.tileSize * 3;
-        int y = gp.tileSize * 10;
-        int width = gp.screenWidth - (gp.tileSize * 8);
-        int height = gp.tileSize * 3;
+        // Center image inside the box or stretch to fit
+        if (dialogueImage != null) {
+            g2.drawImage(dialogueImage, boxX, boxY, boxW, boxH, null);
+        } else {
+            g2.setColor(new Color(0, 0, 0, 170));
+            g2.fillRoundRect(boxX, boxY, boxW, boxH, 35, 35);
+        }
 
-        drawSubWindow(x, y, width, height);
+        g2.setFont(MaruMonicaB.deriveFont(Font.PLAIN, 28f));
+        g2.setColor(Color.black);
 
-        // TEXT
-        g2.setFont(g2.getFont().deriveFont(Font.PLAIN, 28F));
-        x += gp.tileSize;
-        y += gp.tileSize;
-
-        // Use loop to handlw line breaks(\n)
+        int textX = boxX + 120;
+        int textY = boxY + 100;
         for (String line : text.split("\n")) {
-            g2.drawString(line, x, y);
-            y += 40;
+            g2.drawString(line, textX, textY);
+            textY += 40;
         }
     }
 
-    public void drawSubWindow(int x, int y, int width, int height) {
+    // public void drawDialogueScreen(Graphics2D g2, String text) {
+    //     int x = 50;
+    //     int y = 100;
 
-        Color c = new Color(0, 0, 0, 210);
-        g2.setColor(c);
-        g2.fillRoundRect(x, y, width, height, 35, 35);
 
-        c = new Color(255, 255, 255);
-        g2.setColor(c);
-        g2.setStroke(new BasicStroke(5));
-        g2.drawRoundRect(x + 5, y + 5, width - 10, height - 10, 25, 25);
-    }
+    //     x += 20;
+    //     y += 40;
+
+    //     for (String line : text.split("\n")) {
+    //         g2.drawString(line, x, y);
+    //         y += 40;
+    //     }
+
+    //     if (dialogueImage != null) {
+    //         g2.drawImage(dialogueImage, x, y + 10, 24, 24, null);
+    //         System.out.println("dialogueImage width: " + dialogueImage.getWidth());
+    //         System.out.println("dialogueImage height: " + dialogueImage.getHeight());
+    //     } else {
+    //         System.out.println("dialogueImage is null!");
+    //     }
+    // }
+
+
+
+    // public void drawSubWindow(int x, int y, int width, int height) {
+
+    //     Color c = new Color(0, 0, 0, 210);
+    //     g2.setColor(c);
+    //     g2.fillRoundRect(x, y, width, height, 35, 35);
+
+    //     c = new Color(255, 255, 255);
+    //     g2.setColor(c);
+    //     g2.setStroke(new BasicStroke(5));
+    //     g2.drawRoundRect(x + 5, y + 5, width - 10, height - 10, 25, 25);
+    // }
 
     public void drawoptionbWindow(Graphics2D g2, int panelWidth, int panelHeight, int width, int height) {
         // Center horizontally, but shift vertically downward

@@ -62,6 +62,7 @@ import java.awt.event.KeyListener;
             
             if(code == KeyEvent.VK_ENTER){
                 gp.keyH.enterPressed = true; // set enterPressed to true
+                gp.playSE(5);
                 
             }
 
@@ -72,14 +73,14 @@ import java.awt.event.KeyListener;
             // Maximum command number for the menu
             if(code == KeyEvent.VK_W){
                gp.ui.commandNum--;
-               gp.playSE(2);
+               gp.playSE(5);
                if (gp.ui.commandNum < 0) {
                    gp.ui.commandNum = maxCommandNum;
                }
             }
             if(code == KeyEvent.VK_S){
                 gp.ui.commandNum++;
-                gp.playSE(2);
+                gp.playSE(5);
                 if(gp.ui.commandNum > maxCommandNum){
                     gp.ui.commandNum = 0;
                 }
