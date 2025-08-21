@@ -1,0 +1,502 @@
+{
+    "Map/SizeTest": {
+        "height": 4300,
+        "width": 2
+    },
+    "activeFile": "D:/overworld_tileset_grass.tsx",
+    "expandedProjectPaths": [
+        "."
+    ],
+    "file.lastUsedOpenFilter": "All Files (*)",
+    "fileStates": {
+        "45e38c3f-beef-4c18-887b-fed176344f99.tsx": {
+            "scaleInDock": 1,
+            "scaleInEditor": 0.75
+        },
+        "C:/Users/naiea/OneDrive/Desktop/ITC/Year 2 Semester 2/OOP Java/My2DGame/res/terrain/Overview.tsx": {
+            "scaleInDock": 1
+        },
+        "C:/Users/naiea/OneDrive/Desktop/ITC/Year 2 Semester 2/OOP Java/My2DGame/res/terrain/untitled.tmx": {
+            "scale": 1.387,
+            "selectedLayer": 0,
+            "viewCenter": {
+                "x": 400.1441961067051,
+                "y": 646.3590483056958
+            }
+        },
+        "C:/Users/naiea/OneDrive/Desktop/ITC/Year 2 Semester 2/OOP Java/My2DGame/res/terrain/untitled.tmx#45e38c3f-beef-4c18-887b-fed176344f99": {
+            "scaleInDock": 1
+        },
+        "C:/Users/naiea/OneDrive/Desktop/ITC/Year 2 Semester 2/OOP Java/My2DGame/res/terrain/untitled.tmx#Market 2": {
+            "scaleInDock": 1
+        },
+        "C:/Users/naiea/OneDrive/Desktop/ITC/Year 2 Semester 2/OOP Java/My2DGame/res/terrain/untitled.tmx#Screenshot 2025-07-07 125944": {
+            "scaleInDock": 1
+        },
+        "C:/Users/naiea/OneDrive/Desktop/ITC/Year 2 Semester 2/OOP Java/My2DGame/res/terrain/untitled.tmx#Screenshot_2025-07-09_132145-removebg-preview-removebg-preview": {
+            "scaleInDock": 1
+        },
+        "C:/Users/naiea/OneDrive/Desktop/ITC/Year 2 Semester 2/OOP Java/My2DGame/res/terrain/untitled.tmx#water": {
+            "scaleInDock": 1
+        },
+        "C:/Users/naiea/OneDrive/Desktop/ITC/Year 2 Semester 2/OOP Java/My2DGame/res/tiles/untitled.tmx": {
+            "scale": 0.25,
+            "selectedLayer": 1,
+            "viewCenter": {
+                "x": 1610,
+                "y": 1862
+            }
+        },
+        "C:/Users/naiea/OneDrive/Desktop/ITC/Year 2 Semester 2/OOP Java/My2DGame/res/tiles/untitled.tmx#230120d3-41aa-47d0-9ab2-7ea37906a95a-removebg-preview": {
+            "scaleInDock": 1
+        },
+        "C:/Users/naiea/OneDrive/Desktop/ITC/Year 2 Semester 2/OOP Java/My2DGame/res/tiles/untitled.tmx#45e38c3f-beef-4c18-887b-fed176344f99": {
+            "scaleInDock": 1
+        },
+        "C:/Users/naiea/OneDrive/Desktop/ITC/Year 2 Semester 2/OOP Java/My2DGame/res/tiles/untitled.tmx#Anvil": {
+            "scaleInDock": 1
+        },
+        "C:/Users/naiea/OneDrive/Desktop/ITC/Year 2 Semester 2/OOP Java/My2DGame/res/tiles/untitled.tmx#Bird House": {
+            "scaleInDock": 1
+        },
+        "C:/Users/naiea/OneDrive/Desktop/ITC/Year 2 Semester 2/OOP Java/My2DGame/res/tiles/untitled.tmx#Blacksmith": {
+            "scaleInDock": 1
+        },
+        "C:/Users/naiea/OneDrive/Desktop/ITC/Year 2 Semester 2/OOP Java/My2DGame/res/tiles/untitled.tmx#Box (1)": {
+            "scaleInDock": 1
+        },
+        "C:/Users/naiea/OneDrive/Desktop/ITC/Year 2 Semester 2/OOP Java/My2DGame/res/tiles/untitled.tmx#Box (2)": {
+            "scaleInDock": 1
+        },
+        "C:/Users/naiea/OneDrive/Desktop/ITC/Year 2 Semester 2/OOP Java/My2DGame/res/tiles/untitled.tmx#Box (4)": {
+            "scaleInDock": 1
+        },
+        "C:/Users/naiea/OneDrive/Desktop/ITC/Year 2 Semester 2/OOP Java/My2DGame/res/tiles/untitled.tmx#Box (7)": {
+            "scaleInDock": 1
+        },
+        "C:/Users/naiea/OneDrive/Desktop/ITC/Year 2 Semester 2/OOP Java/My2DGame/res/tiles/untitled.tmx#Chest (1)": {
+            "scaleInDock": 1
+        },
+        "C:/Users/naiea/OneDrive/Desktop/ITC/Year 2 Semester 2/OOP Java/My2DGame/res/tiles/untitled.tmx#Church": {
+            "scaleInDock": 1
+        },
+        "C:/Users/naiea/OneDrive/Desktop/ITC/Year 2 Semester 2/OOP Java/My2DGame/res/tiles/untitled.tmx#Farm": {
+            "scaleInDock": 1
+        },
+        "C:/Users/naiea/OneDrive/Desktop/ITC/Year 2 Semester 2/OOP Java/My2DGame/res/tiles/untitled.tmx#Fence (1)": {
+            "scaleInDock": 1
+        },
+        "C:/Users/naiea/OneDrive/Desktop/ITC/Year 2 Semester 2/OOP Java/My2DGame/res/tiles/untitled.tmx#Flower A (3)": {
+            "scaleInDock": 1
+        },
+        "C:/Users/naiea/OneDrive/Desktop/ITC/Year 2 Semester 2/OOP Java/My2DGame/res/tiles/untitled.tmx#Flower A (4)": {
+            "scaleInDock": 1
+        },
+        "C:/Users/naiea/OneDrive/Desktop/ITC/Year 2 Semester 2/OOP Java/My2DGame/res/tiles/untitled.tmx#Flower B (1)": {
+            "scaleInDock": 1
+        },
+        "C:/Users/naiea/OneDrive/Desktop/ITC/Year 2 Semester 2/OOP Java/My2DGame/res/tiles/untitled.tmx#Flower C (6)": {
+            "scaleInDock": 1
+        },
+        "C:/Users/naiea/OneDrive/Desktop/ITC/Year 2 Semester 2/OOP Java/My2DGame/res/tiles/untitled.tmx#Flower D (4)": {
+            "scaleInDock": 1
+        },
+        "C:/Users/naiea/OneDrive/Desktop/ITC/Year 2 Semester 2/OOP Java/My2DGame/res/tiles/untitled.tmx#Gulli (2)": {
+            "scaleInDock": 1
+        },
+        "C:/Users/naiea/OneDrive/Desktop/ITC/Year 2 Semester 2/OOP Java/My2DGame/res/tiles/untitled.tmx#House (1)": {
+            "scaleInDock": 1
+        },
+        "C:/Users/naiea/OneDrive/Desktop/ITC/Year 2 Semester 2/OOP Java/My2DGame/res/tiles/untitled.tmx#House (2)": {
+            "scaleInDock": 1
+        },
+        "C:/Users/naiea/OneDrive/Desktop/ITC/Year 2 Semester 2/OOP Java/My2DGame/res/tiles/untitled.tmx#House (3)": {
+            "scaleInDock": 1
+        },
+        "C:/Users/naiea/OneDrive/Desktop/ITC/Year 2 Semester 2/OOP Java/My2DGame/res/tiles/untitled.tmx#House (4)": {
+            "scaleInDock": 1
+        },
+        "C:/Users/naiea/OneDrive/Desktop/ITC/Year 2 Semester 2/OOP Java/My2DGame/res/tiles/untitled.tmx#House (5)": {
+            "scaleInDock": 1
+        },
+        "C:/Users/naiea/OneDrive/Desktop/ITC/Year 2 Semester 2/OOP Java/My2DGame/res/tiles/untitled.tmx#House (6)": {
+            "scaleInDock": 1
+        },
+        "C:/Users/naiea/OneDrive/Desktop/ITC/Year 2 Semester 2/OOP Java/My2DGame/res/tiles/untitled.tmx#House (7)": {
+            "scaleInDock": 1
+        },
+        "C:/Users/naiea/OneDrive/Desktop/ITC/Year 2 Semester 2/OOP Java/My2DGame/res/tiles/untitled.tmx#Inn (1)": {
+            "scaleInDock": 1
+        },
+        "C:/Users/naiea/OneDrive/Desktop/ITC/Year 2 Semester 2/OOP Java/My2DGame/res/tiles/untitled.tmx#Inn (2)": {
+            "scaleInDock": 1
+        },
+        "C:/Users/naiea/OneDrive/Desktop/ITC/Year 2 Semester 2/OOP Java/My2DGame/res/tiles/untitled.tmx#Mailbox (3)": {
+            "scaleInDock": 1
+        },
+        "C:/Users/naiea/OneDrive/Desktop/ITC/Year 2 Semester 2/OOP Java/My2DGame/res/tiles/untitled.tmx#Market 1": {
+            "scaleInDock": 1
+        },
+        "C:/Users/naiea/OneDrive/Desktop/ITC/Year 2 Semester 2/OOP Java/My2DGame/res/tiles/untitled.tmx#Market 2": {
+            "scaleInDock": 1
+        },
+        "C:/Users/naiea/OneDrive/Desktop/ITC/Year 2 Semester 2/OOP Java/My2DGame/res/tiles/untitled.tmx#Market 3": {
+            "scaleInDock": 1
+        },
+        "C:/Users/naiea/OneDrive/Desktop/ITC/Year 2 Semester 2/OOP Java/My2DGame/res/tiles/untitled.tmx#Market 4": {
+            "scaleInDock": 1
+        },
+        "C:/Users/naiea/OneDrive/Desktop/ITC/Year 2 Semester 2/OOP Java/My2DGame/res/tiles/untitled.tmx#Overview": {
+            "scaleInDock": 1
+        },
+        "C:/Users/naiea/OneDrive/Desktop/ITC/Year 2 Semester 2/OOP Java/My2DGame/res/tiles/untitled.tmx#Pot (1)": {
+            "scaleInDock": 1
+        },
+        "C:/Users/naiea/OneDrive/Desktop/ITC/Year 2 Semester 2/OOP Java/My2DGame/res/tiles/untitled.tmx#Screenshot 2025-06-23 235909": {
+            "scaleInDock": 1
+        },
+        "C:/Users/naiea/OneDrive/Desktop/ITC/Year 2 Semester 2/OOP Java/My2DGame/res/tiles/untitled.tmx#Screenshot 2025-07-07 125944": {
+            "scaleInDock": 1
+        },
+        "C:/Users/naiea/OneDrive/Desktop/ITC/Year 2 Semester 2/OOP Java/My2DGame/res/tiles/untitled.tmx#Screenshot_2025-07-09_132145-removebg-preview-removebg-preview": {
+            "scaleInDock": 1
+        },
+        "C:/Users/naiea/OneDrive/Desktop/ITC/Year 2 Semester 2/OOP Java/My2DGame/res/tiles/untitled.tmx#Shop": {
+            "scaleInDock": 1
+        },
+        "C:/Users/naiea/OneDrive/Desktop/ITC/Year 2 Semester 2/OOP Java/My2DGame/res/tiles/untitled.tmx#Sign (1)": {
+            "scaleInDock": 1
+        },
+        "C:/Users/naiea/OneDrive/Desktop/ITC/Year 2 Semester 2/OOP Java/My2DGame/res/tiles/untitled.tmx#Sign (3)": {
+            "scaleInDock": 1
+        },
+        "C:/Users/naiea/OneDrive/Desktop/ITC/Year 2 Semester 2/OOP Java/My2DGame/res/tiles/untitled.tmx#Street Lantern (1)": {
+            "scaleInDock": 1
+        },
+        "C:/Users/naiea/OneDrive/Desktop/ITC/Year 2 Semester 2/OOP Java/My2DGame/res/tiles/untitled.tmx#Street Lantern (3)": {
+            "scaleInDock": 1
+        },
+        "C:/Users/naiea/OneDrive/Desktop/ITC/Year 2 Semester 2/OOP Java/My2DGame/res/tiles/untitled.tmx#Target": {
+            "scaleInDock": 1
+        },
+        "C:/Users/naiea/OneDrive/Desktop/ITC/Year 2 Semester 2/OOP Java/My2DGame/res/tiles/untitled.tmx#Tavern": {
+            "scaleInDock": 1
+        },
+        "C:/Users/naiea/OneDrive/Desktop/ITC/Year 2 Semester 2/OOP Java/My2DGame/res/tiles/untitled.tmx#Town Hall (1)": {
+            "scaleInDock": 1
+        },
+        "C:/Users/naiea/OneDrive/Desktop/ITC/Year 2 Semester 2/OOP Java/My2DGame/res/tiles/untitled.tmx#Water bucket": {
+            "scaleInDock": 1
+        },
+        "C:/Users/naiea/OneDrive/Desktop/ITC/Year 2 Semester 2/OOP Java/My2DGame/res/tiles/untitled.tmx#b1s": {
+            "scaleInDock": 1
+        },
+        "C:/Users/naiea/OneDrive/Desktop/ITC/Year 2 Semester 2/OOP Java/My2DGame/res/tiles/untitled.tmx#b1ss": {
+            "scaleInDock": 1
+        },
+        "C:/Users/naiea/OneDrive/Desktop/ITC/Year 2 Semester 2/OOP Java/My2DGame/res/tiles/untitled.tmx#b2s": {
+            "scaleInDock": 1
+        },
+        "C:/Users/naiea/OneDrive/Desktop/ITC/Year 2 Semester 2/OOP Java/My2DGame/res/tiles/untitled.tmx#b4s": {
+            "scaleInDock": 1
+        },
+        "C:/Users/naiea/OneDrive/Desktop/ITC/Year 2 Semester 2/OOP Java/My2DGame/res/tiles/untitled.tmx#b5s": {
+            "scaleInDock": 1
+        },
+        "C:/Users/naiea/OneDrive/Desktop/ITC/Year 2 Semester 2/OOP Java/My2DGame/res/tiles/untitled.tmx#box1ss": {
+            "scaleInDock": 1
+        },
+        "C:/Users/naiea/OneDrive/Desktop/ITC/Year 2 Semester 2/OOP Java/My2DGame/res/tiles/untitled.tmx#box4ss": {
+            "scaleInDock": 1
+        },
+        "C:/Users/naiea/OneDrive/Desktop/ITC/Year 2 Semester 2/OOP Java/My2DGame/res/tiles/untitled.tmx#chairs": {
+            "scaleInDock": 1
+        },
+        "C:/Users/naiea/OneDrive/Desktop/ITC/Year 2 Semester 2/OOP Java/My2DGame/res/tiles/untitled.tmx#floweras": {
+            "scaleInDock": 1
+        },
+        "C:/Users/naiea/OneDrive/Desktop/ITC/Year 2 Semester 2/OOP Java/My2DGame/res/tiles/untitled.tmx#grasswithflower": {
+            "scaleInDock": 1
+        },
+        "C:/Users/naiea/OneDrive/Desktop/ITC/Year 2 Semester 2/OOP Java/My2DGame/res/tiles/untitled.tmx#market1s": {
+            "scaleInDock": 1
+        },
+        "C:/Users/naiea/OneDrive/Desktop/ITC/Year 2 Semester 2/OOP Java/My2DGame/res/tiles/untitled.tmx#market2s": {
+            "scaleInDock": 1
+        },
+        "C:/Users/naiea/OneDrive/Desktop/ITC/Year 2 Semester 2/OOP Java/My2DGame/res/tiles/untitled.tmx#market3s": {
+            "scaleInDock": 1
+        },
+        "C:/Users/naiea/OneDrive/Desktop/ITC/Year 2 Semester 2/OOP Java/My2DGame/res/tiles/untitled.tmx#market4s": {
+            "scaleInDock": 1
+        },
+        "C:/Users/naiea/OneDrive/Desktop/ITC/Year 2 Semester 2/OOP Java/My2DGame/res/tiles/untitled.tmx#plant2s": {
+            "scaleInDock": 1
+        },
+        "C:/Users/naiea/OneDrive/Desktop/ITC/Year 2 Semester 2/OOP Java/My2DGame/res/tiles/untitled.tmx#sand": {
+            "scaleInDock": 1
+        },
+        "C:/Users/naiea/OneDrive/Desktop/ITC/Year 2 Semester 2/OOP Java/My2DGame/res/tiles/untitled.tmx#statues": {
+            "scaleInDock": 1
+        },
+        "C:/Users/naiea/OneDrive/Desktop/ITC/Year 2 Semester 2/OOP Java/My2DGame/res/tiles/untitled.tmx#taverns": {
+            "scaleInDock": 1
+        },
+        "C:/Users/naiea/OneDrive/Desktop/ITC/Year 2 Semester 2/OOP Java/My2DGame/res/tiles/untitled.tmx#tree2": {
+            "scaleInDock": 1
+        },
+        "C:/Users/naiea/OneDrive/Desktop/ITC/Year 2 Semester 2/OOP Java/My2DGame/res/tiles/untitled.tmx#trees": {
+            "scaleInDock": 1
+        },
+        "C:/Users/naiea/OneDrive/Desktop/ITC/Year 2 Semester 2/OOP Java/My2DGame/res/tiles/untitled.tmx#tress2s": {
+            "scaleInDock": 1
+        },
+        "C:/Users/naiea/OneDrive/Desktop/ITC/Year 2 Semester 2/OOP Java/My2DGame/res/tiles/untitled.tmx#tress3s": {
+            "scaleInDock": 1
+        },
+        "C:/Users/naiea/OneDrive/Desktop/ITC/Year 2 Semester 2/OOP Java/My2DGame/res/tiles/untitled.tmx#water": {
+            "scaleInDock": 1
+        },
+        "C:/Users/naiea/OneDrive/Desktop/ITC/Year 2 Semester 2/OOP Java/My2DGame/res/tiles/untitled.tmx#wood": {
+            "scaleInDock": 1
+        },
+        "C:/Users/naiea/OneDrive/Desktop/ITC/Year 2 Semester 2/OOP Java/My2DGame/res/tiles/untitled.tmx#wood1s": {
+            "scaleInDock": 1
+        },
+        "C:/Users/naiea/OneDrive/Desktop/ITC/Year 2 Semester 2/OOP Java/WhiskyWay/assets/CountrysideMap.tmx": {
+            "scale": 0.9974999999999999,
+            "selectedLayer": 0,
+            "viewCenter": {
+                "x": 399.49874686716794,
+                "y": 279.1979949874687
+            }
+        },
+        "C:/Users/naiea/OneDrive/Desktop/ITC/Year 2 Semester 2/OOP Java/WhiskyWay/assets/CountrysideMap.tmx#create water tile no": {
+            "scaleInDock": 1
+        },
+        "C:/Users/naiea/OneDrive/Desktop/ITC/Year 2 Semester 2/OOP Java/WhiskyWay/assets/tiles/whisky_way/CountrysideMap.tmx": {
+            "scale": 1,
+            "selectedLayer": 0,
+            "viewCenter": {
+                "x": 280.5,
+                "y": 328.5
+            }
+        },
+        "C:/Users/naiea/OneDrive/Desktop/ITC/Year 2 Semester 2/OOP Java/WhiskyWay/assets/tiles/whisky_way/CountrysideMap.tmx#create water tile no": {
+            "scaleInDock": 1
+        },
+        "C:/Users/naiea/OneDrive/Desktop/ITC/Year 2 Semester 2/OOP Java/WhiskyWay/assets/tiles/whisky_way/GRASS+.tsx": {
+            "scaleInDock": 1
+        },
+        "C:/Users/naiea/OneDrive/Desktop/ITC/Year 2 Semester 2/OOP Java/WhiskyWay/assets/tiles/whisky_way/Overview.tsx": {
+            "scaleInDock": 1
+        },
+        "C:/Users/naiea/OneDrive/Desktop/ITC/Year 2 Semester 2/OOP Java/WhiskyWay/assets/tiles/whisky_way/RedHouse.tsx": {
+            "scaleInDock": 1
+        },
+        "C:/Users/naiea/OneDrive/Desktop/ITC/Year 2 Semester 2/OOP Java/WhiskyWay/assets/tiles/whisky_way/free version.tsx": {
+            "scaleInDock": 1
+        },
+        "C:/Users/naiea/OneDrive/Desktop/ITC/Year 2 Semester 2/OOP Java/WhiskyWay/assets/tiles/whisky_way/pixil-frame-0 (2).tsx": {
+            "scaleInDock": 1
+        },
+        "C:/Users/naiea/OneDrive/Desktop/ITC/Year 2 Semester 2/OOP Java/WhiskyWay/assets/tiles/whisky_way/pixil-frame-0 (3).tsx": {
+            "scaleInDock": 1
+        },
+        "C:/tiles/whisky_way/GRASS+.tsx": {
+            "scaleInDock": 1
+        },
+        "C:/tiles/whisky_way/Overview.tsx": {
+            "scaleInDock": 1
+        },
+        "C:/tiles/whisky_way/RedHouse.tsx": {
+            "scaleInDock": 1
+        },
+        "C:/tiles/whisky_way/free version.tsx": {
+            "scaleInDock": 1
+        },
+        "C:/tiles/whisky_way/overworld_tileset_grass.tsx": {
+            "scaleInDock": 1
+        },
+        "C:/tiles/whisky_way/pixil-frame-0 (3).tsx": {
+            "scaleInDock": 1
+        },
+        "CountrysideMap.tmx": {
+            "scale": 1.5,
+            "selectedLayer": 8,
+            "viewCenter": {
+                "x": 255.66666666666663,
+                "y": 459.6666666666667
+            }
+        },
+        "CountrysideMap.tmx#create water tile no": {
+            "scaleInDock": 1
+        },
+        "D:/overworld_tileset_grass.tsx": {
+            "dynamicWrapping": false,
+            "scaleInDock": 3,
+            "scaleInEditor": 4
+        },
+        "D:/sample_map.tmx": {
+            "scale": 1.5,
+            "selectedLayer": 0,
+            "viewCenter": {
+                "x": 272.33333333333337,
+                "y": 129
+            }
+        },
+        "D:/sample_map.tmx#my_tileset": {
+            "scaleInDock": 1
+        },
+        "GRASS+.tsx": {
+            "dynamicWrapping": true,
+            "scaleInDock": 2,
+            "scaleInEditor": 4
+        },
+        "Overview.tsx": {
+            "dynamicWrapping": false,
+            "scaleInDock": 1.5,
+            "scaleInEditor": 4
+        },
+        "Overview1.tsx": {
+            "dynamicWrapping": false,
+            "scaleInDock": 1,
+            "scaleInEditor": 1
+        },
+        "RedHouse.tsx": {
+            "dynamicWrapping": false,
+            "scaleInDock": 3,
+            "scaleInEditor": 4
+        },
+        "Screenshot 2025-07-07 125944.tsx": {
+            "scaleInDock": 1,
+            "scaleInEditor": 1
+        },
+        "Town Tale - House Builder.tsx": {
+            "dynamicWrapping": false,
+            "scaleInDock": 2,
+            "scaleInEditor": 4
+        },
+        "Water+.tsx": {
+            "scaleInDock": 5.5,
+            "scaleInEditor": 5.5
+        },
+        "compressed_pixil-frame-0 (4).tsx": {
+            "scaleInDock": 1,
+            "scaleInEditor": 1
+        },
+        "create water tile no.tsx": {
+            "dynamicWrapping": false,
+            "scaleInDock": 0.33,
+            "scaleInEditor": 1.5
+        },
+        "free version.tsx": {
+            "dynamicWrapping": false,
+            "scaleInDock": 2,
+            "scaleInEditor": 4
+        },
+        "overworld_tileset_grass.tsx": {
+            "scaleInDock": 1.5,
+            "scaleInEditor": 8
+        },
+        "pixil-frame-0 (1).tsx": {
+            "dynamicWrapping": false,
+            "scaleInDock": 2,
+            "scaleInEditor": 1
+        },
+        "pixil-frame-0 (2).tsx": {
+            "dynamicWrapping": false,
+            "scaleInDock": 4,
+            "scaleInEditor": 4
+        },
+        "pixil-frame-0 (3).tsx": {
+            "dynamicWrapping": false,
+            "scaleInDock": 3,
+            "scaleInEditor": 5.5
+        },
+        "pixil-frame-0 (4)-1.png (2).tsx": {
+            "scaleInDock": 1,
+            "scaleInEditor": 1
+        },
+        "pixil-frame-0 (4)-1.png.tsx": {
+            "scaleInDock": 1,
+            "scaleInEditor": 4
+        },
+        "pixil-frame-0 (4).tsx": {
+            "scaleInDock": 1,
+            "scaleInEditor": 3
+        },
+        "pixil-frame-0.tsx": {
+            "scaleInDock": 4,
+            "scaleInEditor": 1
+        },
+        "pixilart-drawing.tsx": {
+            "dynamicWrapping": false,
+            "scaleInDock": 1,
+            "scaleInEditor": 1
+        },
+        "sample.tmx": {
+            "scale": 0.75,
+            "selectedLayer": 2,
+            "viewCenter": {
+                "x": 272.66666666666663,
+                "y": 315.33333333333326
+            }
+        },
+        "sample.tmx#create water tile no": {
+            "dynamicWrapping": false,
+            "scaleInDock": 1
+        },
+        "store1.tsx": {
+            "scaleInDock": 0.125,
+            "scaleInEditor": 1
+        },
+        "store1_1_-removebg-preview.tsx": {
+            "dynamicWrapping": false,
+            "scaleInDock": 1,
+            "scaleInEditor": 4
+        }
+    },
+    "frame.defaultDuration": 110,
+    "last.exportedFilePath": "C:/Users/naiea/Downloads/Telegram Desktop/whisky_way/whisky_way",
+    "last.imagePath": "D:/",
+    "map.height": 50,
+    "map.lastUsedExportFilter": "Tiled map files (*.tmx *.xml)",
+    "map.lastUsedFormat": "tmx",
+    "map.tileHeight": 16,
+    "map.tileWidth": 16,
+    "map.width": 50,
+    "openFiles": [
+        "sample.tmx",
+        "D:/overworld_tileset_grass.tsx",
+        "Overview.tsx",
+        "free version.tsx",
+        "pixil-frame-0 (4)-1.png.tsx",
+        "Town Tale - House Builder.tsx",
+        "RedHouse.tsx",
+        "GRASS+.tsx",
+        "store1_1_-removebg-preview.tsx"
+    ],
+    "project": "untitled.tiled-project",
+    "recentFiles": [
+        "C:/Users/naiea/OneDrive/Desktop/ITC/Year 2 Semester 2/OOP Java/WhiskyWay/assets/CountrysideMap.tmx",
+        "RedHouse.tsx",
+        "store1_1_-removebg-preview.tsx",
+        "C:/Users/naiea/OneDrive/Desktop/ITC/Year 2 Semester 2/OOP Java/WhiskyWay/assets/tiles/whisky_way/CountrysideMap.tmx",
+        "compressed_pixil-frame-0 (4).tsx",
+        "store1.tsx",
+        "D:/sample_map.tmx",
+        "CountrysideMap.tmx",
+        "D:/overworld_tileset_grass.tsx",
+        "Overview.tsx",
+        "free version.tsx",
+        "Town Tale - House Builder.tsx"
+    ],
+    "tileset.lastUsedFormat": "tsx",
+    "tileset.margin": 0,
+    "tileset.spacing": 0,
+    "tileset.tileSize": {
+        "height": 16,
+        "width": 16
+    }
+}
