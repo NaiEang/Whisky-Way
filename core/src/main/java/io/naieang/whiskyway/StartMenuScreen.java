@@ -14,11 +14,16 @@ import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.ScreenUtils;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
+import com.badlogic.gdx.scenes.scene2d.ui.Image;
+import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
+
+import static com.badlogic.gdx.scenes.scene2d.ui.Table.Debug.table;
 
 public class StartMenuScreen implements Screen {
 
     // We need a reference to the main game class to switch screens
     private final WhiskyWayGame game;
+    private Table table;
 
     private Stage stage;
     private SpriteBatch batch; // We need a batch to draw the background texture if it's not part of the stage
@@ -44,13 +49,11 @@ public class StartMenuScreen implements Screen {
         // IMPORTANT: We must tell LibGDX that the Stage will handle input events.
         Gdx.input.setInputProcessor(stage);
 
-        // Load all the images from your assets/ui folder
+        // Load all the images from assets folder
         backgroundTexture = new Texture("background&button/startgame1.png");
         titleTexture = new Texture("background&button/titlewhiskyway.png");
         startButtonNormalTexture = new Texture("background&button/startb.png");
         startButtonHoverTexture = new Texture("background&button/bhover.png");
-
-        // --- Create Actors (the LibGDX version of JComponents) ---
 
         // Create the Start Button
         ImageButton.ImageButtonStyle buttonStyle = new ImageButton.ImageButtonStyle();
@@ -61,9 +64,8 @@ public class StartMenuScreen implements Screen {
         // Create the Title Image
         Image titleImage = new Image(titleTexture);
 
-        // --- Layout ---
-        // A Table is used to neatly arrange actors. It's much better than setting coordinates manually.
-        Table table = new Table();
+        table = new Table();
+
         table.setFillParent(true); // Make the table fill the entire stage
         table.center(); // Center the contents of the table
 

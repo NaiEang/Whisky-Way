@@ -1,4 +1,3 @@
-// GameScreen.java
 package io.naieang.whiskyway;
 
 import com.badlogic.gdx.Gdx;
@@ -11,9 +10,15 @@ import com.badlogic.gdx.maps.tiled.TiledMapRenderer;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.badlogic.gdx.utils.ScreenUtils;
+import com.badlogic.gdx.utils.Array;
+import com.badlogic.gdx.maps.MapLayer;
+import com.badlogic.gdx.maps.MapObject;
+
+import io.naieang.whiskyway.Box;
+import io.naieang.whiskyway.DeliveryNPC;
 
 public class GameScreen implements Screen {
-    // These are the LibGDX equivalents of your GamePanel systems
+    // These are the LibGDX equivalents of GamePanel systems
     private TiledMap tiledMap;
     private TiledMapRenderer tiledMapRenderer;
     private OrthographicCamera camera;
@@ -25,6 +30,9 @@ public class GameScreen implements Screen {
     // Map boundaries for camera clamping
     private int mapWidthInPixels;
     private int mapHeightInPixels;
+
+    private Array<Box> boxes;
+    private Array<DeliveryNPC> npcs;
 
     // This method is like create() for a screen. It runs once when the screen is shown.
     @Override
@@ -41,13 +49,28 @@ public class GameScreen implements Screen {
         mapWidthInPixels = mapWidthInTiles * tileWidthInPixels;
         mapHeightInPixels = mapHeightInTiles * tileHeightInPixels;
 
-        // --- CLEAN CAMERA SETUP ---
-        camera = new OrthographicCamera();
-        // Set the camera's view to the actual screen size first.
-        camera.setToOrtho(false, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
+        boxes = new Array<>();
+        npcs = new Array<>();
 
-        // NOW, apply the zoom to get the desired view.
-        camera.zoom = 0.4f; // Adjust this value to get the size you want.
+        MapLayer objectLayer = tiledMap.getLayers().get("Object");
+        if (objectLayer != null) {
+            for (MapObject mapObject : objectLayer.getObjects()) {
+                if (mapObject.getProperties().containsKey("type")) {
+                    String type = mapObject.getProperties().get("type", String.class);
+
+                    if (type.equals("box")) {
+                        boxes.add(new Box(mapObject, mapHeightInPixels));
+                    } else if (type.equals("delivery_point")) {
+                        npcs.add(new DeliveryNPC(mapObject, mapHeightInPixels));
+                    }
+                }
+            }
+        }
+
+        // camera setup
+        camera = new OrthographicCamera();
+        camera.setToOrtho(false, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
+        camera.zoom = 0.4f;
 
         // Play music
         AudioManager.playMusic(AudioManager.gameMusic);
@@ -66,7 +89,7 @@ public class GameScreen implements Screen {
     @Override
     public void render(float delta) {
         // Equivalent to your update() method
-        player.update(delta);
+        player.update(delta, boxes, npcs);
 
         // Clear the screen
         ScreenUtils.clear(0, 0, 0, 1);
@@ -89,8 +112,16 @@ public class GameScreen implements Screen {
         // 2. Draw the player and other entities
         batch.setProjectionMatrix(camera.combined);
         batch.begin();
+
+
+        for (Box box : boxes) {
+            box.render(batch);
+        }
+        for (DeliveryNPC npc : npcs) {
+            npc.render(batch);
+        }
+
         player.render(batch); // Player has its own render method
-        // (Later, you would loop through and render NPCs here too)
         batch.end();
     }
 
@@ -100,9 +131,15 @@ public class GameScreen implements Screen {
         tiledMap.dispose();
         batch.dispose();
         player.dispose();
+
+        if (boxes.size > 0) {
+            boxes.first().dispose();
+        }
+        if (npcs.size > 0) {
+            npcs.first().dispose();
+        }
     }
 
-    // --- Other required Screen methods ---
     @Override
     public void resize(int width, int height) {
         camera.viewportWidth = width;

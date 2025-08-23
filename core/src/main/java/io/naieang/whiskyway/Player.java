@@ -10,12 +10,15 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.maps.MapLayer;
+import com.badlogic.gdx.maps.MapObject;
+import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.utils.Array;
 
 public class Player {
     // --- SPRITESHEET CONFIGURATION ---
-    private static final int FRAME_COLS = 4; // Change this
-    private static final int FRAME_ROWS = 4; // Change this to match your directional sprite sheet
+    private static final int FRAME_COLS = 4;
+    private static final int FRAME_ROWS = 4;
 
     // --- ANIMATION ---
     private Animation<TextureRegion> walkDownAnimation;
@@ -31,18 +34,18 @@ public class Player {
 
     // --- STATE & POSITION ---
     public Vector2 position;
-    private float speed = 150f; // Equivalent to your old 'speed = 4' but in pixels/sec
+    private float speed = 150f; // Equivalent to speed 4
 
     private enum State { STANDING, WALKING_UP, WALKING_DOWN, WALKING_LEFT, WALKING_RIGHT }
     private State currentState;
-    private State lastWalkState= State.WALKING_DOWN;
+    private State lastWalkState = State.WALKING_DOWN;
 
     // --- COLLISION ---
     private TiledMapTileLayer collisionLayer;
     private TiledMapTileLayer collisionLayer1;
     private TiledMapTileLayer collisionLayer2;
     private TiledMapTileLayer collisionLayer3;
-
+    private TiledMap tiledMap;
     private float tileWidth, tileHeight;
 
     private float collisionRectXOffset = 4f;
@@ -50,12 +53,17 @@ public class Player {
     private float collisionRectWidth = 8f;
     private float collisionRectHeight = 8f;
 
+    public int boxCount = 0;
+    public int coinCount = 0;
+    public int deliveredCount = 0;
+
     public Player(float x, float y, TiledMap tiledMap, float mapWidth, float mapHeight) {
         position = new Vector2(x, y);
         currentState = State.STANDING;
 
         this.mapBoundaryX = mapWidth;
         this.mapBoundaryY = mapHeight;
+        this.tiledMap = tiledMap;
 
         // Get the collision layer from the map
         this.collisionLayer = (TiledMapTileLayer) tiledMap.getLayers().get("Buildings");
@@ -74,7 +82,6 @@ public class Player {
 //        this.tileWidth = collisionLayer3.getTileWidth();
 //        this.tileHeight = collisionLayer3.getTileHeight();
 
-        // 1. Load each of the 8 images as a separate Texture.
         up1 = new Texture("player/up_1.png");
         up2 = new Texture("player/up_2.png");
         down1 = new Texture("player/down_1.png");
@@ -84,8 +91,6 @@ public class Player {
         right1 = new Texture("player/right_1.png");
         right2 = new Texture("player/right_2.png");
 
-        // 2. Create animations from the pairs of textures.
-        // The first number (e.g., 0.25f) is the time between frames. Lower is faster.
         walkUpAnimation = new Animation<>(0.25f, new TextureRegion(up1), new TextureRegion(up2));
         walkDownAnimation = new Animation<>(0.25f, new TextureRegion(down1), new TextureRegion(down2));
         walkLeftAnimation = new Animation<>(0.25f, new TextureRegion(left1), new TextureRegion(left2));
@@ -94,7 +99,7 @@ public class Player {
         stateTime = 0f;
     }
 
-    public void update(float deltaTime) {
+    public void update(float deltaTime, Array<Box> boxes, Array<DeliveryNPC> npcs) {
         stateTime += deltaTime;
 
         float oldX = position.x;
@@ -127,7 +132,6 @@ public class Player {
             currentState = State.STANDING;
         }
 
-        // --- COLLISION LOGIC (No changes here) ---
         if (isCellBlocked(position.x, position.y)) {
             position.x = oldX;
             position.y = oldY;
@@ -144,6 +148,67 @@ public class Player {
         // Clamp the player's Y position
         if (position.y < 0) position.y = 0; // Prevent moving past bottom edge
         if (position.y + playerHeight > mapBoundaryY) position.y = mapBoundaryY - playerHeight; // Prevent moving past top edge
+
+        if (Gdx.input.isKeyJustPressed(Input.Keys.SPACE)){
+            checkForInteraction();
+        }
+    }
+
+    private void checkForInteraction() {
+        // Get our player's collision box to check for overlap
+        Rectangle playerRect = new Rectangle(
+            position.x + collisionRectXOffset,
+            position.y + collisionRectYOffset,
+            collisionRectWidth,
+            collisionRectHeight
+        );
+
+        // Get the "objects" layer from the map
+        MapLayer objectLayer = tiledMap.getLayers().get("objects");
+        if (objectLayer == null) return; // Safety check
+
+        // Loop through all objects on that layer
+        for (MapObject object : objectLayer.getObjects()) {
+            // Tiled objects have their own rectangle shape
+            Rectangle objectRect = new Rectangle(
+                object.getProperties().get("x", Float.class),
+                object.getProperties().get("y", Float.class),
+                object.getProperties().get("width", Float.class),
+                object.getProperties().get("height", Float.class)
+            );
+
+            // Check if the player's box overlaps with the object's box
+            if (playerRect.overlaps(objectRect)) {
+                // Check if the object has a "type" property
+                if (object.getProperties().containsKey("type")) {
+                    String type = object.getProperties().get("type", String.class);
+
+                    // This is the logic from your old pickUpObj() method!
+                    if (type.equals("box")) {
+                        boxCount++;
+                        AudioManager.playSound(AudioManager.pickupSound); // Play pickup sound
+                        Gdx.app.log("Game Event", "You picked up a box! Total boxes: " + boxCount); // Print to console
+
+                        // Remove the object so it can't be picked up again
+                        objectLayer.getObjects().remove(object);
+                        return; // Stop checking once we've interacted with one object
+                    }
+
+                    if (type.equals("delivery_point")) {
+                        if (boxCount > 0) {
+                            boxCount--;
+                            coinCount += 10;
+                            deliveredCount++;
+                            AudioManager.playSound(AudioManager.completeSound);
+                            Gdx.app.log("Game Event", "You made a delivery! Coins: " + coinCount);
+                        } else {
+                            Gdx.app.log("Game Event", "You have no boxes to deliver!");
+                        }
+                        return;
+                    }
+                }
+            }
+        }
     }
 
     private boolean isCellBlocked(float playerX, float playerY) {
