@@ -5,14 +5,17 @@ import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.ScreenUtils;
+import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import com.badlogic.gdx.utils.Align;
 
@@ -22,13 +25,20 @@ public class WinScreen implements Screen {
 
     private Texture replayButtonTexture;
     private Texture exitButtonTexture;
+    private Texture endBackgroundTexture;
+    private Texture endBackgroundTexture1;
+
+    private SpriteBatch batch;
 
     public WinScreen(WhiskyWayGame game) {
         this.game = game;
         stage = new Stage(new ScreenViewport());
+        batch = new SpriteBatch();
 
         replayButtonTexture = new Texture("background&button/restartb.png");
         exitButtonTexture = new Texture("background&button/exitb.png");
+        endBackgroundTexture = new Texture("background&button/endgameb1.jpg");
+        endBackgroundTexture1 =  new Texture("background&button/endgameb2.jpg");
 
         BitmapFont font = new BitmapFont();
         Label.LabelStyle style = new Label.LabelStyle(font, Color.WHITE);
@@ -38,31 +48,39 @@ public class WinScreen implements Screen {
         winLabel.setFontScale(2.5f);
         newTask.setFontScale(3.5f);
         winLabel.setAlignment(Align.center);
-        newTask.setPosition(1100,900,Align.center);
-        newTask.setWidth(150);
-        newTask.setHeight(150);
+
+        // Position the "new task" label at top right
+        newTask.setPosition(Gdx.graphics.getWidth() , Gdx.graphics.getHeight() - 500, Align.center);
 
         ImageButton replayButton = new ImageButton(new TextureRegionDrawable(replayButtonTexture));
         ImageButton exitButton = new ImageButton(new TextureRegionDrawable(exitButtonTexture));
 
-        //Layout
+        // Layout with table
         Table table = new Table();
         table.setFillParent(true);
         table.center();
 
-        table.add(winLabel).padBottom(50);
-        table.row();
+        Table newTaskTable = new Table();
+        newTaskTable.setFillParent(true);
+        newTaskTable.top().center();
+        newTaskTable.add(newTask);
 
-        Table buttontable = new Table();
-        buttontable.add(replayButton).width(250).height(100).padRight(15);
-        buttontable.add(exitButton).width(250).height(100).padRight(20);
+        Image background = new Image(endBackgroundTexture);
+        background.setSize(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
+        background.setPosition(0, 0);
 
-        table.add(buttontable);
+        table.add(winLabel).padBottom(50).row();
 
+        Table buttonTable = new Table();
+        buttonTable.add(replayButton).width(250).height(100).padRight(15).padTop(50);
+        buttonTable.add(exitButton).width(250).height(100).padRight(20).padTop(50);
+
+        table.add(buttonTable);
+
+        // Listeners
         replayButton.addListener(new ClickListener(){
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                // Tell the main game class to restart the game
                 game.restartGame();
             }
         });
@@ -70,17 +88,14 @@ public class WinScreen implements Screen {
         exitButton.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                // Exit the application
                 Gdx.app.exit();
             }
         });
 
-        table.setFillParent(true);
-        table.center();
-
-        table.add(winLabel);
+        // Add actors
+        stage.addActor(background);
         stage.addActor(table);
-        stage.addActor(newTask);
+        stage.addActor(newTaskTable);
     }
 
     @Override
@@ -99,26 +114,20 @@ public class WinScreen implements Screen {
     }
 
     @Override
-    public void pause() {
-
-    }
+    public void pause() {}
 
     @Override
-    public void resume() {
-
-    }
+    public void resume() {}
 
     @Override
-    public void hide() {
-
-    }
+    public void hide() {}
 
     @Override
     public void dispose() {
         stage.dispose();
         replayButtonTexture.dispose();
         exitButtonTexture.dispose();
+        endBackgroundTexture.dispose();
+        batch.dispose();
     }
-
-    // ... (leave resize, pause, resume, hide, dispose as empty methods for now)
 }

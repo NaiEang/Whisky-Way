@@ -57,7 +57,7 @@ public class Player {
 
     public int boxCount = 0;
     public int coinCount = 0;
-    public int deliveredCount = 0;
+    public int deliveredCount = 1;
 
     public Player(float x, float y, TiledMap tiledMap, float mapWidth, float mapHeight, GameScreen gameScreen) {
         position = new Vector2(x, y);

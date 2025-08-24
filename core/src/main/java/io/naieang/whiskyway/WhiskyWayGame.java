@@ -24,7 +24,7 @@ public class WhiskyWayGame extends Game {
     public void startGame() {
 
         gameScreen = new GameScreen(this);
-        setScreen(gameScreen);
+        setScreen(new StoryScreen(this));
     }
     public void showWinScreen(){
 
