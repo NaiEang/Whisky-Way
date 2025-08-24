@@ -76,14 +76,14 @@ public class Player {
         this.collisionLayer1 = (TiledMapTileLayer) tiledMap.getLayers().get("Water");
         this.tileWidth = collisionLayer1.getTileWidth();
         this.tileHeight = collisionLayer1.getTileHeight();
-//
-//        this.collisionLayer2 = (TiledMapTileLayer) tiledMap.getLayers().get("toplayer");
-//        this.tileWidth = collisionLayer2.getTileWidth();
-//        this.tileHeight = collisionLayer2.getTileHeight();
-//
-//        this.collisionLayer3 = (TiledMapTileLayer) tiledMap.getLayers().get("middlelayer");
-//        this.tileWidth = collisionLayer3.getTileWidth();
-//        this.tileHeight = collisionLayer3.getTileHeight();
+
+        this.collisionLayer2 = (TiledMapTileLayer) tiledMap.getLayers().get("Fence");
+        this.tileWidth = collisionLayer2.getTileWidth();
+        this.tileHeight = collisionLayer2.getTileHeight();
+
+        this.collisionLayer3 = (TiledMapTileLayer) tiledMap.getLayers().get("Plants");
+        this.tileWidth = collisionLayer3.getTileWidth();
+        this.tileHeight = collisionLayer3.getTileHeight();
 
         up1 = new Texture("player/up_1.png");
         up2 = new Texture("player/up_2.png");
@@ -375,6 +375,18 @@ public class Player {
         if (waterCell != null) {
             return true; // Blocked by water
         }
+
+        //Check the Fence layer
+        TiledMapTileLayer.Cell fenceCell = collisionLayer2.getCell(cellX, cellY);
+        if (fenceCell != null) {
+            return true; // Blocked by fence
+        }
+        //Check the Plants layer
+        TiledMapTileLayer.Cell plantCell = collisionLayer3.getCell(cellX, cellY);
+        if (plantCell != null) {
+            return true; // Blocked by fence
+        }
+
 
         // If we checked all layers and found no solid tiles, the way is clear.
         return false;
