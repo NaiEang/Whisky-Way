@@ -115,7 +115,7 @@ public class GameScreen implements Screen {
 
         // --- Update Logic based on State ---
         if (gameUI.gameState == PLAY_STATE) {
-            player.update(delta, boxes, npcs);
+            player.update(delta, boxes, npcs, cars, dogs);
             for(Car car : cars) car.update(delta);
             for(Dog dog : dogs) dog.update(delta);
             gameUI.playTimer += delta;

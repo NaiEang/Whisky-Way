@@ -8,8 +8,10 @@ import com.badlogic.gdx.maps.objects.RectangleMapObject;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.MathUtils;
+import org.w3c.dom.css.Rect;
 
 public class Dog {
+    public Rectangle getCollisionRect;
     // --- NEW: Animation just like the player ---
     private Animation<TextureRegion> walkAnimation;
     private float stateTime;
@@ -25,6 +27,7 @@ public class Dog {
     private Vector2 targetPosition;
     private float idleTimer = 0f;
     private boolean isMoving = false;
+    private Rectangle collisionRect;
 
     public Dog(float startX, float startY, RectangleMapObject zoneObject, float mapHeight) {
         position = new Vector2(startX, startY - dogSpriteHeight);
@@ -43,6 +46,8 @@ public class Dog {
         Rectangle tiledRect = zoneObject.getRectangle();
         float correctedZoneY = tiledRect.y - tiledRect.height;
         this.movementZone = new Rectangle(tiledRect.x, correctedZoneY, tiledRect.width, tiledRect.height);
+        collisionRect = new Rectangle(position.x, position.y, dogSpriteWidth, dogSpriteHeight);
+
     }
 
     public void update(float deltaTime) {
@@ -63,6 +68,7 @@ public class Dog {
         if (isMoving) {
             stateTime += deltaTime;
         }
+        collisionRect.setPosition(position.x, position.y);
     }
 
     private void pickNewTarget() {
@@ -70,6 +76,9 @@ public class Dog {
         float newY = MathUtils.random(movementZone.y, movementZone.y + movementZone.height);
         targetPosition.set(newX, newY);
         idleTimer = MathUtils.random(2.0f, 5.0f);
+    }
+    public Rectangle getCollisionRect() {
+        return collisionRect;
     }
 
     public void render(SpriteBatch batch) {

@@ -4,6 +4,7 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.maps.objects.PolylineMapObject;
 import com.badlogic.gdx.math.Polyline;
+import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 
 public class Car {
@@ -19,6 +20,7 @@ public class Car {
     private Polyline path;
     private int currentPathNode = 0;
     private Vector2 targetPosition;
+    private Rectangle collisionRect;
 
     public Car(float startX, float startY, PolylineMapObject pathObject, float mapHeight) {
 
@@ -30,6 +32,7 @@ public class Car {
 
         this.targetPosition = new Vector2();
         setNextTarget();
+        collisionRect = new Rectangle(position.x, position.y, carWidth, carHeight);
     }
 
     private void setNextTarget() {
@@ -65,6 +68,10 @@ public class Car {
         if (position.dst(targetPosition) < 2.0f) {
             setNextTarget();
         }
+        collisionRect.setPosition(position.x, position.y);
+    }
+    public Rectangle getCollisionRect() {
+        return collisionRect;
     }
 
     public void render(SpriteBatch batch) {

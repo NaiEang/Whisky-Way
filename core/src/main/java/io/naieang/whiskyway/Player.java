@@ -102,7 +102,7 @@ public class Player {
         stateTime = 0f;
     }
 
-    public void update(float deltaTime, Array<Box> boxes, Array<DeliveryNPC> npcs) {
+    public void update(float deltaTime, Array<Box> boxes, Array<DeliveryNPC> npcs, Array<Car> cars, Array<Dog> dogs) {
         stateTime += deltaTime;
 
         float oldX = position.x;
@@ -145,12 +145,12 @@ public class Player {
         float playerHeight = getFrameHeight();
 
         // Check for X-axis collision
-        if (isColliding(position.x, oldY, boxes, npcs)) {
+        if (isColliding(position.x, oldY, boxes, npcs, cars, dogs)) {
             position.x = oldX; // If there's a collision, revert the X movement
         }
 
         // Check for Y-axis collision
-        if (isColliding(oldX, position.y, boxes, npcs)) {
+        if (isColliding(oldX, position.y, boxes, npcs, cars, dogs)) {
             position.y = oldY; // If there's a collision, revert the Y movement
         }
 
@@ -175,7 +175,7 @@ public class Player {
         }
     }
 
-    private boolean isColliding(float newX, float newY, Array<Box> boxes, Array<DeliveryNPC> npcs) {
+    private boolean isColliding(float newX, float newY, Array<Box> boxes, Array<DeliveryNPC> npcs, Array<Car> cars, Array<Dog> dogs) {
         //Cjecl against solid tile on map
         if (isCellBlocked(newX, newY)) {
             return true;
@@ -196,6 +196,16 @@ public class Player {
         }
         for (DeliveryNPC npc : npcs) {
             if (playerrect.overlaps(npc.rect)) {
+                return true;
+            }
+        }
+        for (Car car: cars){
+            if (playerrect.overlaps(car.getCollisionRect())){
+                return true;
+            }
+        }
+        for(Dog dog: dogs){
+            if(playerrect.overlaps((dog.getCollisionRect))){
                 return true;
             }
         }
