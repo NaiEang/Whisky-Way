@@ -1,6 +1,5 @@
 package io.naieang.whiskyway;
 
-import com.badlogic.gdx.Audio;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.Texture;
@@ -14,10 +13,6 @@ import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.ScreenUtils;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
-import com.badlogic.gdx.scenes.scene2d.ui.Image;
-import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
-
-import static com.badlogic.gdx.scenes.scene2d.ui.Table.Debug.table;
 
 public class StartMenuScreen implements Screen {
 
@@ -44,7 +39,7 @@ public class StartMenuScreen implements Screen {
         stage = new Stage(new ScreenViewport());
         batch = new SpriteBatch();
 
-        AudioManager.playMusic(AudioManager.windMusic);
+        AssetManager.playMusic(AssetManager.windMusic);
 
         // IMPORTANT: We must tell LibGDX that the Stage will handle input events.
         Gdx.input.setInputProcessor(stage);
@@ -85,7 +80,7 @@ public class StartMenuScreen implements Screen {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 // When the button is clicked, tell the main game class to start the game
-                AudioManager.playSound(AudioManager.clickSound);
+                AssetManager.playSound(AssetManager.clickSound);
                 game.startGame();
             }
         });

@@ -16,6 +16,8 @@ import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.utils.Array;
 
 public class Player {
+
+    private GameScreen gameScreen;
     // --- SPRITESHEET CONFIGURATION ---
     private static final int FRAME_COLS = 4;
     private static final int FRAME_ROWS = 4;
@@ -57,13 +59,14 @@ public class Player {
     public int coinCount = 0;
     public int deliveredCount = 0;
 
-    public Player(float x, float y, TiledMap tiledMap, float mapWidth, float mapHeight) {
+    public Player(float x, float y, TiledMap tiledMap, float mapWidth, float mapHeight, GameScreen gameScreen) {
         position = new Vector2(x, y);
         currentState = State.STANDING;
 
         this.mapBoundaryX = mapWidth;
         this.mapBoundaryY = mapHeight;
         this.tiledMap = tiledMap;
+        this.gameScreen = gameScreen;
 
         // Get the collision layer from the map
         this.collisionLayer = (TiledMapTileLayer) tiledMap.getLayers().get("Buildings");
@@ -141,6 +144,24 @@ public class Player {
         float playerWidth = getFrameWidth();
         float playerHeight = getFrameHeight();
 
+        // Check for X-axis collision
+        if (isColliding(position.x, oldY, boxes, npcs)) {
+            position.x = oldX; // If there's a collision, revert the X movement
+        }
+
+        // Check for Y-axis collision
+        if (isColliding(oldX, position.y, boxes, npcs)) {
+            position.y = oldY; // If there's a collision, revert the Y movement
+        }
+
+        // --- INTERACTION LOGIC ---
+        if (Gdx.input.isKeyJustPressed(Input.Keys.E)) {
+            tryToPickUpBox(boxes);
+        }
+        if (Gdx.input.isKeyJustPressed(Input.Keys.Q)) {
+            tryToDeliverOrDropBox(boxes, npcs);
+        }
+
         // Clamp the player's X position
         if (position.x < 0) position.x = 0; // Prevent moving past left edge
         if (position.x + playerWidth > mapBoundaryX) position.x = mapBoundaryX - playerWidth; // Prevent moving past right edge
@@ -154,6 +175,110 @@ public class Player {
         }
     }
 
+    private boolean isColliding(float newX, float newY, Array<Box> boxes, Array<DeliveryNPC> npcs) {
+        //Cjecl against solid tile on map
+        if (isCellBlocked(newX, newY)) {
+            return true;
+        }
+
+        //Get the player's collision rectangle at the potential new position
+        Rectangle playerrect = new Rectangle(
+            newX + collisionRectXOffset,
+            newY + collisionRectYOffset,
+            collisionRectWidth,
+            collisionRectHeight
+        );
+        //Check against all solid boxes
+        for (Box box : boxes) {
+            if (playerrect.overlaps(box.rect)) {
+                return true;
+            }
+        }
+        for (DeliveryNPC npc : npcs) {
+            if (playerrect.overlaps(npc.rect)) {
+                return true;
+            }
+        }
+        return false;
+    }
+    private void tryToPickUpBox(Array<Box> boxes){
+        if(boxCount > 0){
+            Gdx.app.log("Player Action", "Alreadu carrying a box!");
+
+            gameScreen.showDialogue("Let's deliver the box to the house downtown.");
+            return;
+        }
+
+        //Define largeer interaction rectangle around player
+        Rectangle interactionRect = new Rectangle(
+            position.x + collisionRectXOffset - 8,
+            position.y + collisionRectYOffset - 8,
+            collisionRectWidth + 16,
+            collisionRectHeight + 16
+        );
+
+        //Check for nearby boxes
+        for (int i = boxes.size -1;i>=0; i--){
+            Box box = boxes.get(i);
+            if (interactionRect.overlaps(box.rect)){
+                boxCount = 1;
+                AssetManager.playSound(AssetManager.pickupSound);
+                Gdx.app.log("Player Action", "Picked up a box!");
+                boxes.removeIndex(i); //Remove the box from the world
+                return;
+            }
+        }
+    }
+
+    private void tryToDeliverOrDropBox(Array<Box> boxes, Array<DeliveryNPC> npcs){
+        if (boxCount == 0){
+            Gdx.app.log("Player Action", "Not carrying a box");
+            return;
+        }
+
+        //Define interaction rectangle
+        Rectangle interactRect = new Rectangle(
+            position.x + collisionRectXOffset - 8,
+            position.y + collisionRectYOffset - 8,
+            collisionRectWidth + 16,
+            collisionRectHeight + 16
+        );
+
+        for (DeliveryNPC npc: npcs){
+            if (interactRect.overlaps(npc.rect)) {
+                if (boxCount > 0) {
+                    boxCount = 0;
+                    coinCount += 10;
+                    deliveredCount++;
+                    AssetManager.playSound(AssetManager.completeSound);
+                    gameScreen.showDialogue("Thank you for the delivery! Here are 10 coins.");
+                } else {
+                    gameScreen.showDialogue("I'm waiting for a delivery. Do you have a box?");
+                }
+                if (deliveredCount >= 1) {
+                    gameScreen.getGame().showWinScreen();
+                }
+                return;
+            }
+        }
+
+        Gdx.app.log("Player Action", "Drop the box!");
+        boxCount = 0;
+
+        //Create a new tiled mapobject data structure for the dropped box
+        MapObject droppedBoxObject = new MapObject();
+        droppedBoxObject.getProperties().put("type", "box");
+        //Place it right infront of player
+        droppedBoxObject.getProperties().put("x", position.x);
+
+        float tiledY = position.y;
+        droppedBoxObject.getProperties().put("y", tiledY);
+        droppedBoxObject.getProperties().put("width", 16f); // Default box size
+        droppedBoxObject.getProperties().put("height", 16f);
+
+        // Add a NEW Box object to the game world's list
+        boxes.add(new Box(droppedBoxObject, mapBoundaryY));
+    }
     private void checkForInteraction() {
         // Get our player's collision box to check for overlap
         Rectangle playerRect = new Rectangle(
@@ -186,7 +311,7 @@ public class Player {
                     // This is the logic from your old pickUpObj() method!
                     if (type.equals("box")) {
                         boxCount++;
-                        AudioManager.playSound(AudioManager.pickupSound); // Play pickup sound
+                        AssetManager.playSound(AssetManager.pickupSound); // Play pickup sound
                         Gdx.app.log("Game Event", "You picked up a box! Total boxes: " + boxCount); // Print to console
 
                         // Remove the object so it can't be picked up again
@@ -199,7 +324,7 @@ public class Player {
                             boxCount--;
                             coinCount += 10;
                             deliveredCount++;
-                            AudioManager.playSound(AudioManager.completeSound);
+                            AssetManager.playSound(AssetManager.completeSound);
                             Gdx.app.log("Game Event", "You made a delivery! Coins: " + coinCount);
                         } else {
                             Gdx.app.log("Game Event", "You have no boxes to deliver!");

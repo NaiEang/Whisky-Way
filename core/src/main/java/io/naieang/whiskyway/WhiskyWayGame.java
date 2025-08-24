@@ -2,15 +2,20 @@ package io.naieang.whiskyway;
 
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Screen;
+import jdk.javadoc.internal.tool.Start;
 
 public class WhiskyWayGame extends Game {
 
     private Screen startMenuScreen;
     private Screen gameScreen;
+    private Screen winScreen;
 
     @Override
     public void create() {
-        AudioManager.load();
+        AssetManager.load();
+        showStartMenu();
+    }
+    public void showStartMenu(){
 
         startMenuScreen = new StartMenuScreen(this);
         setScreen(startMenuScreen);
@@ -18,17 +23,21 @@ public class WhiskyWayGame extends Game {
 
     public void startGame() {
 
-        if (startMenuScreen != null) {
-            startMenuScreen.dispose();
-        }
-
-        gameScreen = new GameScreen();
+        gameScreen = new GameScreen(this);
         setScreen(gameScreen);
     }
+    public void showWinScreen(){
+
+        setScreen(new WinScreen(this));
+    }
+    public void restartGame(){
+        showStartMenu();
+    }
+
     @Override
         public void dispose(){
             super.dispose();
 
-            AudioManager.dispose();
+            AssetManager.dispose();
     }
 }

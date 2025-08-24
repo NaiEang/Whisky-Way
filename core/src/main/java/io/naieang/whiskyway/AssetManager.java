@@ -3,8 +3,10 @@ package io.naieang.whiskyway;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.audio.Sound;
+import com.badlogic.gdx.graphics.Texture;
+import org.w3c.dom.Text;
 
-public class AudioManager {
+public class AssetManager {
 
     public static Sound eatSound;
     public static Sound pickupSound;
@@ -13,6 +15,8 @@ public class AudioManager {
 
     public static Music gameMusic;
     public static Music windMusic;
+
+    public static Texture carUp, carDown, carLeft, carRight;
 
     public static void load() {
 
@@ -28,6 +32,11 @@ public class AudioManager {
 
         windMusic.setLooping(true);
         windMusic.setVolume(0.7f);
+
+        carUp = new Texture("NPC/carup.png");
+        carDown = new Texture("NPC/cardown.png");
+        carLeft = new Texture("NPC/carleft.png");
+        carRight = new Texture("NPC/carright.png");
     }
 
     public static void playSound(Sound sound) {
@@ -57,5 +66,10 @@ public class AudioManager {
 
         gameMusic.dispose();
         windMusic.dispose();
+
+        carUp.dispose();
+        carDown.dispose();
+        carLeft.dispose();
+        carRight.dispose();
     }
 }

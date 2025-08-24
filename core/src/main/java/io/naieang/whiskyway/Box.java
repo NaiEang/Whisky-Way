@@ -1,5 +1,6 @@
 package io.naieang.whiskyway;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.maps.MapObject;
@@ -8,6 +9,7 @@ import com.badlogic.gdx.math.Rectangle;
 public class Box {
     private Texture texture;
     public Rectangle rect; // Public so the Player can easily check it
+    private float visualScale = 1.5f;
 
     public Box(MapObject mapObject, float mapHeight) {
         // Load the visual for the box. Make sure you have a "box.png" in your assets folder!
@@ -19,16 +21,17 @@ public class Box {
         float width = mapObject.getProperties().get("width", Float.class);
         float height = mapObject.getProperties().get("height", Float.class);
 
-        float correctedY = mapHeight - y - height;
-
         // Create the rectangle with the corrected Y coordinate
-        rect = new Rectangle(x, correctedY, width, height);
+        rect = new Rectangle(x, y - height, width, height);
+
+        //Debug line
+//        Gdx.app.log("Box spawn", "Created a box at LibGDX coords X="+ rect.x+ "Y= "+ rect.y);
 
     }
 
     public void render(SpriteBatch batch) {
         // Draw the box texture at its rectangle's position
-        batch.draw(texture, rect.x, rect.y, rect.width, rect.height);
+        batch.draw(texture, rect.x, rect.y, rect.width*visualScale, rect.height*visualScale);
     }
 
     public void dispose() {
