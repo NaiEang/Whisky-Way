@@ -82,11 +82,12 @@ public class StartMenuScreen implements Screen {
         startButton.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                // When the button is clicked, tell the main game class to start the game
                 AudioManager.playSound(AudioManager.clickSound);
-                game.startGame();
+                game.setScreen(new StoryScreen(game)); // Go to StoryScreen
+                dispose(); // Optional: dispose menu
             }
         });
+
     }
 
     @Override

@@ -1,118 +1,167 @@
-// GameScreen.java
 package io.naieang.whiskyway;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.maps.MapProperties;
 import com.badlogic.gdx.maps.tiled.TiledMap;
-import com.badlogic.gdx.maps.tiled.TiledMapRenderer;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.badlogic.gdx.utils.ScreenUtils;
 
 public class GameScreen implements Screen {
-    // These are the LibGDX equivalents of your GamePanel systems
-    private TiledMap tiledMap;
-    private TiledMapRenderer tiledMapRenderer;
+
+    // World rendering
     private OrthographicCamera camera;
     private SpriteBatch batch;
+    private TiledMap tiledMap;
+    private OrthogonalTiledMapRenderer mapRenderer;
 
-    // Entity
+    // Entities/UI
     private Player player;
+    private GameUI gameUI;
 
-    // Map boundaries for camera clamping
+    // Map bounds (for camera clamping)
     private int mapWidthInPixels;
     private int mapHeightInPixels;
 
-    // This method is like create() for a screen. It runs once when the screen is shown.
+    // States
+    private final int PLAY_STATE = 0;
+    private final int PAUSE_STATE = 1;
+    private final int DIALOGUE_STATE = 2;
+
     @Override
     public void show() {
-        batch = new SpriteBatch();
-        tiledMap = new TmxMapLoader().load("tiles/whisky_way/CountrysideMap.tmx");
-        tiledMapRenderer = new OrthogonalTiledMapRenderer(tiledMap);
-
-        MapProperties properties = tiledMap.getProperties();
-        int mapWidthInTiles = properties.get("width", Integer.class);
-        int mapHeightInTiles = properties.get("height", Integer.class);
-        int tileWidthInPixels = properties.get("tilewidth", Integer.class);
-        int tileHeightInPixels = properties.get("tileheight", Integer.class);
-        mapWidthInPixels = mapWidthInTiles * tileWidthInPixels;
-        mapHeightInPixels = mapHeightInTiles * tileHeightInPixels;
-
-        // --- CLEAN CAMERA SETUP ---
+        // --- Camera + world batch ---
         camera = new OrthographicCamera();
-        // Set the camera's view to the actual screen size first.
         camera.setToOrtho(false, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
+        camera.zoom = 0.4f; // your desired zoom
+        batch = new SpriteBatch();
 
-        // NOW, apply the zoom to get the desired view.
-        camera.zoom = 0.4f; // Adjust this value to get the size you want.
+        // --- Load map (safe) ---
+        String tmxPath = "tiles/whisky_way/CountrysideMap.tmx"; // <- put your TMX here
+        if (!Gdx.files.internal(tmxPath).exists()) {
+            throw new RuntimeException("TMX not found at: " + tmxPath + " (put it under assets/)");
+        }
+        tiledMap = new TmxMapLoader().load(tmxPath);
+        mapRenderer = new OrthogonalTiledMapRenderer(tiledMap);
 
-        // Play music
-        AudioManager.playMusic(AudioManager.gameMusic);
+        // Map bounds
+        MapProperties props = tiledMap.getProperties();
+        int mapWidthInTiles = props.get("width", Integer.class);
+        int mapHeightInTiles = props.get("height", Integer.class);
+        int tileWidthPx = props.get("tilewidth", Integer.class);
+        int tileHeightPx = props.get("tileheight", Integer.class);
+        mapWidthInPixels = mapWidthInTiles * tileWidthPx;
+        mapHeightInPixels = mapHeightInTiles * tileHeightPx;
 
-        // Create the player and pass the map boundaries
+        // --- Audio (if you have it wired) ---
+        try {
+            AudioManager.playMusic(AudioManager.gameMusic);
+        } catch (Throwable ignored) {
+            // Avoid crashing if audio isn't prepared yet
+        }
+
+        // --- Player ---
         player = new Player(16 * 23, 16 * 21, tiledMap, mapWidthInPixels, mapHeightInPixels);
 
-        // Immediately center the camera on the player
-        camera.position.set(player.position.x, player.position.y, 0);
+        // --- UI (independent batch) ---
+        gameUI = new GameUI(
+                player,
+                Gdx.graphics.getWidth(),
+                Gdx.graphics.getHeight(),
+                16,             // tile size
+                PLAY_STATE,
+                PAUSE_STATE,
+                DIALOGUE_STATE,
+                PLAY_STATE      // start in play
+        );
 
-        // Finalize all camera settings
+        // Center camera on player
+        camera.position.set(player.position.x, player.position.y, 0);
         camera.update();
     }
 
-    // This is the game loop! It replaces your run() and paintComponent() methods.
     @Override
     public void render(float delta) {
-        // Equivalent to your update() method
-        player.update(delta);
+        // --- Input: toggle pause (Esc) ---
+        if (Gdx.input.isKeyJustPressed(Input.Keys.SPACE)) {
+            gameUI.gameState = (gameUI.gameState == PLAY_STATE) ? PAUSE_STATE : PLAY_STATE;
+        }
 
-        // Clear the screen
+            // --- Update world only when playing ---
+        if (gameUI.gameState == PLAY_STATE) {
+            player.update(delta);
+            gameUI.updateTimer();  // update timer only when game is playing
+        }
+
+        // --- Update world ---
+        if (gameUI.gameState == PLAY_STATE) {
+            player.update(delta);
+        }
+
+        // --- Input: toggle fullscreen (esc) ---
+        if (Gdx.input.isKeyJustPressed(Input.Keys.ESCAPE)) {
+            if (Gdx.graphics.isFullscreen()) {
+                Gdx.graphics.setWindowedMode(1280, 720); // pick your preferred window size
+            } else {
+                Gdx.graphics.setFullscreenMode(Gdx.graphics.getDisplayMode());
+            }
+        }
+
+        // --- Clear ---
         ScreenUtils.clear(0, 0, 0, 1);
 
-        // Camera follow and clamp logic
+        // --- Camera follows player + clamps to map ---
         camera.position.set(player.position.x, player.position.y, 0);
-        float cameraHalfWidth = camera.viewportWidth * camera.zoom * 0.5f;
-        float cameraHalfHeight = camera.viewportHeight * camera.zoom * 0.5f;
-        camera.position.x = Math.max(cameraHalfWidth, camera.position.x);
-        camera.position.x = Math.min(mapWidthInPixels - cameraHalfWidth, camera.position.x);
-        camera.position.y = Math.max(cameraHalfHeight, camera.position.y);
-        camera.position.y = Math.min(mapHeightInPixels - cameraHalfHeight, camera.position.y);
+        float halfW = camera.viewportWidth * camera.zoom * 0.5f;
+        float halfH = camera.viewportHeight * camera.zoom * 0.5f;
+        camera.position.x = Math.max(halfW, Math.min(mapWidthInPixels - halfW, camera.position.x));
+        camera.position.y = Math.max(halfH, Math.min(mapHeightInPixels - halfH, camera.position.y));
         camera.update();
 
-        // Equivalent to your paintComponent() drawing logic
-        // 1. Draw the map
-        tiledMapRenderer.setView(camera);
-        tiledMapRenderer.render();
+        // --- Render map ---
+        mapRenderer.setView(camera);
+        mapRenderer.render();
 
-        // 2. Draw the player and other entities
+        // --- Render player ---
         batch.setProjectionMatrix(camera.combined);
         batch.begin();
-        player.render(batch); // Player has its own render method
-        // (Later, you would loop through and render NPCs here too)
+        player.render(batch);
         batch.end();
+
+        // --- UI (independent of camera) ---
+        gameUI.updateTimer();
+        gameUI.draw();
     }
 
-    @Override
-    public void dispose() {
-        // Clean up all assets
-        tiledMap.dispose();
-        batch.dispose();
-        player.dispose();
-    }
-
-    // --- Other required Screen methods ---
     @Override
     public void resize(int width, int height) {
         camera.viewportWidth = width;
         camera.viewportHeight = height;
         camera.update();
     }
+
+    @Override public void pause() {}
+    @Override public void resume() {}
+    @Override public void hide() {}
+
     @Override
-    public void pause() { }
-    @Override
-    public void resume() { }
-    @Override
-    public void hide() { }
+    public void dispose() {
+        safeDispose(mapRenderer);
+        safeDispose(tiledMap);
+        safeDispose(batch);
+        if (player != null) player.dispose();
+        if (gameUI != null) gameUI.dispose();
+    }
+
+    private void safeDispose(Object o) {
+        try {
+            if (o instanceof OrthogonalTiledMapRenderer) ((OrthogonalTiledMapRenderer) o).dispose();
+            if (o instanceof TiledMap) ((TiledMap) o).dispose();
+            if (o instanceof SpriteBatch) ((SpriteBatch) o).dispose();
+        } catch (Exception ignore) {}
+    }
 }

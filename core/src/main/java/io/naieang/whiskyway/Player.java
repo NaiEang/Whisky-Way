@@ -49,6 +49,8 @@ public class Player {
     private float collisionRectYOffset = 2f;
     private float collisionRectWidth = 8f;
     private float collisionRectHeight = 8f;
+    public int ShrimpCount = 3;
+    public int coinCount = 0;
 
     public Player(float x, float y, TiledMap tiledMap, float mapWidth, float mapHeight) {
         position = new Vector2(x, y);
