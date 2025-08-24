@@ -26,6 +26,7 @@ public class GameUI {
     private Label timerLabel;
     private Label dialogueLabel;
     private Table dialogueTable;
+    private Label energyLabel;
 
     // --- Data ---
     private Player player;
@@ -50,6 +51,7 @@ public class GameUI {
         // --- Create Labels ---
         inventoryLabel = new Label("Boxes: 0 | Coins: 0", style);
         timerLabel = new Label("Time: 0", style);
+        energyLabel = new Label("Energy: 10", style);
         dialogueLabel = new Label("", dialogueStyle);
         dialogueLabel.setWrap(true);
 
@@ -74,6 +76,8 @@ public class GameUI {
         rootTable.add(inventoryLabel).pad(10);
         rootTable.row();
         rootTable.add(timerLabel).padRight(140);
+        rootTable.row();
+        rootTable.add(energyLabel).padRight(140);
 
         stage.addActor(rootTable);
         stage.addActor(dialogueTable);

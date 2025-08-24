@@ -190,22 +190,24 @@ public class Player {
         );
         //Check against all solid boxes
         for (Box box : boxes) {
-            if (playerrect.overlaps(box.rect)) {
+            if (box.rect!=null && playerrect.overlaps(box.rect)) {
                 return true;
             }
         }
         for (DeliveryNPC npc : npcs) {
-            if (playerrect.overlaps(npc.rect)) {
+            if (npc.rect != null && playerrect.overlaps(npc.rect)) {
                 return true;
             }
         }
         for (Car car: cars){
-            if (playerrect.overlaps(car.getCollisionRect())){
+            Rectangle carRect = car.getCollisionRect();
+            if (carRect != null &&playerrect.overlaps(car.getCollisionRect())){
                 return true;
             }
         }
         for(Dog dog: dogs){
-            if(playerrect.overlaps((dog.getCollisionRect))){
+            Rectangle dogRect = dog.getCollisionRect();
+            if(dogRect != null &&playerrect.overlaps((dog.getCollisionRect))){
                 return true;
             }
         }
