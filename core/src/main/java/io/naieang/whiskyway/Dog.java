@@ -5,10 +5,14 @@ import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.maps.objects.RectangleMapObject;
+import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.MathUtils;
+import com.badlogic.gdx.physics.bullet.collision._btMprSimplex_t;
 import org.w3c.dom.css.Rect;
+
+import javax.swing.*;
 
 public class Dog {
     public Rectangle getCollisionRect;
@@ -29,7 +33,20 @@ public class Dog {
     private boolean isMoving = false;
     private Rectangle collisionRect;
 
-    public Dog(float startX, float startY, RectangleMapObject zoneObject, float mapHeight) {
+    // --- NEW: Collision Variables ---
+    private TiledMapTileLayer collisionLayerBuildings;
+    private TiledMapTileLayer collisionLayerWater;
+    private TiledMapTileLayer collisionLayerFence;
+    private TiledMapTileLayer collisionLayerPlant;
+
+    private float tileWidth, tileHeight;
+    // We'll give the dog a small collision box like the player
+    private float collisionRectXOffset = 4f;
+    private float collisionRectYOffset = 2f;
+    private float collisionRectWidth = 8f;
+    private float collisionRectHeight = 8f;
+
+    public Dog(float startX, float startY, RectangleMapObject zoneObject, float mapHeight, TiledMapTileLayer buildingsLayer, TiledMapTileLayer waterLayer, TiledMapTileLayer fenceLayer, TiledMapTileLayer plantLayer) {
         position = new Vector2(startX, startY - dogSpriteHeight);
         targetPosition = new Vector2(startX, startY - dogSpriteHeight);
 
@@ -48,6 +65,14 @@ public class Dog {
         this.movementZone = new Rectangle(tiledRect.x, correctedZoneY, tiledRect.width, tiledRect.height);
         collisionRect = new Rectangle(position.x, position.y, dogSpriteWidth, dogSpriteHeight);
 
+        this.collisionLayerBuildings = buildingsLayer;
+        this.collisionLayerWater = waterLayer;
+        this.collisionLayerFence = fenceLayer;
+        this.collisionLayerPlant = plantLayer;
+        this.tileWidth = buildingsLayer.getTileWidth();
+        this.tileHeight = buildingsLayer.getTileHeight();
+
+
     }
 
     public void update(float deltaTime) {
@@ -58,9 +83,15 @@ public class Dog {
         }
 
         if (position.dst(targetPosition) > 2.0f) {
+            float oldX = position.x;
+            float oldY = position.y;
+
             Vector2 direction = targetPosition.cpy().sub(position).nor();
             position.add(direction.scl(speed * deltaTime));
             isMoving = true;
+            if(isCellBlocked(position.x, position.y)){
+                position.set(oldX, oldY);
+            }
         } else {
             isMoving = false;
         }
@@ -75,7 +106,31 @@ public class Dog {
         float newX = MathUtils.random(movementZone.x, movementZone.x + movementZone.width);
         float newY = MathUtils.random(movementZone.y, movementZone.y + movementZone.height);
         targetPosition.set(newX, newY);
-        idleTimer = MathUtils.random(2.0f, 5.0f);
+        idleTimer = MathUtils.random(5.0f, 8.0f);
+    }
+    private boolean isCellBlocked(float dogX, float dogY) {
+        float rectX = dogX + collisionRectXOffset;
+        float rectY = dogY + collisionRectYOffset;
+
+        boolean bottomLeft = isTileSolid(rectX, rectY);
+        boolean bottomRight = isTileSolid(rectX + collisionRectWidth, rectY);
+        boolean topLeft = isTileSolid(rectX, rectY + collisionRectHeight);
+        boolean topRight = isTileSolid(rectX + collisionRectWidth, rectY + collisionRectHeight);
+
+        return bottomLeft || bottomRight || topLeft || topRight;
+    }
+
+    private boolean isTileSolid(float x, float y) {
+        int cellX = (int) (x / this.tileWidth);
+        int cellY = (int) (y / this.tileHeight);
+
+        TiledMapTileLayer.Cell buildingCell = collisionLayerBuildings.getCell(cellX, cellY);
+        if (buildingCell != null) return true;
+
+        TiledMapTileLayer.Cell waterCell = collisionLayerWater.getCell(cellX, cellY);
+        if (waterCell != null) return true;
+
+        return false;
     }
     public Rectangle getCollisionRect() {
         return collisionRect;

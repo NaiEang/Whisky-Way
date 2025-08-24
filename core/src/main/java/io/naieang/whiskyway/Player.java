@@ -176,41 +176,46 @@ public class Player {
     }
 
     private boolean isColliding(float newX, float newY, Array<Box> boxes, Array<DeliveryNPC> npcs, Array<Car> cars, Array<Dog> dogs) {
-        //Cjecl against solid tile on map
         if (isCellBlocked(newX, newY)) {
             return true;
         }
 
-        //Get the player's collision rectangle at the potential new position
-        Rectangle playerrect = new Rectangle(
-            newX + collisionRectXOffset,
-            newY + collisionRectYOffset,
-            collisionRectWidth,
-            collisionRectHeight
+        Rectangle playerRect = new Rectangle(
+                newX + collisionRectXOffset,
+                newY + collisionRectYOffset,
+                collisionRectWidth,
+                collisionRectHeight
         );
-        //Check against all solid boxes
+
+        // --- SAFER COLLISION CHECKS FOR ALL OBJECTS ---
         for (Box box : boxes) {
-            if (box.rect!=null && playerrect.overlaps(box.rect)) {
+            // Check if the box's rectangle exists before using it
+            if (box.rect != null && playerRect.overlaps(box.rect)) {
                 return true;
             }
         }
+
         for (DeliveryNPC npc : npcs) {
-            if (npc.rect != null && playerrect.overlaps(npc.rect)) {
+            // Check if the NPC's rectangle exists before using it
+            if (npc.rect != null && playerRect.overlaps(npc.rect)) {
                 return true;
             }
         }
-        for (Car car: cars){
+
+        for (Car car : cars) {
             Rectangle carRect = car.getCollisionRect();
-            if (carRect != null &&playerrect.overlaps(car.getCollisionRect())){
+            if (carRect != null && playerRect.overlaps(carRect)) {
                 return true;
             }
         }
-        for(Dog dog: dogs){
+
+        for (Dog dog : dogs) {
             Rectangle dogRect = dog.getCollisionRect();
-            if(dogRect != null &&playerrect.overlaps((dog.getCollisionRect))){
+            if (dogRect != null && playerRect.overlaps(dogRect)) {
                 return true;
             }
         }
+
         return false;
     }
     private void tryToPickUpBox(Array<Box> boxes){

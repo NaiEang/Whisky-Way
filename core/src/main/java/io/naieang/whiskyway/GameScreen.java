@@ -11,6 +11,7 @@ import com.badlogic.gdx.maps.MapProperties;
 import com.badlogic.gdx.maps.objects.PolylineMapObject;
 import com.badlogic.gdx.maps.objects.RectangleMapObject;
 import com.badlogic.gdx.maps.tiled.TiledMap;
+import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.badlogic.gdx.utils.Array;
@@ -61,6 +62,12 @@ public class GameScreen implements Screen {
         mapWidthInPixels = props.get("width", Integer.class) * props.get("tilewidth", Integer.class);
         mapHeightInPixels = props.get("height", Integer.class) * props.get("tileheight", Integer.class);
 
+        // Get the layers to pass to the player and NPCs
+        TiledMapTileLayer buildingsLayer = (TiledMapTileLayer) tiledMap.getLayers().get("Buildings");
+        TiledMapTileLayer waterLayer = (TiledMapTileLayer) tiledMap.getLayers().get("Water");
+        TiledMapTileLayer fenceLayer = (TiledMapTileLayer) tiledMap.getLayers().get("Fence");
+        TiledMapTileLayer plantLayer = (TiledMapTileLayer) tiledMap.getLayers().get("Plants");
+
         // --- Your Spawning Logic ---
         boxes = new Array<>();
         npcs = new Array<>();
@@ -84,7 +91,7 @@ public class GameScreen implements Screen {
                     } else if (type.equals("dog")) {
                         String zoneName = mapObject.getProperties().get("zone", String.class);
                         RectangleMapObject zoneObject = (RectangleMapObject) pathLayer.getObjects().get(zoneName);
-                        if (zoneObject != null) dogs.add(new Dog(x, y, zoneObject, mapHeightInPixels));
+                        if (zoneObject != null) dogs.add(new Dog(x, y, zoneObject, mapHeightInPixels, buildingsLayer, waterLayer, fenceLayer, plantLayer));
                     }
                 }
             }
