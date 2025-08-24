@@ -86,12 +86,12 @@ public class GameUI {
         menuImage = new Texture("background&button/menu.png");
         submenuImage = new Texture("background&button/submenu.png");
         arrowImage = new Texture("background&button/arrow.png");
-        maruMonicaFont = loadFontSafe("font/x12y16pxMaruMonica.ttf", 28, Color.WHITE);
-        jerseyFont = loadFontSafe("font/Jersey15-Regular.ttf", 36, Color.WHITE);
+        maruMonicaFont = loadFontSafe("font/x12y16pxMaruMonica.ttf", 8, Color.WHITE);
+        jerseyFont = loadFontSafe("font/Jersey15-Regular.ttf", 8, Color.WHITE);
 
         // Make text bigger without reloading the font
-        maruMonicaFont.getData().setScale(1.5f);
-        jerseyFont.getData().setScale(1.8f);
+        maruMonicaFont.getData().setScale(0.5f);
+        jerseyFont.getData().setScale(0.5f);
 
 
    
@@ -159,10 +159,12 @@ public class GameUI {
 
     // ================== Menu Drawing ==================
     public void drawOptionScreen(SpriteBatch batch) {
-        int frameWidth  = 800;  // 60% of screen width
-        int frameHeight =700;
-        int frameX = (screenWidth - frameWidth) / 2;
-        int frameY = (screenHeight - frameHeight) / 2;
+    int frameWidth  = 100;
+    int frameHeight = 150;
+
+    // center on the screen
+    int frameX = (Gdx.graphics.getWidth()  - frameWidth)  / 5;
+    int frameY = (Gdx.graphics.getHeight() - frameHeight) / 3;
 
         // Draw background
         if (subState == 1) {
