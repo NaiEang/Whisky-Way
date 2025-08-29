@@ -21,15 +21,23 @@ public class WhiskyWayGame extends Game {
         setScreen(startMenuScreen);
     }
 
-    public void startGame() {
+        // --- RESUME GAME (from pause) ---
+    public void resumeGame() {
+        if (gameScreen != null) {
+            setScreen(gameScreen);              // go back to same game instance
+        }
+    }
 
+    public void startGame() {
         gameScreen = new GameScreen(this);
         setScreen(new StoryScreen(this));
     }
+
     public void showWinScreen(){
 
         setScreen(new WinScreen(this));
     }
+
     public void restartGame(){
         showStartMenu();
     }
